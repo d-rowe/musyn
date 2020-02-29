@@ -1,0 +1,3 @@
+# Musyn
+
+#### Collaborative music notation
