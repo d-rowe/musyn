@@ -14,14 +14,18 @@ module.exports = {
     rules: [
       {
         test: /\.(jsx|js)$/,
-        include: path.resolve(__dirname, 'client', 'src'),
-        exclude: path.resolve(__dirname, 'node_modules'),
+        include: path.resolve(__dirname, '..', 'client', 'src'),
+        exclude: path.resolve(__dirname, '..', 'node_modules'),
         use: {
           loader: 'babel-loader',
           options: {
             presets: ['@babel/preset-env', '@babel/preset-react'],
           },
         },
+      },
+      {
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader'],
       },
     ],
   },
