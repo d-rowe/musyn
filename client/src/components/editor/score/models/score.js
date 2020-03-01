@@ -4,6 +4,24 @@ class Score {
     this.notes = {};
   }
 
+  notesAtIndex(beatIndex) {
+    const notes = this.notes[beatIndex];
+
+    if (notes !== undefined) {
+      return notes;
+    }
+
+    return [];
+  }
+
+  hasNoteAtIndex(notename, beatIndex) {
+    const notes = this.notes[beatIndex];
+
+    if (notes === undefined) return false;
+
+    return notes.includes(notename);
+  }
+
   addNote(notename, beatIndex) {
     const notes = this.notes[beatIndex];
 
@@ -18,14 +36,6 @@ class Score {
 
     notes.push(notename);
     return true;
-  }
-
-  hasNoteAtIndex(notename, beatIndex) {
-    const notes = this.notes[beatIndex];
-
-    if (notes === undefined) return false;
-
-    return notes.includes(notename);
   }
 
   removeNote(notename, beatIndex) {

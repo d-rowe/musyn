@@ -2,9 +2,10 @@ import Vex from 'vexflow';
 
 const VF = Vex.Flow;
 
-class ScoreRenderer {
-  constructor(containerElement) {
+class ScoreView {
+  constructor(containerElement, score) {
     this.container = containerElement;
+    this.score = score;
     this.initializeAndRender();
   }
 
@@ -18,6 +19,12 @@ class ScoreRenderer {
 
     this.context = this.renderer.getContext();
 
+    this.draw();
+  }
+
+  draw() {
+    this.context = this.renderer.getContext();
+
     // Create a stave of width 250 at position 10, 40 on the canvas.
     this.stave = new VF.Stave(10, 40, 250);
 
@@ -25,15 +32,9 @@ class ScoreRenderer {
     this.stave.addClef('treble').addTimeSignature('4/4');
     this.stave.setContext(this.context).draw();
 
-    // Add quarter rests
-    this.notes = [];
-    for (let i = 0; i < 4; i += 1) {
-      this.notes.push(new VF.StaveNote({ clef: 'treble', keys: ['b/4'], duration: 'qr' }));
-    }
-
     // Create a voice in 4/4 and add above notes
     this.voice = new VF.Voice({ num_beats: 4, beat_value: 4 });
-    this.voice.addTickables(this.notes);
+    this.voice.addTickables(this.vexNotes());
 
     // Format and justify the notes to 400 pixels.
     this.formatter = new VF.Formatter().joinVoices([this.voice]).format([this.voice], 200);
@@ -53,8 +54,38 @@ class ScoreRenderer {
 
   rerender() {
     this.clear();
-    this.initializeAndRender();
+    this.draw();
+  }
+
+  vexNotes() {
+    // Add notes from score
+    const notes = [];
+    for (let i = 0; i < this.score.length; i += 1) {
+      const keys = this.vexKeysAtIndex(i);
+
+      if (keys.length === 0) {
+        notes.push(new VF.StaveNote({ clef: 'treble', keys: ['b/4'], duration: 'qr' }));
+      } else {
+        notes.push(new VF.StaveNote({ clef: 'treble', keys, duration: 'q' }));
+      }
+    }
+
+    return notes;
+  }
+
+  vexKeysAtIndex(beatIndex) {
+    const notes = this.score.notesAtIndex(beatIndex);
+
+    if (notes.length === 0) return [];
+
+    const noteRegEx = /([a-gA-G])([b|#|x]*)?([0-9])?/;
+
+    return notes.map((note) => {
+      const [, letter, accidental, octave] = (noteRegEx.exec(note));
+      const undercaseLetter = letter.toLowerCase();
+      return `${undercaseLetter}${accidental || ''}/${octave}`;
+    });
   }
 }
 
-export default ScoreRenderer;
+export default ScoreView;
