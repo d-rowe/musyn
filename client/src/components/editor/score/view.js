@@ -4,7 +4,12 @@ const VF = Vex.Flow;
 
 class ScoreRenderer {
   constructor(containerElement) {
-    this.renderer = new VF.Renderer(containerElement, VF.Renderer.Backends.SVG);
+    this.container = containerElement;
+    this.initializeAndRender();
+  }
+
+  initializeAndRender() {
+    this.renderer = new VF.Renderer(this.container, VF.Renderer.Backends.SVG);
 
     // Size context svg
     const contextSVG = this.renderer.ctx.svg;
@@ -40,6 +45,15 @@ class ScoreRenderer {
     const contextWidth = this.context.attributes.x;
     const contextHeight = this.context.attributes.y;
     this.context.setViewBox(5, contextHeight - 15, contextWidth, contextHeight);
+  }
+
+  clear() {
+    this.renderer.ctx.clear();
+  }
+
+  rerender() {
+    this.clear();
+    this.initializeAndRender();
   }
 }
 

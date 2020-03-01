@@ -1,18 +1,14 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import ScoreRenderer from './renderer';
+import ScoreRenderer from './view';
 
 const Score = () => {
   const container = React.createRef();
   let renderer;
 
-  const initialize = () => {
-    renderer = new ScoreRenderer(container.current);
-  };
-
   useEffect(() => {
-    initialize();
+    renderer = new ScoreRenderer(container.current);
   }, []);
 
   return (
