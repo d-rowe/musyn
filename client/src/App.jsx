@@ -1,20 +1,22 @@
 import React from 'react';
 import styled from 'styled-components';
 import Editor from './components/editor';
+import Navbar from './components/layout/navbar';
 
 const App = () => (
   <Wrapper>
+    <Navbar />
     <Editor />
   </Wrapper>
 );
 
 const Wrapper = styled.div`
   display: flex;
-  justify-content: center;
-  padding: 2em;
+  flex-direction: column;
+  align-items: center;
   height: 100%;
   width: 100%;
-  background-color: #ededed;
+  background-color: #dcdcdd;
 `;
 
 export default App;

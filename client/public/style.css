@@ -3,8 +3,11 @@ html, body, #root {
   padding: 0;
   height: 100%;
   width: 100%;
+  overflow: auto !important;
 }
 
-.app {
-  background-color: #ededed;
+.navbar {
+  margin-bottom: 2em;
+  width: 100%;
+  background-color: #3E6866 !important;
 }
