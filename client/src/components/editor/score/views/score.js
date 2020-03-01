@@ -36,7 +36,7 @@ class ScoreView {
     this.voice = new VF.Voice({ num_beats: 4, beat_value: 4 });
     this.voice.addTickables(this.vexNotes());
 
-    // Format and justify the notes to 400 pixels.
+    // Format and justify the notes to 200 pixels.
     this.formatter = new VF.Formatter().joinVoices([this.voice]).format([this.voice], 200);
 
     // Render voice
