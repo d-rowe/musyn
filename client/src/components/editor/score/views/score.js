@@ -1,16 +1,7 @@
 import Vex from 'vexflow';
+import { parseAndSortNotes } from '../utils/notes';
 
 const VF = Vex.Flow;
-
-const noteToVexKey = (notename) => {
-  if (notename === null) return null;
-
-  const noteRegEx = /([a-gA-G])([b|#|x]*)?([0-9])?/;
-
-  const [, letter, accidental, octave] = (noteRegEx.exec(notename));
-  const undercaseLetter = letter.toLowerCase();
-  return `${undercaseLetter}${accidental || ''}/${octave}`;
-};
 
 class ScoreView {
   constructor(containerElement, score, cursors) {
@@ -35,6 +26,10 @@ class ScoreView {
 
   draw() {
     this.context = this.renderer.getContext();
+    // Scale svg to fit container
+    const contextWidth = this.context.attributes.x;
+    const contextHeight = this.context.attributes.y;
+    this.context.setViewBox(5, contextHeight - 15, contextWidth, contextHeight);
 
     // Create a stave of width 250 at position 10, 40 on the canvas.
     this.stave = new VF.Stave(10, 40, 450);
@@ -52,11 +47,6 @@ class ScoreView {
 
     // Render voice
     this.voice.draw(this.context, this.stave);
-
-    // Scale svg to fit container
-    const contextWidth = this.context.attributes.x;
-    const contextHeight = this.context.attributes.y;
-    this.context.setViewBox(5, contextHeight - 15, contextWidth, contextHeight);
   }
 
   clear() {
@@ -73,46 +63,40 @@ class ScoreView {
     const notes = [];
 
     for (let i = 0; i < this.score.length; i += 1) {
-      const keys = this.vexKeysAtIndex(i);
+      const currentNotenames = this.score.notesAtIndex(i);
 
       const cursor = this.cursors.users.local;
-      const cursorKey = noteToVexKey(cursor.note);
 
       let hasCursor = false;
 
       if (cursor.beatIndex === i) {
-        keys.push(cursorKey);
+        currentNotenames.push(cursor.note);
         hasCursor = true;
       }
 
-      if (keys.length === 0) {
+      const parsedAndSortedNotes = parseAndSortNotes(currentNotenames);
+
+      if (parsedAndSortedNotes.length === 0) {
         notes.push(new VF.StaveNote({ clef: 'treble', keys: ['b/4'], duration: 'qr' }));
       } else {
-        const currentNotes = new VF.StaveNote({ clef: 'treble', keys, duration: 'q' });
+        const keys = parsedAndSortedNotes.map((parsedNote) => parsedNote.vexKey);
+        const notenames = parsedAndSortedNotes.map((parsedNote) => parsedNote.notename);
 
+        const currentStaveNotes = new VF.StaveNote({ clef: 'treble', keys, duration: 'q' });
         if (hasCursor) {
-          const cursorIndex = currentNotes.keys.indexOf(cursorKey);
+          const cursorKeyIndex = notenames.indexOf(cursor.note);
+          currentStaveNotes.setKeyStyle(cursorKeyIndex, { fillStyle: cursor.color });
 
-          currentNotes.setKeyStyle(cursorIndex, { fillStyle: cursor.color });
-
-          if (currentNotes.keys.length === 1) {
-            currentNotes.setStemStyle({ strokeStyle: cursor.color });
+          if (currentStaveNotes.keys.length === 1) {
+            currentStaveNotes.setStemStyle({ strokeStyle: cursor.color });
           }
         }
 
-        notes.push(currentNotes);
+        notes.push(currentStaveNotes);
       }
     }
 
     return notes;
-  }
-
-  vexKeysAtIndex(beatIndex) {
-    const notes = this.score.notesAtIndex(beatIndex);
-
-    if (notes.length === 0) return [];
-
-    return notes.map((notename) => noteToVexKey(notename));
   }
 }
 

@@ -8,7 +8,7 @@ class Score {
     const notes = this.notes[beatIndex];
 
     if (notes !== undefined) {
-      return notes;
+      return [...notes];
     }
 
     return [];

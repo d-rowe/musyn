@@ -1,4 +1,7 @@
 /* eslint-disable no-console */
+import { noteMap } from '../utils/notes';
+
+
 class ScoreController {
   constructor(container, scoreModel, cursors, scoreView) {
     this.startX = 60;
@@ -10,39 +13,22 @@ class ScoreController {
     this.scoreView = scoreView;
     [this.svgContext] = container.children;
 
-    this.noteMap = {
-      29: 'G3',
-      28: 'A3',
-      27: 'B3',
-      26: 'C4',
-      25: 'D4',
-      24: 'E4',
-      23: 'F4',
-      22: 'G4',
-      21: 'A4',
-      20: 'B4',
-      19: 'C5',
-      18: 'D5',
-      17: 'E5',
-      16: 'F5',
-    };
-
     this.blur();
   }
 
   move(e) {
-    const oldPos = this.mousePos;
+    const { x: prevX, y: prevY } = this.mousePos;
     this.updatePos(e);
+    const { x, y } = this.mousePos;
 
-    if (this.mousePos === oldPos) return;
+    if (x === prevX && y === prevY) return;
 
-    if (this.mousePos === null) {
+    if (this.mousePos.x === -1) {
       this.cursors.remove('local');
       return;
     }
 
-    const { x, y } = this.mousePos;
-    const notename = this.noteMap[y];
+    const notename = noteMap[y];
 
     if (notename !== undefined) {
       this.cursors.update('local', notename, x);
@@ -54,7 +40,7 @@ class ScoreController {
   }
 
   blur() {
-    this.mousePos = null;
+    this.mousePos = { x: -1, y: -1 };
     this.scoreView.rerender();
   }
 
@@ -62,11 +48,11 @@ class ScoreController {
     this.updatePos(e);
 
     const { x, y } = this.mousePos;
-    const notename = this.noteMap[y];
+    const notename = noteMap[y];
 
     if (notename !== undefined) {
       this.cursors.remove('local');
-      this.scoreModel.addNote(this.noteMap[y], x);
+      this.scoreModel.addNote(notename, x);
       this.scoreView.rerender();
     }
   }
