@@ -1,7 +1,7 @@
 class Cursors {
   constructor() {
     this.users = {
-      local: { note: null, beatIndex: null, color: 'blue' },
+      local: { note: null, beatIndex: null, color: 'rgba(52, 73, 94, 0.8)' },
       remote: { note: null, beatIndex: null, color: 'red' },
     };
   }

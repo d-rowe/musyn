@@ -23,6 +23,7 @@ const Score = () => {
       model,
       cursors,
     );
+
     controller = new ScoreController(
       container.current,
       model,

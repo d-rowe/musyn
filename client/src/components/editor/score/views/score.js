@@ -2,6 +2,16 @@ import Vex from 'vexflow';
 
 const VF = Vex.Flow;
 
+const noteToVexKey = (notename) => {
+  if (notename === null) return null;
+
+  const noteRegEx = /([a-gA-G])([b|#|x]*)?([0-9])?/;
+
+  const [, letter, accidental, octave] = (noteRegEx.exec(notename));
+  const undercaseLetter = letter.toLowerCase();
+  return `${undercaseLetter}${accidental || ''}/${octave}`;
+};
+
 class ScoreView {
   constructor(containerElement, score, cursors) {
     this.container = containerElement;
@@ -61,13 +71,36 @@ class ScoreView {
   vexNotes() {
     // Add notes from score
     const notes = [];
+
     for (let i = 0; i < this.score.length; i += 1) {
       const keys = this.vexKeysAtIndex(i);
+
+      const cursor = this.cursors.users.local;
+      const cursorKey = noteToVexKey(cursor.note);
+
+      let hasCursor = false;
+
+      if (cursor.beatIndex === i) {
+        keys.push(cursorKey);
+        hasCursor = true;
+      }
 
       if (keys.length === 0) {
         notes.push(new VF.StaveNote({ clef: 'treble', keys: ['b/4'], duration: 'qr' }));
       } else {
-        notes.push(new VF.StaveNote({ clef: 'treble', keys, duration: 'q' }));
+        const currentNotes = new VF.StaveNote({ clef: 'treble', keys, duration: 'q' });
+
+        if (hasCursor) {
+          const cursorIndex = currentNotes.keys.indexOf(cursorKey);
+
+          currentNotes.setKeyStyle(cursorIndex, { fillStyle: cursor.color });
+
+          if (currentNotes.keys.length === 1) {
+            currentNotes.setStemStyle({ strokeStyle: cursor.color });
+          }
+        }
+
+        notes.push(currentNotes);
       }
     }
 
@@ -79,14 +112,9 @@ class ScoreView {
 
     if (notes.length === 0) return [];
 
-    const noteRegEx = /([a-gA-G])([b|#|x]*)?([0-9])?/;
-
-    return notes.map((note) => {
-      const [, letter, accidental, octave] = (noteRegEx.exec(note));
-      const undercaseLetter = letter.toLowerCase();
-      return `${undercaseLetter}${accidental || ''}/${octave}`;
-    });
+    return notes.map((notename) => noteToVexKey(notename));
   }
 }
+
 
 export default ScoreView;

@@ -31,7 +31,11 @@ class ScoreController {
   }
 
   move(e) {
+    const oldPos = this.mousePos;
     this.updatePos(e);
+
+    if (this.mousePos === oldPos) return;
+
     if (this.mousePos === null) {
       this.cursors.remove('local');
       return;
@@ -45,10 +49,13 @@ class ScoreController {
     } else {
       this.cursors.remove('local');
     }
+
+    this.scoreView.rerender();
   }
 
   blur() {
     this.mousePos = null;
+    this.scoreView.rerender();
   }
 
   click(e) {
