@@ -1,11 +1,30 @@
 /* eslint-disable no-console */
 class ScoreController {
-  constructor(container) {
+  constructor(container, scoreModel, scoreView) {
     this.startX = 60;
     this.beatSpacing = 50;
     this.pitchSpacing = 5;
     this.container = container;
+    this.scoreModel = scoreModel;
+    this.scoreView = scoreView;
     [this.svgContext] = container.children;
+
+    this.noteMap = {
+      29: 'G3',
+      28: 'A3',
+      27: 'B3',
+      26: 'C4',
+      25: 'D4',
+      24: 'E4',
+      23: 'F4',
+      22: 'G4',
+      21: 'A4',
+      20: 'B4',
+      19: 'C5',
+      18: 'D5',
+      17: 'E5',
+      16: 'F5',
+    };
 
     this.blur();
   }
@@ -20,7 +39,9 @@ class ScoreController {
 
   click(e) {
     this.updatePos(e);
-    console.log('click');
+    const { x, y } = this.mousePos;
+    this.scoreModel.addNote(this.noteMap[y], x);
+    this.scoreView.rerender();
   }
 
   updatePos(e) {

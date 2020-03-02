@@ -7,21 +7,25 @@ import ScoreController from './controllers/score';
 
 const Score = () => {
   const container = React.createRef();
-  const scoreModel = new ScoreModel(1);
+  const model = new ScoreModel(1);
   let view;
-  let controller;
+  let controller = {
+    move: () => { },
+    click: () => { },
+    blur: () => { },
+  };
 
   useEffect(() => {
-    view = new ScoreView(container.current, scoreModel);
-    controller = new ScoreController(container.current);
+    view = new ScoreView(container.current, model);
+    controller = new ScoreController(container.current, model, view);
   }, []);
 
   return (
     <Wrapper
       ref={container}
-      onMouseMove={(e) => controller.move(e, container.current) || {}}
-      onClick={(e) => controller.click(e, container.current) || {}}
-      onMouseLeave={() => controller.blur() || {}}
+      onMouseMove={(e) => controller.move(e, container.current)}
+      onClick={(e) => controller.click(e, container.current)}
+      onMouseLeave={() => controller.blur()}
     />
   );
 };
