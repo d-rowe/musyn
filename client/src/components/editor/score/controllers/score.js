@@ -1,17 +1,26 @@
 /* eslint-disable no-console */
 class ScoreController {
   constructor(container) {
+    this.startX = 60;
+    this.beatSpacing = 50;
+    this.pitchSpacing = 5;
     this.container = container;
     [this.svgContext] = container.children;
-    this.pos = null;
+
+    this.blur();
   }
 
   move(e) {
     this.updatePos(e);
   }
 
-  click() {
-    console.log('click', this.pos);
+  blur() {
+    this.mousePos = null;
+  }
+
+  click(e) {
+    this.updatePos(e);
+    console.log('click');
   }
 
   updatePos(e) {
@@ -21,14 +30,15 @@ class ScoreController {
     p.y = e.clientY;
     p = p.matrixTransform(matrix.inverse());
     const point = {
-      // START_X of 80, BEAT_SPACING of 20
-      x: Math.floor((p.x - 80) / 20),
-      // PITCH_SPACING of 5
-      y: Math.round(p.y / 5),
+      x: Math.floor((p.x - this.startX) / this.beatSpacing),
+      y: Math.round(p.y / this.pitchSpacing),
     };
 
-    this.pos = point;
-    return point;
+    if (point.x >= 0) {
+      this.mousePos = point;
+    } else {
+      this.blur();
+    }
   }
 }
 

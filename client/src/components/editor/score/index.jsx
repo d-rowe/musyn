@@ -19,8 +19,9 @@ const Score = () => {
   return (
     <Wrapper
       ref={container}
-      onMouseMove={(e) => controller.move(e, container.current)}
-      onClick={(e) => controller.click(e, container.current)}
+      onMouseMove={(e) => controller.move(e, container.current) || {}}
+      onClick={(e) => controller.click(e, container.current) || {}}
+      onMouseLeave={() => controller.blur() || {}}
     />
   );
 };
