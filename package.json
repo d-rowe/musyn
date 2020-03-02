@@ -26,7 +26,8 @@
     "vexflow": "^1.2.90",
     "webpack": "^4.41.6",
     "webpack-cli": "^3.3.11",
-    "webpack-merge": "^4.2.2"
+    "webpack-merge": "^4.2.2",
+    "ws": "^7.2.1"
   },
   "devDependencies": {
     "concurrently": "^5.1.0",
