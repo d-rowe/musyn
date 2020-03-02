@@ -1,11 +1,12 @@
 /* eslint-disable no-console */
 class ScoreController {
-  constructor(container, scoreModel, scoreView) {
+  constructor(container, scoreModel, cursors, scoreView) {
     this.startX = 60;
     this.beatSpacing = 50;
     this.pitchSpacing = 5;
     this.container = container;
     this.scoreModel = scoreModel;
+    this.cursors = cursors;
     this.scoreView = scoreView;
     [this.svgContext] = container.children;
 
@@ -31,6 +32,19 @@ class ScoreController {
 
   move(e) {
     this.updatePos(e);
+    if (this.mousePos === null) {
+      this.cursors.remove('local');
+      return;
+    }
+
+    const { x, y } = this.mousePos;
+    const notename = this.noteMap[y];
+
+    if (notename !== undefined) {
+      this.cursors.update('local', notename, x);
+    } else {
+      this.cursors.remove('local');
+    }
   }
 
   blur() {
@@ -39,9 +53,15 @@ class ScoreController {
 
   click(e) {
     this.updatePos(e);
+
     const { x, y } = this.mousePos;
-    this.scoreModel.addNote(this.noteMap[y], x);
-    this.scoreView.rerender();
+    const notename = this.noteMap[y];
+
+    if (notename !== undefined) {
+      this.cursors.remove('local');
+      this.scoreModel.addNote(this.noteMap[y], x);
+      this.scoreView.rerender();
+    }
   }
 
   updatePos(e) {

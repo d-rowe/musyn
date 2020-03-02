@@ -4,10 +4,12 @@ import styled from 'styled-components';
 import ScoreModel from './models/score';
 import ScoreView from './views/score';
 import ScoreController from './controllers/score';
+import ScoreCursors from './models/cursors';
 
 const Score = () => {
   const container = React.createRef();
   const model = new ScoreModel(2);
+  const cursors = new ScoreCursors();
   let view;
   let controller = {
     move: () => { },
@@ -16,8 +18,17 @@ const Score = () => {
   };
 
   useEffect(() => {
-    view = new ScoreView(container.current, model);
-    controller = new ScoreController(container.current, model, view);
+    view = new ScoreView(
+      container.current,
+      model,
+      cursors,
+    );
+    controller = new ScoreController(
+      container.current,
+      model,
+      cursors,
+      view,
+    );
   }, []);
 
   return (

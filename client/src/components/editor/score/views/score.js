@@ -3,9 +3,10 @@ import Vex from 'vexflow';
 const VF = Vex.Flow;
 
 class ScoreView {
-  constructor(containerElement, score) {
+  constructor(containerElement, score, cursors) {
     this.container = containerElement;
     this.score = score;
+    this.cursors = cursors;
     this.initializeAndRender();
   }
 
