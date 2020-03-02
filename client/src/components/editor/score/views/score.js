@@ -60,21 +60,22 @@ class ScoreView {
 
   vexNotes() {
     // Add notes from score
+    const cursors = this.cursors.beatFormat();
     const notes = [];
 
-    for (let i = 0; i < this.score.length; i += 1) {
-      const currentNotenames = this.score.notesAtIndex(i);
+    for (let beatIndex = 0; beatIndex < this.score.length; beatIndex += 1) {
+      const notesAtBeatIndex = this.score.notesAtIndex(beatIndex);
+      const cursorsAtBeatIndex = cursors[beatIndex];
+      let cursorNotesAtBeatIndex = [];
 
-      const cursor = this.cursors.users.local;
+      const hasCursorAtBeatIndex = cursorsAtBeatIndex !== undefined;
 
-      let hasCursor = false;
-
-      if (cursor.beatIndex === i) {
-        currentNotenames.push(cursor.note);
-        hasCursor = true;
+      if (hasCursorAtBeatIndex) {
+        cursorNotesAtBeatIndex = cursorsAtBeatIndex.map((c) => c.note);
+        notesAtBeatIndex.push(cursorNotesAtBeatIndex);
       }
 
-      const parsedAndSortedNotes = parseAndSortNotes(currentNotenames);
+      const parsedAndSortedNotes = parseAndSortNotes(notesAtBeatIndex);
 
       if (parsedAndSortedNotes.length === 0) {
         notes.push(new VF.StaveNote({ clef: 'treble', keys: ['b/4'], duration: 'qr' }));
@@ -83,12 +84,12 @@ class ScoreView {
         const notenames = parsedAndSortedNotes.map((parsedNote) => parsedNote.notename);
 
         const currentStaveNotes = new VF.StaveNote({ clef: 'treble', keys, duration: 'q' });
-        if (hasCursor) {
-          const cursorKeyIndex = notenames.indexOf(cursor.note);
-          currentStaveNotes.setKeyStyle(cursorKeyIndex, { fillStyle: cursor.color });
+        if (hasCursorAtBeatIndex) {
+          const cursorKeyIndex = notenames.indexOf(cursorNotesAtBeatIndex[0]);
+          currentStaveNotes.setKeyStyle(cursorKeyIndex, { fillStyle: cursorsAtBeatIndex[0].color });
 
           if (currentStaveNotes.keys.length === 1) {
-            currentStaveNotes.setStemStyle({ strokeStyle: cursor.color });
+            currentStaveNotes.setStemStyle({ strokeStyle: cursorsAtBeatIndex[0].color });
           }
         }
 
