@@ -7,7 +7,7 @@ import ScoreController from './controllers/score';
 
 const Score = () => {
   const container = React.createRef();
-  const model = new ScoreModel(1);
+  const model = new ScoreModel(2);
   let view;
   let controller = {
     move: () => { },

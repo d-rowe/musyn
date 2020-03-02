@@ -9,7 +9,7 @@ const Editor = () => (
 );
 
 const Wrapper = styled.div`
-  width: 40em;
+  width: 60em;
   height: 20em;
 `;
 

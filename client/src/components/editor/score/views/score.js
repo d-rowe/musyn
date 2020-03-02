@@ -26,18 +26,18 @@ class ScoreView {
     this.context = this.renderer.getContext();
 
     // Create a stave of width 250 at position 10, 40 on the canvas.
-    this.stave = new VF.Stave(10, 40, 250);
+    this.stave = new VF.Stave(10, 40, 450);
 
     // Add a clef and time signature.
     this.stave.addClef('treble').addTimeSignature('4/4');
     this.stave.setContext(this.context).draw();
 
     // Create a voice in 4/4 and add above notes
-    this.voice = new VF.Voice({ num_beats: 4, beat_value: 4 });
+    this.voice = new VF.Voice({ num_beats: 8, beat_value: 4 });
     this.voice.addTickables(this.vexNotes());
 
     // Format and justify the notes to 200 pixels.
-    this.formatter = new VF.Formatter().joinVoices([this.voice]).format([this.voice], 200);
+    this.formatter = new VF.Formatter().joinVoices([this.voice]).format([this.voice], 400);
 
     // Render voice
     this.voice.draw(this.context, this.stave);

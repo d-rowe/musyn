@@ -31,6 +31,7 @@ class Score {
     }
 
     if (this.hasNoteAtIndex(notename, beatIndex)) {
+      this.removeNote(notename, beatIndex);
       return false;
     }
 
