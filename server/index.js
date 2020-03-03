@@ -13,6 +13,12 @@ const PUBLIC_DIR = path.resolve(__dirname, '..', 'client', 'public');
 
 app.use('/', express.static(PUBLIC_DIR));
 
+app.get('/api/score', (req, res) => {
+  score.get()
+    .then((scoreDat) => res.status(200).send(scoreDat))
+    .catch((err) => res.status(500).send(err));
+});
+
 const users = {};
 
 // TODO: split websockets to a seperate model
@@ -29,17 +35,15 @@ wss.on('connection', (ws) => {
         if (id !== uuid) {
           users[id].send(message);
         }
+        score.get();
       });
     } else if (type === 'D') {
-      console.log(
-        `Delete ${notename} on beat ${beatIndex + 1}`,
-      );
+      score.deleteNote({ uuid, notename, beatIndex })
+        .then(() => console.log('Added note deletion entry'))
+        .catch((err) => console.log(err));
     } else if (type === 'C') {
-      console.log(
-        `Create ${notename} on beat ${beatIndex + 1}`,
-      );
-      score.addNote({ uuid, notename, beatIndex })
-        .then(() => console.log('Added note entry'))
+      score.createNote({ uuid, notename, beatIndex })
+        .then(() => console.log('Added note creation entry'))
         .catch((err) => console.log(err));
     }
   });

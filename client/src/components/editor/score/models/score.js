@@ -1,9 +1,23 @@
+/* eslint-disable no-console */
+import axios from 'axios';
 import socket from './socket';
 
 class Score {
   constructor(measures) {
     this.length = measures * 4;
     this.notes = {};
+  }
+
+  update() {
+    return new Promise((resolve, reject) => {
+      axios.get('/api/score')
+        .then((res) => res.data)
+        .then((scoreDat) => {
+          this.notes = scoreDat;
+          resolve();
+        })
+        .catch((err) => reject(err));
+    });
   }
 
   notesAtIndex(beatIndex) {
