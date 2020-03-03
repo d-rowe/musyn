@@ -2,6 +2,7 @@
 import axios from 'axios';
 import view from '../views/score';
 import socket from './socket';
+import { playNote } from './audio/index';
 
 class Score {
   constructor(measures) {
@@ -45,18 +46,18 @@ class Score {
   addNote(notename, beatIndex) {
     const notes = this.notes[beatIndex];
 
-    if (notes === undefined) {
-      this.notes[beatIndex] = [notename];
-      socket.sendNoteCreate(notename, beatIndex);
-      return true;
-    }
-
     if (this.hasNoteAtIndex(notename, beatIndex)) {
       this.removeNote(notename, beatIndex);
       return false;
     }
 
-    notes.push(notename);
+    if (notes === undefined) {
+      this.notes[beatIndex] = [notename];
+    } else {
+      notes.push(notename);
+    }
+
+    playNote(notename);
     socket.sendNoteCreate(notename, beatIndex);
     return true;
   }
