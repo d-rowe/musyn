@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import ScoreModel from './models/score';
+import scoreModel from './models/score';
 import view from './views/score';
 import ScoreController from './controllers/score';
 import ScoreCursors from './models/cursors';
@@ -10,7 +10,6 @@ import './utils/uuid';
 
 const Score = () => {
   const container = React.createRef();
-  const model = new ScoreModel(2);
   const cursors = new ScoreCursors();
 
   let controller = {
@@ -20,20 +19,20 @@ const Score = () => {
   };
 
   useEffect(() => {
+    scoreModel.init();
+
     view.init(
       container.current,
-      model,
       cursors,
     );
 
     controller = new ScoreController(
       container.current,
-      model,
       cursors,
       view,
     );
 
-    model.update()
+    scoreModel.update()
       .then(() => view.rerender())
       .catch((err) => console.error(err));
   }, []);

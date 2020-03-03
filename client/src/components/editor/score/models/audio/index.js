@@ -1,6 +1,5 @@
 /* eslint-disable no-console */
-/* eslint-disable import/prefer-default-export */
-import { Sampler } from 'tone';
+import { Sampler, Transport } from 'tone';
 import C3 from './samples/C3.ogg';
 import C4 from './samples/C4.ogg';
 import C5 from './samples/C5.ogg';
@@ -11,6 +10,7 @@ import A5 from './samples/A5.ogg';
 
 let piano;
 let loaded = false;
+Transport.bpm.value = 80;
 
 const init = () => new Promise((resolve) => {
   piano = new Sampler(
@@ -35,6 +35,40 @@ export const playNote = (notename) => {
   }
 
   piano.triggerAttackRelease(notename, '4n');
+};
+
+export const playScore = (notes) => new Promise((resolve) => {
+  const beats = Object.keys(notes);
+  const lastBeat = Math.max(...beats);
+
+
+  Transport.start();
+  let index = 0;
+
+  const repeat = () => {
+    if (index <= lastBeat) {
+      const beatNotes = notes[index];
+
+      if (beatNotes) {
+        playNote(notes[index]);
+      }
+
+      index += 1;
+    } else {
+      Transport.stop();
+      Transport.cancel();
+      resolve();
+    }
+  };
+
+  Transport.scheduleRepeat((time) => {
+    repeat(time);
+  }, '4n');
+});
+
+export const stop = () => {
+  Transport.stop();
+  Transport.cancel();
 };
 
 init();

@@ -1,10 +1,11 @@
+/* eslint-disable import/no-cycle */
 import Vex from 'vexflow';
 import { parseAndSortNotes } from '../utils/notes';
+import scoreModel from '../models/score';
 
 const VF = Vex.Flow;
 
 let container;
-let score;
 let cursors;
 let renderer;
 let context;
@@ -16,8 +17,8 @@ const vexNotes = () => {
   const beatCursors = cursors.beatFormat();
   const notes = [];
 
-  for (let beatIndex = 0; beatIndex < score.length; beatIndex += 1) {
-    const notesAtBeatIndex = score.notesAtIndex(beatIndex);
+  for (let beatIndex = 0; beatIndex < scoreModel.length; beatIndex += 1) {
+    const notesAtBeatIndex = scoreModel.notesAtIndex(beatIndex);
     const cursorsAtBeatIndex = beatCursors[beatIndex];
     let cursorNotesAtBeatIndex = [];
 
@@ -122,9 +123,8 @@ const rerender = () => {
   draw();
 };
 
-const init = (containerElement, scoreModel, cursorsModel) => {
+const init = (containerElement, cursorsModel) => {
   container = containerElement;
-  score = scoreModel;
   cursors = cursorsModel;
 
   initializeAndRender();

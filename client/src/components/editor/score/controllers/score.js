@@ -1,13 +1,13 @@
 /* eslint-disable no-console */
 import { noteMap } from '../utils/notes';
+import scoreModel from '../models/score';
 
 class ScoreController {
-  constructor(container, scoreModel, cursors, scoreView) {
+  constructor(container, cursors, scoreView) {
     this.startX = 60;
     this.beatSpacing = 50;
     this.pitchSpacing = 5;
     this.container = container;
-    this.scoreModel = scoreModel;
     this.cursors = cursors;
     this.scoreView = scoreView;
     [this.svgContext] = container.children;
@@ -51,7 +51,7 @@ class ScoreController {
 
     if (notename !== undefined) {
       this.cursors.remove('local');
-      this.scoreModel.addNote(notename, x);
+      scoreModel.addNote(notename, x);
       this.scoreView.rerender();
     }
   }

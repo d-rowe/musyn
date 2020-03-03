@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-/* eslint-disable import/prefer-default-export */
 // TODO: Split into controller and model
 import uuid from '../utils/uuid';
 
