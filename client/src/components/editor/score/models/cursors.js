@@ -4,6 +4,7 @@ import view from '../views/score';
 
 class Cursors {
   constructor() {
+    // TODO: update to UUIDs, handle n users
     this.users = {
       local: { note: null, beatIndex: null, color: 'rgba(51, 101, 138, 0.8)' },
       remote: { note: null, beatIndex: null, color: 'rgba(242, 100, 25, 0.8)' },
