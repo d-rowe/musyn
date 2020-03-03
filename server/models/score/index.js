@@ -1,5 +1,5 @@
-const db = require('../../database/index');
-const buildScore = require('./buildScore');
+const db = require('../../../database/index');
+const buildScore = require('./build');
 
 const queryTemplate = `
 INSERT INTO score(uuid, action, notename, beat)
