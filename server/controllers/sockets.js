@@ -6,6 +6,12 @@ const session = require('../models/session');
 let wss;
 
 const messageRecieved = (msg, ws) => {
+  if (msg === 'ping') {
+    console.log('server pinged');
+    ws.send('pong');
+    return;
+  }
+
   if (msg === 'update') {
     session.notifyUpdate();
     return;

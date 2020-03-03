@@ -54,6 +54,8 @@ socket.onmessage = (e) => {
   }
 };
 
+setInterval(() => send('ping'), 10000);
+
 export default {
   send,
   on,

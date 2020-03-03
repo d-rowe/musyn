@@ -15,6 +15,9 @@ const PlayButton = () => {
 
   const onClick = () => {
     const notes = scoreModel.getNotes();
+
+    if (Object.keys(notes).length === 0) return;
+
     if (isPlaying) {
       stop();
       setIsPlaying(false);
