@@ -16,21 +16,26 @@ const users = {};
 
 wss.on('connection', (ws) => {
   ws.on('message', (message) => {
-    console.log('received:', message);
     const [type, uuid, beatIndex, notename] = message.split(':');
     if (users[uuid] === undefined) {
       users[uuid] = ws;
     }
 
-    if (type === 'C') {
+    if (type === 'U' || type === 'H') {
       const userIDs = Object.keys(users);
       userIDs.forEach((id) => {
         if (id !== uuid) {
           users[id].send(message);
         }
       });
-    } else {
-      console.log('New note entry', notename, beatIndex);
+    } else if (type === 'D') {
+      console.log(
+        `Delete ${notename} on beat ${beatIndex + 1}`,
+      );
+    } else if (type === 'C') {
+      console.log(
+        `Create ${notename} on beat ${beatIndex + 1}`,
+      );
     }
   });
 });

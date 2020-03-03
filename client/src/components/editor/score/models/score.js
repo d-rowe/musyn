@@ -1,3 +1,5 @@
+import socket from './socket';
+
 class Score {
   constructor(measures) {
     this.length = measures * 4;
@@ -27,6 +29,7 @@ class Score {
 
     if (notes === undefined) {
       this.notes[beatIndex] = [notename];
+      socket.sendNoteCreate(notename, beatIndex);
       return true;
     }
 
@@ -36,6 +39,7 @@ class Score {
     }
 
     notes.push(notename);
+    socket.sendNoteCreate(notename, beatIndex);
     return true;
   }
 
@@ -44,6 +48,7 @@ class Score {
 
     if (noteIndex !== -1) {
       this.notes[beatIndex].splice(noteIndex, 1);
+      socket.sendNoteDelete(notename, beatIndex);
       return true;
     }
 
