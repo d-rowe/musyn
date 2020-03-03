@@ -80,8 +80,8 @@ const draw = () => {
   const contextHeight = context.attributes.y;
   context.setViewBox(5, contextHeight - 15, contextWidth, contextHeight);
 
-  // Create a stave of width 250 at position 10, 40 on the canvas.
-  stave = new VF.Stave(10, 40, 450);
+  // Create a stave of width 250 at position 10, 70 on the canvas.
+  stave = new VF.Stave(10, 70, 450);
 
   stave.setEndBarType(Vex.Flow.Barline.type.DOUBLE);
 

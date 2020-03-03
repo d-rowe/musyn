@@ -1,19 +1,19 @@
 import React from 'react';
 import styled from 'styled-components';
 import Score from './score/index';
-import UndoButton from './toolbar/undoButton';
+import Toolbar from './toolbar/index';
 
 const Editor = () => (
   <Wrapper className="box">
-    <UndoButton />
+    <Toolbar />
     <Score />
   </Wrapper>
 );
 
 const Wrapper = styled.div`
-  display: relative;
-  width: 60em;
-  height: 20em;
+  width: 50em;
+  padding: 0;
+  margin: 0;
 `;
 
 export default Editor;
