@@ -25,6 +25,7 @@
     "react-dom": "^16.13.0",
     "style-loader": "^1.1.3",
     "styled-components": "^5.0.1",
+    "styled-icons": "^9.5.0",
     "vexflow": "^1.2.90",
     "webpack": "^4.41.6",
     "webpack-cli": "^3.3.11",

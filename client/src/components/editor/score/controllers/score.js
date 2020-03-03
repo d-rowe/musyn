@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 import { noteMap } from '../utils/notes';
 
-
 class ScoreController {
   constructor(container, scoreModel, cursors, scoreView) {
     this.startX = 60;

@@ -31,6 +31,10 @@ const sendNoteDelete = (notename, beatIndex) => {
   send(`D:${uuid}:${beatIndex}:${notename}`);
 };
 
+const sendUndo = () => {
+  send('undo:_:_:_');
+};
+
 socket.onopen = () => {
   console.log('Connected to websocket server');
   send(`register:${uuid}:_:_`);
@@ -58,4 +62,5 @@ export default {
   sendCursorRemove,
   sendNoteCreate,
   sendNoteDelete,
+  sendUndo,
 };

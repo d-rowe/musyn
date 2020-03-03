@@ -17,6 +17,12 @@ const messageRecieved = (msg, ws) => {
     return;
   }
 
+  if (type === 'undo') {
+    score.undo()
+      .then(() => session.notifyUpdate())
+      .catch((err) => console.log(err));
+  }
+
   if (type === 'U' || type === 'H') { // Cursor messages
     session.authorMessage(uuid, msg);
     return;

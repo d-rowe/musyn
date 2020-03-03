@@ -18,6 +18,18 @@ const deleteNote = async ({ uuid, notename, beatIndex }) => {
   await db.query(queryTemplate, values);
 };
 
+const undo = async () => {
+  const query = `
+  DELETE FROM score WHERE id in (
+    SELECT id
+    FROM score
+    ORDER BY id desc
+    LIMIT 1
+  )
+  `;
+  await db.query(query);
+};
+
 const getEditHistory = async () => {
   const query = 'SELECT * FROM score';
   const result = await db.query(query);
@@ -29,4 +41,9 @@ const get = async () => {
   return buildScore(entries);
 };
 
-module.exports = { createNote, deleteNote, get };
+module.exports = {
+  createNote,
+  deleteNote,
+  get,
+  undo,
+};
