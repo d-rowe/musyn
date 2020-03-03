@@ -9,6 +9,7 @@ const on = {
   cursorRemove: () => { },
   noteCreate: () => { },
   noteRemove: () => { },
+  update: () => { },
 };
 
 const send = (message) => socket.send(message);
@@ -31,10 +32,17 @@ const sendNoteDelete = (notename, beatIndex) => {
 
 socket.onopen = () => {
   console.log('Connected to websocket server');
+  send(`register:${uuid}:_:_`);
 };
 
 socket.onmessage = (e) => {
-  const [type, , beatIndex, notename] = e.data.split(':');
+  const msg = e.data;
+
+  if (msg === 'update') {
+    on.update();
+  }
+
+  const [type, , beatIndex, notename] = msg.split(':');
   if (type === 'U') {
     on.cursorUpdate({ beatIndex, notename });
   } else if (type === 'H') {

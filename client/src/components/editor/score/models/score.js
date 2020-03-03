@@ -1,11 +1,14 @@
 /* eslint-disable no-console */
 import axios from 'axios';
+import view from '../views/score';
 import socket from './socket';
 
 class Score {
   constructor(measures) {
     this.length = measures * 4;
     this.notes = {};
+
+    socket.on.update = () => this.update();
   }
 
   update() {
@@ -14,6 +17,7 @@ class Score {
         .then((res) => res.data)
         .then((scoreDat) => {
           this.notes = scoreDat;
+          view.rerender();
           resolve();
         })
         .catch((err) => reject(err));

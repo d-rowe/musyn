@@ -12,11 +12,13 @@ const messageRecieved = (msg, ws) => {
   }
 
   const [type, uuid, beatIndex, notename] = msg.split(':');
-  session.addUser(uuid, ws);
+  if (type === 'register') {
+    session.addUser(uuid, ws);
+    return;
+  }
 
   if (type === 'U' || type === 'H') { // Cursor messages
     session.authorMessage(uuid, msg);
-    console.log(msg);
     return;
   }
 
