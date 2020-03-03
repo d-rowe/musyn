@@ -70,6 +70,8 @@ const draw = () => {
   // Create a stave of width 250 at position 10, 40 on the canvas.
   stave = new VF.Stave(10, 40, 450);
 
+  stave.setEndBarType(Vex.Flow.Barline.type.DOUBLE);
+
   // Add a clef and time signature.
   stave.addClef('treble').addTimeSignature('4/4');
   stave.setContext(context).draw();
