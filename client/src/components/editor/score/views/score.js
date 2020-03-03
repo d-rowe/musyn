@@ -23,9 +23,18 @@ const vexNotes = () => {
 
     const hasCursorAtBeatIndex = cursorsAtBeatIndex !== undefined;
 
+    const deleteDisplayNotes = [];
+
     if (hasCursorAtBeatIndex) {
       cursorNotesAtBeatIndex = cursorsAtBeatIndex.map((c) => c.note);
-      notesAtBeatIndex.push(cursorNotesAtBeatIndex);
+
+      cursorNotesAtBeatIndex.forEach((cursorNote) => {
+        if (notesAtBeatIndex.includes(cursorNote)) {
+          deleteDisplayNotes.push(cursorNote);
+        } else {
+          notesAtBeatIndex.push(cursorNote);
+        }
+      });
     }
 
     const parsedAndSortedNotes = parseAndSortNotes(notesAtBeatIndex);
@@ -44,12 +53,16 @@ const vexNotes = () => {
           auto_stem: true,
         },
       );
+
+
       if (hasCursorAtBeatIndex) {
+        const isDeleteDisplay = deleteDisplayNotes.includes(cursorNotesAtBeatIndex[0]);
         const cursorKeyIndex = notenames.indexOf(cursorNotesAtBeatIndex[0]);
-        currentStaveNotes.setKeyStyle(cursorKeyIndex, { fillStyle: cursorsAtBeatIndex[0].color });
+        const color = isDeleteDisplay ? 'rgba(237, 28, 36, 0.8)' : cursorsAtBeatIndex[0].color;
+        currentStaveNotes.setKeyStyle(cursorKeyIndex, { fillStyle: color });
 
         if (currentStaveNotes.keys.length === 1) {
-          currentStaveNotes.setStemStyle({ strokeStyle: cursorsAtBeatIndex[0].color });
+          currentStaveNotes.setStemStyle({ strokeStyle: color });
         }
       }
 
