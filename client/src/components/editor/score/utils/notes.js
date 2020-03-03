@@ -14,6 +14,10 @@ export const noteMap = {
   18: 'D5',
   17: 'E5',
   16: 'F5',
+  15: 'G5',
+  14: 'A5',
+  13: 'B5',
+  12: 'C6',
 };
 
 const letters = 'CDEFGAB';

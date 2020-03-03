@@ -5,6 +5,7 @@ const app = express();
 const server = require('http').Server(app);
 const Websocket = require('ws');
 const path = require('path');
+const score = require('./models/score');
 const wss = new Websocket.Server({ server });
 
 const PORT = process.env.PORT || 3000;
@@ -14,6 +15,7 @@ app.use('/', express.static(PUBLIC_DIR));
 
 const users = {};
 
+// TODO: split websockets to a seperate model
 wss.on('connection', (ws) => {
   ws.on('message', (message) => {
     const [type, uuid, beatIndex, notename] = message.split(':');
@@ -36,6 +38,9 @@ wss.on('connection', (ws) => {
       console.log(
         `Create ${notename} on beat ${beatIndex + 1}`,
       );
+      score.addNote({ uuid, notename, beatIndex })
+        .then(() => console.log('Added note entry'))
+        .catch((err) => console.log(err));
     }
   });
 });
