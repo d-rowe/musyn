@@ -12,6 +12,10 @@ let piano;
 let loaded = false;
 Transport.bpm.value = 80;
 
+export const setTempo = (bpm) => {
+  Transport.bpm.value = bpm;
+};
+
 const init = () => new Promise((resolve) => {
   piano = new Sampler(
     {
