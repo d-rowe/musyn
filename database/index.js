@@ -1,11 +1,9 @@
-/* eslint-disable no-console */
-/* eslint-disable import/prefer-default-export */
 const { Pool } = require('pg');
 
 const pool = new Pool({
-  host: 'localhost',
-  user: 'musync',
-  database: 'musync',
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  database: process.env.DB_NAME,
 });
 
 const query = async (queryStr, values) => {
