@@ -8,6 +8,7 @@ class View {
     displayTimeSig = false,
     timeSig = [4, 4],
     begBarline = false,
+    isLastBar = false,
   }) {
     this.container = container;
 
@@ -18,46 +19,55 @@ class View {
     this.containerSize = { width, height };
 
     this.context = this.renderer.getContext();
-    this.context.setViewBox(0, 90, 201, 80);
+    this.context.setViewBox(0, 90, 202, 80);
 
     this.clef = clef;
     this.timeSig = timeSig;
     this.displayClef = displayClef;
     this.displayTimeSig = displayTimeSig;
     this.begBarline = begBarline;
+    this.isLastBar = isLastBar;
   }
 
-  render() {
-    const stave = new Flow.Stave(0, 70, 200);
+  renderStave() {
+    this.stave = new Flow.Stave(0, 70, 200);
+
     if (this.displayClef) {
-      stave.addClef('treble');
+      this.stave.addClef(this.clef);
     }
 
     if (this.displayTimeSig) {
-      // Time signature string e.g. 4/4
       const timeSigStr = this.timeSig.join('/');
-
-      stave.addTimeSignature(timeSigStr);
+      this.stave.addTimeSignature(timeSigStr === '4/4' ? 'C' : timeSigStr);
     }
 
     if (!this.begBarline) {
-      stave.setBegBarType(Flow.Barline.type.NONE);
+      this.stave.setBegBarType(Flow.Barline.type.NONE);
     }
 
-    // Render stave to screen
-    stave.setContext(this.context).draw();
+    if (this.isLastBar) {
+      this.stave.setEndBarType(Flow.Barline.type.DOUBLE);
+    }
 
-    // const [numBeats, beatValue] = this.timeSig;
-    // const voice = new Flow.Voice({
-    //   num_beats: numBeats,
-    //   beat_value: beatValue,
-    // });
+    this.stave.setContext(this.context).draw();
+  }
 
-    // voice.addTickables(this.getVexNotes());
+  renderNotes() {
+    const [numBeats, beatValue] = this.timeSig;
+    const voice = new Flow.Voice({
+      num_beats: numBeats,
+      beat_value: beatValue,
+    });
 
-    // new Flow.Formatter().joinVoices([voice]).format([voice], 400);
-    // Render notes to screen
-    // voice.draw(this.context, stave);
+    voice.addTickables(this.getVexNotes());
+
+    new Flow.Formatter().joinVoices([voice]).format([voice], 400);
+
+    voice.draw(this.context, this.stave);
+  }
+
+  render() {
+    this.renderStave();
   }
 }
 

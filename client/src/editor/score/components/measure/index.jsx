@@ -8,6 +8,7 @@ const Measure = ({
   displayClef = false,
   displayTimeSig = false,
   begBarline = false,
+  isLastBar = false,
 }) => {
   const container = React.createRef();
   let view;
@@ -20,6 +21,7 @@ const Measure = ({
       displayClef,
       displayTimeSig,
       begBarline,
+      isLastBar,
     });
 
     view.render();
