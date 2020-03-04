@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import Editor from './components/editor';
-import Navbar from './components/layout/navbar';
+import Editor from './editor';
+import Navbar from './layout/navbar';
 
 const App = () => (
   <Wrapper>

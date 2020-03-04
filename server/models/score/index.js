@@ -1,4 +1,4 @@
-const db = require('../../../database/index');
+const db = require('../../../database');
 const buildScore = require('./build');
 
 const queryTemplate = `

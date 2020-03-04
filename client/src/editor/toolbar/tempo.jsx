@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Plus } from 'styled-icons/boxicons-regular/Plus';
 import { Minus } from 'styled-icons/boxicons-regular/Minus';
-import { setTempo } from '../score/models/audio/index';
+import { setTempo } from '../score/models/audio';
 
 const Tempo = () => {
   const [bpm, setBpm] = useState(80);

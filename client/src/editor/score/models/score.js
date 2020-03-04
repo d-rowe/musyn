@@ -3,7 +3,7 @@
 import axios from 'axios';
 import view from '../views/score';
 import socket from './socket';
-import { playNote } from './audio/index';
+import { playNote } from './audio';
 
 const length = 8;
 let notes = {};

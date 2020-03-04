@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import Score from './score/index';
-import Toolbar from './toolbar/index';
+import Score from './score';
+import Toolbar from './toolbar';
 
 const Editor = () => (
   <Wrapper className="box">
