@@ -6,6 +6,10 @@ html, body, #root {
   overflow: auto !important;
 }
 
+body {
+  background-color: #dcdcdd;
+}
+
 .navbar {
   margin-bottom: 2em;
   width: 100%;
