@@ -1,5 +1,5 @@
 import { Flow } from 'vexflow';
-import { wholeRest } from './vexNotes';
+import vexNote from './vexNotes';
 
 class View {
   constructor({
@@ -48,7 +48,7 @@ class View {
     });
 
     const tickables = [
-      wholeRest,
+      vexNote({ isRest: true, beatDuration: 4 }),
     ];
 
     voice.addTickables(tickables);
