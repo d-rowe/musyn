@@ -11,7 +11,7 @@ const Editor = () => (
 );
 
 const Wrapper = styled.div`
-  width: 64em;
+  width: 67em;
   padding: 0;
   margin: 0;
 `;

@@ -1,3 +1,4 @@
+/* eslint-disable no-confusing-arrow */
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import View from './mvc/view';
@@ -6,8 +7,6 @@ import Controller from './mvc/controller';
 const Measure = ({
   notes,
   clef = 'treble',
-  displayClef = false,
-  displayTimeSig = false,
   begBarline = false,
   isLastBar = false,
 }) => {
@@ -26,8 +25,6 @@ const Measure = ({
     view = new View({
       container: container.current,
       clef,
-      displayClef,
-      displayTimeSig,
       begBarline,
       isLastBar,
       onBoundingBoxChange: updateBoundingBox,
@@ -50,6 +47,7 @@ const Measure = ({
   return (
     <Wrapper
       ref={container}
+      begBarline={begBarline}
       onMouseMove={(e) => controller.onMove(e)}
     />
   );
@@ -59,6 +57,7 @@ const Wrapper = styled.div`
   height: 7em;
   width: 15em;
   background-color: white;
+  margin-left: ${(props) => props.begBarline ? '1.1em' : 0}
 `;
 
 export default Measure;

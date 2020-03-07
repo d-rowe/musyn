@@ -1,11 +1,10 @@
 import { Flow } from 'vexflow';
+import { wholeRest } from './vexNotes';
 
 class View {
   constructor({
     container,
     clef = 'treble',
-    displayClef = false,
-    displayTimeSig = false,
     timeSig = [4, 4],
     begBarline = false,
     isLastBar = false,
@@ -23,23 +22,12 @@ class View {
 
     this.clef = clef;
     this.timeSig = timeSig;
-    this.displayClef = displayClef;
-    this.displayTimeSig = displayTimeSig;
     this.begBarline = begBarline;
     this.isLastBar = isLastBar;
   }
 
   renderStave() {
     this.stave = new Flow.Stave(0, 70, 200);
-
-    if (this.displayClef) {
-      this.stave.addClef(this.clef);
-    }
-
-    if (this.displayTimeSig) {
-      const timeSigStr = this.timeSig.join('/');
-      this.stave.addTimeSignature(timeSigStr === '4/4' ? 'C' : timeSigStr);
-    }
 
     if (!this.begBarline) {
       this.stave.setBegBarType(Flow.Barline.type.NONE);
@@ -59,15 +47,20 @@ class View {
       beat_value: beatValue,
     });
 
-    voice.addTickables(this.getVexNotes());
+    const tickables = [
+      wholeRest,
+    ];
 
-    new Flow.Formatter().joinVoices([voice]).format([voice], 400);
+    voice.addTickables(tickables);
+
+    new Flow.Formatter().joinVoices([voice]).format([voice], 200);
 
     voice.draw(this.context, this.stave);
   }
 
   render() {
     this.renderStave();
+    this.renderNotes();
   }
 }
 
