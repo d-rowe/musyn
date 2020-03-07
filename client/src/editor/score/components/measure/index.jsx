@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import View from './mvc/view';
+import Controller from './mvc/controller';
 
 const Measure = ({
   notes,
@@ -12,6 +13,13 @@ const Measure = ({
 }) => {
   const container = React.createRef();
   let view;
+  let controller = {
+    onMove: () => { },
+  };
+
+  const updateBoundingBox = (boundingBox) => {
+    controller.updateBoundingBox(boundingBox);
+  };
 
   const onMount = () => {
     // Render view
@@ -22,21 +30,28 @@ const Measure = ({
       displayTimeSig,
       begBarline,
       isLastBar,
+      onBoundingBoxChange: updateBoundingBox,
     });
 
+    const svgContext = view.context.parent;
+    controller = new Controller(svgContext);
+
     view.render();
-    // Initialize controller
   };
 
-  const onNoteUpdate = () => {
+  const noteUpdate = () => {
     // View rerender
   };
 
+
   useEffect(onMount, []);
-  useEffect(onNoteUpdate, [notes]);
+  useEffect(noteUpdate, [notes]);
 
   return (
-    <Wrapper ref={container} />
+    <Wrapper
+      ref={container}
+      onMouseMove={(e) => controller.onMove(e)}
+    />
   );
 };
 

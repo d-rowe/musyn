@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Measure from './components/measure';
 
-const Score = ({ measureCount = 9 }) => {
+const Score = ({ measureCount = 16 }) => {
   const Measures = [];
 
   for (let i = 0; i < measureCount; i += 1) {
