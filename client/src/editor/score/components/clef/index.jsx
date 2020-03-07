@@ -7,7 +7,6 @@ const Clef = () => {
 
   useEffect(() => {
     const renderer = new Flow.Renderer(container.current, Flow.Renderer.Backends.SVG);
-    renderer.resize(35, 90);
 
     const context = renderer.getContext();
     context.svg.setAttribute('height', '100%');
