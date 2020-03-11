@@ -1,5 +1,5 @@
 import { Flow } from 'vexflow';
-import vexNote from './vexNotes';
+import vexNote from '../models/vexNotes';
 
 class View {
   constructor({

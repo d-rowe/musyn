@@ -1,8 +1,8 @@
 /* eslint-disable no-confusing-arrow */
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import View from './mvc/view';
-import Controller from './mvc/controller';
+import View from './views';
+import Controller from './controllers';
 
 const Measure = ({
   notes,
@@ -16,10 +16,6 @@ const Measure = ({
     onMove: () => { },
   };
 
-  const updateBoundingBox = (boundingBox) => {
-    controller.updateBoundingBox(boundingBox);
-  };
-
   const onMount = () => {
     // Render view
     view = new View({
@@ -27,7 +23,6 @@ const Measure = ({
       clef,
       begBarline,
       isLastBar,
-      onBoundingBoxChange: updateBoundingBox,
     });
 
     const svgContext = view.context.parent;
