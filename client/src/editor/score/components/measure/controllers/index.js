@@ -1,7 +1,8 @@
+import cursors from '../../../models/cursors';
+
 class Controller {
   constructor(svgContext) {
     this.svgContext = svgContext;
-    this.tick = -1;
     this.bounds = { x: 0, w: 200 };
   }
 
@@ -13,12 +14,12 @@ class Controller {
     p = p.matrixTransform(matrix.inverse());
     const voiceX = p.x - this.bounds.x;
 
-    const tick = Math.floor((voiceX / this.bounds.w) * 4096);
-    if (tick >= 0) {
-      this.tick = tick;
-    } else {
-      this.tick = -1;
+    let tick = Math.floor((voiceX / this.bounds.w) * 4096);
+    if (tick < 0) {
+      tick = -1;
     }
+
+    cursors.update('local', tick, 'C4');
   }
 }
 

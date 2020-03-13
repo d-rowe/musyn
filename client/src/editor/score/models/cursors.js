@@ -1,65 +1,47 @@
 import socket from './socket';
-import view from '../views/score';
 
-// TODO: Refactor to singleton for global document cursor data
 class Cursors {
   constructor() {
-    // TODO: update to UUIDs, handle n users
-    this.users = {
-      local: { note: null, tick: null, color: 'rgba(51, 101, 138, 0.8)' },
-      remote: { note: null, tick: null, color: 'rgba(242, 100, 25, 0.8)' },
-    };
+    this.cursors = {};
 
-    // TODO: use this.update()
-    socket.on.cursorUpdate = (cursor) => {
-      this.users.remote.note = cursor.notename;
-      this.users.remote.tick = cursor.tick;
-      view.rerender();
-    };
+    this.colors = [
+      [51, 101, 138], // Blue
+      [242, 100, 25], // Orange
+    ];
+    this.colorsUsed = 0;
 
-    // TODO: use this.remove()
-    socket.on.cursorRemove = () => {
-      this.users.remote.note = null;
-      this.users.remote.tick = null;
-      view.rerender();
-    };
+    this.add('local');
+    this.add('remote');
   }
 
-  // TODO: only send if local user
-  update(user, notename, tick) {
-    this.users[user].note = notename;
-    this.users[user].tick = tick;
-    socket.sendCursorUpdate(notename, tick);
+  update(userId, tick, pitch) {
+    const cursor = this.cursors[userId];
+    cursor.tick = tick;
+    cursor.pitch = pitch;
+
+    socket.sendCursorUpdate(pitch, tick);
   }
 
-  // TODO: only send if local user
-  remove(user) {
-    this.users[user].note = null;
-    this.users[user].tick = null;
+  hide(userId) {
+    this.update(userId, -1, '');
     socket.sendCursorRemove();
   }
 
-  beatFormat() {
-    const userIds = Object.keys(this.users);
+  add(userId) {
+    const color = this.nextColor();
 
-    const output = {};
+    this.cursors[userId] = {
+      pitch: '',
+      tick: -1,
+      color,
+    };
+  }
 
-    userIds.forEach((user) => {
-      const { note, color, tick } = this.users[user];
-
-      if (note === null) return;
-
-      const userCursor = { user, note, color };
-
-      if (output[tick] === undefined) {
-        output[tick] = [userCursor];
-      } else {
-        output[tick].push(userCursor);
-      }
-    });
-
-    return output;
+  nextColor() {
+    const color = this.colors[this.colorsUsed];
+    this.colorsUsed += 1;
+    return `rgba(${color.join(', ')}, 0.8)`;
   }
 }
 
-export default Cursors;
+export default new Cursors();

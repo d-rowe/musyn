@@ -1,7 +1,6 @@
 /* eslint-disable import/no-cycle */
 /* eslint-disable no-console */
 import axios from 'axios';
-import view from '../views/score';
 import socket from './socket';
 import { playNote } from './audio';
 
@@ -13,7 +12,6 @@ const update = () => new Promise((resolve, reject) => {
     .then((response) => response.data)
     .then((scoreDat) => {
       notes = scoreDat;
-      view.rerender();
       resolve();
     })
     .catch((err) => reject(err));
