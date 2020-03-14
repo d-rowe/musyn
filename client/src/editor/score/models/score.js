@@ -4,7 +4,7 @@ import { playNote } from './audio';
 
 class Score {
   constructor() {
-    this.notes = {};
+    this.score = {};
 
     socket.on.update = () => this.update();
   }
@@ -21,57 +21,53 @@ class Score {
     });
   }
 
-  getNotes() {
-    return { ...this.notes };
-  }
+  remove(measure, tick, pitch) {
+    const currentMeasure = this.score[measure];
+    if (currentMeasure === undefined) return false;
 
-  notesAtIndex(tick) {
-    const beatPitches = this.notes[tick];
+    const noteArray = currentMeasure[tick];
+    if (noteArray === undefined) return false;
 
-    if (beatPitches !== undefined) {
-      return [...beatPitches];
-    }
+    for (let i = 0; i < noteArray.length; i += 1) {
+      const note = noteArray[i];
 
-    return [];
-  }
+      if (pitch === note.pitch) {
+        if (noteArray.length === 1) {
+          delete currentMeasure[tick];
 
-  hasNoteAtIndex(notename, tick) {
-    const beatPitches = this.notes[tick];
+          const isMeasureEmpty = Object.keys(currentMeasure).length === 0;
 
-    if (beatPitches === undefined) return false;
-    return beatPitches.includes(notename);
-  }
-
-  removeNote(notename, tick) {
-    const noteIndex = this.notes[tick].indexOf(notename);
-
-    if (noteIndex !== -1) {
-      this.notes[tick].splice(noteIndex, 1);
-      socket.sendNoteDelete(notename, tick);
-      return true;
+          if (isMeasureEmpty) {
+            delete this.score[measure];
+          }
+        } else {
+          noteArray.splice(i, 1);
+        }
+        return true;
+      }
     }
 
     return false;
   }
 
-  addNote(notename, tick) {
-    const beatNotes = this.notes[tick];
+  add(measure, tick, pitch, duration) {
+    const currentMeasure = this.score[measure];
+    const entry = { pitch, duration };
 
-    if (this.hasNoteAtIndex(notename, tick)) {
-      this.removeNote(notename, tick);
-      return false;
-    }
-
-    if (beatNotes === undefined) {
-      this.notes[tick] = [notename];
+    if (currentMeasure === undefined) {
+      this.score[measure] = { [tick]: [entry] };
     } else {
-      beatNotes.push(notename);
+      const currentTick = currentMeasure[tick];
+
+      if (currentTick === undefined) {
+        this.score[measure][tick] = [entry];
+      } else {
+        currentTick.push(entry);
+      }
     }
 
-
-    playNote(notename);
-    socket.sendNoteCreate(notename, tick);
-    return true;
+    playNote(pitch);
+    socket.sendNoteCreate(pitch, tick);
   }
 }
 

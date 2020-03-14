@@ -5,13 +5,12 @@ class Cursors {
   constructor() {
     this.cursors = {};
 
-    this.beatDuration = 1;
-
     this.colors = [
       [51, 101, 138], // Blue
       [242, 100, 25], // Orange
     ];
     this.colorsUsed = 0;
+    this.defaultDuration = 1024;
 
     this.add('local');
     this.add('remote');
@@ -19,33 +18,48 @@ class Cursors {
 
   commit() {
     const { local } = this.cursors;
-    score.addNote(local.pitch, local.tick);
+    const {
+      measure,
+      tick,
+      pitch,
+      duration,
+    } = local;
 
+    score.add(measure, tick, pitch, duration);
     this.hide('local');
   }
 
-  update(userId, tick, pitch) {
+  update(userId, pitch, measure, tick, duration = this.defaultDuration) {
     const cursor = this.cursors[userId];
+    const tickQuantize = Math.floor(tick / duration) * 1024;
 
-    const quantizedTick = Math.floor(tick / (this.beatDuration * 1024)) * 1024;
-
-    cursor.tick = quantizedTick;
+    cursor.measure = measure;
+    cursor.tick = tickQuantize;
     cursor.pitch = pitch;
+    cursor.display = true;
 
-    socket.sendCursorUpdate(pitch, quantizedTick);
+    if (duration !== undefined) {
+      cursor.duration = duration;
+    }
+
+    socket.sendCursorUpdate(pitch, tickQuantize);
   }
 
   hide(userId) {
-    this.update(userId, -1, '');
+    this.cursors[userId].display = false;
     socket.sendCursorRemove();
   }
 
   add(userId) {
     const color = this.nextColor();
+    const duration = this.defaultDuration;
 
     this.cursors[userId] = {
       pitch: '',
       tick: -1,
+      measure: -1,
+      duration,
+      display: false,
       color,
     };
   }

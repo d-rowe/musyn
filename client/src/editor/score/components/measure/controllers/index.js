@@ -2,10 +2,10 @@ import cursors from '../../../models/cursors';
 import { pitchMap } from '../../../utils/notes';
 
 class Controller {
-  constructor(svgContext, measureIndex = 0) {
+  constructor(svgContext, measure = 0) {
     this.svgContext = svgContext;
     this.bounds = { x: 0, w: 200 };
-    this.tickOffset = 4096 * measureIndex;
+    this.measure = measure;
   }
 
   onMove(e) {
@@ -19,14 +19,12 @@ class Controller {
 
     const pitch = pitchMap[y];
 
-    const measureTick = Math.floor((voiceX / this.bounds.w) * 4096);
+    const tick = Math.floor((voiceX / this.bounds.w) * 4096);
 
-    if (measureTick < 0) {
-      cursors.update('local', -1, pitch);
+    if (tick < 0) {
+      cursors.hide('local');
     } else {
-      const globalTick = this.tickOffset + measureTick;
-
-      cursors.update('local', globalTick, pitch);
+      cursors.update('local', pitch, this.measure, tick);
     }
   }
 
