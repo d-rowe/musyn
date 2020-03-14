@@ -1,8 +1,11 @@
 import socket from './socket';
+import score from './score';
 
 class Cursors {
   constructor() {
     this.cursors = {};
+
+    this.beatDuration = 1;
 
     this.colors = [
       [51, 101, 138], // Blue
@@ -14,9 +17,19 @@ class Cursors {
     this.add('remote');
   }
 
+  commit() {
+    const { local } = this.cursors;
+    score.addNote(local.pitch, local.tick);
+
+    this.hide('local');
+  }
+
   update(userId, tick, pitch) {
     const cursor = this.cursors[userId];
-    cursor.tick = tick;
+
+    const quantizedTick = Math.floor(tick / (this.beatDuration * 1024)) * 1024;
+
+    cursor.tick = quantizedTick;
     cursor.pitch = pitch;
 
     socket.sendCursorUpdate(pitch, tick);

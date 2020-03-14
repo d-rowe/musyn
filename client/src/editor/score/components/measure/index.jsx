@@ -9,6 +9,7 @@ const Measure = ({
   clef = 'treble',
   begBarline = false,
   isLastBar = false,
+  index,
 }) => {
   const container = React.createRef();
   let view;
@@ -26,7 +27,7 @@ const Measure = ({
     });
 
     const svgContext = view.context.parent;
-    controller = new Controller(svgContext);
+    controller = new Controller(svgContext, index);
 
     view.render();
   };
@@ -44,6 +45,7 @@ const Measure = ({
       ref={container}
       begBarline={begBarline}
       onMouseMove={(e) => controller.onMove(e)}
+      onClick={() => controller.onClick()}
     />
   );
 };

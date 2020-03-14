@@ -1,9 +1,11 @@
 import cursors from '../../../models/cursors';
 
 class Controller {
-  constructor(svgContext) {
+  constructor(svgContext, measureIndex = 0) {
     this.svgContext = svgContext;
     this.bounds = { x: 0, w: 200 };
+    this.tickOffset = 4096 * measureIndex;
+    this.mousePos = { x: -1, y: -1 };
   }
 
   onMove(e) {
@@ -12,14 +14,23 @@ class Controller {
     p.x = e.clientX;
     p.y = e.clientY;
     p = p.matrixTransform(matrix.inverse());
+    this.mousePos = p;
     const voiceX = p.x - this.bounds.x;
 
-    let tick = Math.floor((voiceX / this.bounds.w) * 4096);
-    if (tick < 0) {
-      tick = -1;
-    }
+    const measureTick = Math.floor((voiceX / this.bounds.w) * 4096);
 
-    cursors.update('local', tick, 'C4');
+    if (measureTick < 0) {
+      cursors.update('local', -1, 'C4');
+    } else {
+      const globalTick = this.tickOffset + measureTick;
+
+      cursors.update('local', globalTick, 'C4');
+    }
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  onClick() {
+    cursors.commit();
   }
 }
 

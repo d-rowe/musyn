@@ -4,22 +4,23 @@ import Measure from './components/measure';
 import Clef from './components/clef';
 
 const Score = ({ measureCount = 16 }) => {
-  const Measures = [<Clef key="C" />];
+  const Measures = [];
 
   for (let i = 0; i < measureCount; i += 1) {
     if (i === 0) {
       Measures.push(<Measure key={i} />);
     } else if (i % 4 === 0) {
-      Measures.push(<Measure begBarline key={i} />);
+      Measures.push(<Measure begBarline key={i} index={i} />);
     } else if (i === measureCount - 1) {
-      Measures.push(<Measure isLastBar key={i} />);
+      Measures.push(<Measure isLastBar key={i} index={i} />);
     } else {
-      Measures.push(<Measure key={i} />);
+      Measures.push(<Measure key={i} index={i} />);
     }
   }
 
   return (
     <Wrapper>
+      <Clef />
       {Measures}
     </Wrapper>
   );
