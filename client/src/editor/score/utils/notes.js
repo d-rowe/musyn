@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-export const noteMap = {
+export const pitchMap = {
   35: 'G3',
   34: 'A3',
   33: 'B3',

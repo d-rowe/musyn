@@ -55,7 +55,6 @@ class Score {
   }
 
   addNote(notename, tick) {
-    console.log(this.notes);
     const beatNotes = this.notes[tick];
 
     if (this.hasNoteAtIndex(notename, tick)) {

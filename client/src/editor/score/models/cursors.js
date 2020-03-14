@@ -32,7 +32,7 @@ class Cursors {
     cursor.tick = quantizedTick;
     cursor.pitch = pitch;
 
-    socket.sendCursorUpdate(pitch, tick);
+    socket.sendCursorUpdate(pitch, quantizedTick);
   }
 
   hide(userId) {
