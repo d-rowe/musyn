@@ -1,31 +1,37 @@
 import { Flow } from 'vexflow';
+import { pitchesToVexKeys } from '../../../utils/notes';
 
 const vexNote = ({
   isRest = false,
   beatDuration = 1,
-  keys = ['b/4'],
+  pitches = ['B4'],
   clef = 'treble',
   color,
   colorKeyIndex = 0,
 }) => {
   const beatDurations = {
-    1: 'q',
-    2: 'h',
-    4: 'w',
+    0.25: '16',
+    0.5: '8',
+    1: '4',
+    2: '2',
+    4: '1',
   };
 
   const beatDurationStr = beatDurations[beatDuration];
   const duration = `${beatDurationStr}${isRest ? 'r' : 'n'}`;
 
+  const keys = pitchesToVexKeys(pitches);
+
   const note = new Flow.StaveNote({
     clef,
     keys,
     duration,
+    auto_stem: true,
   });
 
   const xShifts = {
-    wr: 75,
-    hr: 25,
+    '1r': 75,
+    '2r': 25,
   };
 
   const xShift = xShifts[duration];

@@ -43,7 +43,7 @@ class Cursors {
       cursor.duration = duration;
     }
 
-    this.measureViews[measure].rerender();
+    this.rerenderMeasure(measure);
 
     socket.sendCursorUpdate(pitch, tickQuantize);
   }
@@ -51,7 +51,7 @@ class Cursors {
   hide(userId) {
     const cursor = this.cursors[userId];
     cursor.display = false;
-    this.measureViews[cursor.measure].rerender();
+    this.rerenderMeasure(cursor.measure);
     socket.sendCursorRemove();
   }
 
@@ -75,6 +75,10 @@ class Cursors {
     return `rgba(${color.join(', ')}, 0.8)`;
   }
 
+  rerenderMeasure(measure) {
+    this.measureViews[measure].rerender();
+  }
+
   registerMeasureView(measure, view) {
     this.measureViews[measure] = view;
   }
@@ -86,8 +90,8 @@ class Cursors {
     userIds.forEach((userId) => {
       const cursor = this.cursors[userId];
 
-      if (cursor.measure === measure) {
-        cursorsAtMeasure.push = cursor;
+      if (cursor.measure === measure && cursor.display) {
+        cursorsAtMeasure.push(cursor);
       }
     });
 

@@ -5,7 +5,6 @@ import View from './views';
 import Controller from './controllers';
 
 const Measure = ({
-  notes,
   clef = 'treble',
   begBarline = false,
   isLastBar = false,
@@ -33,13 +32,7 @@ const Measure = ({
     view.render();
   };
 
-  const noteUpdate = () => {
-    // View rerender
-  };
-
-
   useEffect(initialize, []);
-  useEffect(noteUpdate, [notes]);
 
   return (
     <Wrapper
@@ -47,12 +40,13 @@ const Measure = ({
       begBarline={begBarline}
       onMouseMove={(e) => controller.onMove(e)}
       onClick={() => controller.onClick()}
+      onMouseLeave={() => controller.onBlur()}
     />
   );
 };
 
 const Wrapper = styled.div`
-  height: 7em;
+  height: 7.5em;
   width: 15em;
   background-color: white;
   margin-left: ${(props) => props.begBarline ? '1.1em' : 0}

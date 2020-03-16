@@ -47,6 +47,10 @@ const parseNotename = (notename) => {
   };
 };
 
+export const pitchToVexKey = (pitch) => parseNotename(pitch).vexKey;
+
+export const pitchesToVexKeys = (pitchArray) => pitchArray.map((pitch) => pitchToVexKey(pitch));
+
 const parseNotes = (noteArray) => (
   noteArray.map((notename) => parseNotename(notename))
 );

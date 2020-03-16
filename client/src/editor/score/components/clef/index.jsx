@@ -26,7 +26,7 @@ const Clef = () => {
 };
 
 const Wrapper = styled.div`
-  height: 7em;
+  height: 7.5em;
   width: 2.2em;
 `;
 
