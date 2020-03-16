@@ -5,6 +5,7 @@ import { playNote } from './audio';
 class Score {
   constructor() {
     this.score = {};
+    this.measureViews = {};
 
     socket.on.update = () => this.update();
   }
@@ -14,7 +15,7 @@ class Score {
       axios.get('/api/score')
         .then((response) => response.data)
         .then((scoreDat) => {
-          this.notes = scoreDat;
+          this.score = scoreDat;
           resolve();
         })
         .catch((err) => reject(err));
@@ -68,6 +69,14 @@ class Score {
 
     playNote(pitch);
     socket.sendNoteCreate(pitch, tick);
+  }
+
+  registerMeasureView(measure, view) {
+    this.measureViews[measure] = view;
+  }
+
+  getMeasure(measure) {
+    return this.score[measure];
   }
 }
 

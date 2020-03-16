@@ -1,5 +1,7 @@
 import { Flow } from 'vexflow';
 import vexNote from '../models/vexNotes';
+import scoreModel from '../../../models/score';
+import cursors from '../../../models/cursors';
 
 class View {
   constructor({
@@ -8,6 +10,7 @@ class View {
     timeSig = [4, 4],
     begBarline = false,
     isLastBar = false,
+    measure,
   }) {
     this.container = container;
 
@@ -18,15 +21,20 @@ class View {
     this.containerSize = { width, height };
 
     this.context = this.renderer.getContext();
-    this.context.setViewBox(0, 90, 202, 80);
 
     this.clef = clef;
     this.timeSig = timeSig;
     this.begBarline = begBarline;
     this.isLastBar = isLastBar;
+    this.measure = measure;
+
+    scoreModel.registerMeasureView(measure, this);
+    cursors.registerMeasureView(measure, this);
   }
 
   renderStave() {
+    this.context.setViewBox(0, 90, 202, 80);
+
     this.stave = new Flow.Stave(0, 70, 200);
 
     if (!this.begBarline) {
@@ -61,6 +69,15 @@ class View {
   render() {
     this.renderStave();
     this.renderNotes();
+  }
+
+  clear() {
+    this.renderer.ctx.clear();
+  }
+
+  rerender() {
+    this.clear();
+    this.render();
   }
 }
 

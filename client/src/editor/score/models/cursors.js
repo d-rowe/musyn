@@ -4,6 +4,7 @@ import score from './score';
 class Cursors {
   constructor() {
     this.cursors = {};
+    this.measureViews = {};
 
     this.colors = [
       [51, 101, 138], // Blue
@@ -42,11 +43,15 @@ class Cursors {
       cursor.duration = duration;
     }
 
+    this.measureViews[measure].rerender();
+
     socket.sendCursorUpdate(pitch, tickQuantize);
   }
 
   hide(userId) {
-    this.cursors[userId].display = false;
+    const cursor = this.cursors[userId];
+    cursor.display = false;
+    this.measureViews[cursor.measure].rerender();
     socket.sendCursorRemove();
   }
 
@@ -68,6 +73,25 @@ class Cursors {
     const color = this.colors[this.colorsUsed];
     this.colorsUsed += 1;
     return `rgba(${color.join(', ')}, 0.8)`;
+  }
+
+  registerMeasureView(measure, view) {
+    this.measureViews[measure] = view;
+  }
+
+  getMeasure(measure) {
+    const userIds = Object.keys(this.cursors);
+    const cursorsAtMeasure = [];
+
+    userIds.forEach((userId) => {
+      const cursor = this.cursors[userId];
+
+      if (cursor.measure === measure) {
+        cursorsAtMeasure.push = cursor;
+      }
+    });
+
+    return cursorsAtMeasure;
   }
 }
 

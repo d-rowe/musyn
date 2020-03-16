@@ -17,13 +17,14 @@ const Measure = ({
     onMove: () => { },
   };
 
-  const onMount = () => {
+  const initialize = () => {
     // Render view
     view = new View({
       container: container.current,
       clef,
       begBarline,
       isLastBar,
+      measure: index,
     });
 
     const svgContext = view.context.parent;
@@ -37,7 +38,7 @@ const Measure = ({
   };
 
 
-  useEffect(onMount, []);
+  useEffect(initialize, []);
   useEffect(noteUpdate, [notes]);
 
   return (
