@@ -32,7 +32,7 @@ class Cursors {
 
   update(userId, pitch, measure, tick, duration = this.defaultDuration) {
     const cursor = this.cursors[userId];
-    const tickQuantize = Math.floor(tick / duration) * 1024;
+    const tickQuantize = Math.floor(tick / duration) * duration;
 
     cursor.measure = measure;
     cursor.tick = tickQuantize;
