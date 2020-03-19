@@ -1,6 +1,6 @@
 /* eslint-disable class-methods-use-this */
 import cursors from '../../../models/cursors';
-import { pitchMap } from '../../../utils/notes';
+import { pitchMap } from '../../../models/note';
 
 class Controller {
   constructor(svgContext, measure = 0) {
@@ -19,13 +19,12 @@ class Controller {
     const y = Math.floor(p.y / 5);
 
     const pitch = pitchMap[y];
+    const start = Math.floor((voiceX / this.bounds.w) * 4096);
 
-    const tick = Math.floor((voiceX / this.bounds.w) * 4096);
-
-    if (tick < 0 || pitch === undefined) {
+    if (start < 0 || pitch === undefined) {
       cursors.hide('local');
     } else {
-      cursors.update('local', pitch, this.measure, tick);
+      cursors.update('local', pitch, this.measure, start);
     }
   }
 

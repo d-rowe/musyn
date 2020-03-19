@@ -1,5 +1,6 @@
 import socket from './socket';
 import score from './score';
+import Note from './note';
 
 class Cursors {
   constructor() {
@@ -11,7 +12,6 @@ class Cursors {
       [242, 100, 25], // Orange
     ];
     this.colorsUsed = 0;
-    this.defaultDuration = 1024;
 
     this.add('local');
     this.add('remote');
@@ -21,52 +21,46 @@ class Cursors {
     const { local } = this.cursors;
     const {
       measure,
-      tick,
+      start,
       pitch,
       duration,
     } = local;
 
-    score.add(measure, tick, pitch, duration);
+    score.add(measure, start, pitch, duration);
     this.hide('local');
   }
 
-  update(userId, pitch, measure, tick, duration = this.defaultDuration) {
-    const cursor = this.cursors[userId];
-    const tickQuantize = Math.floor(tick / duration) * duration;
+  update(author, pitch, measure, start, duration) {
+    const note = this.cursors[author];
+    const currDuration = duration === undefined ? note.duration : duration;
+    const startQuantized = Math.floor(start / currDuration) * currDuration;
 
-    cursor.measure = measure;
-    cursor.tick = tickQuantize;
-    cursor.pitch = pitch;
-    cursor.display = true;
+    note.setMeasure(measure);
+    note.setStart(startQuantized);
+    note.setPitch(pitch);
+    note.setVisible(true);
 
     if (duration !== undefined) {
-      cursor.duration = duration;
+      note.setDuration(duration);
     }
 
     this.rerenderMeasure(measure);
 
-    socket.sendCursorUpdate(pitch, tickQuantize);
+    socket.sendCursorUpdate(pitch, startQuantized);
   }
 
-  hide(userId) {
-    const cursor = this.cursors[userId];
-    cursor.display = false;
-    this.rerenderMeasure(cursor.measure);
+  hide(author) {
+    const note = this.cursors[author];
+    note.setVisible(false);
+    this.rerenderMeasure(note.measure);
     socket.sendCursorRemove();
   }
 
-  add(userId) {
-    const color = this.nextColor();
-    const duration = this.defaultDuration;
-
-    this.cursors[userId] = {
-      pitch: '',
-      tick: -1,
-      measure: -1,
-      duration,
-      display: false,
-      color,
-    };
+  add(author) {
+    this.cursors[author] = new Note({
+      color: this.nextColor(),
+      visible: false,
+    });
   }
 
   nextColor() {
@@ -84,14 +78,14 @@ class Cursors {
   }
 
   getMeasure(measure) {
-    const userIds = Object.keys(this.cursors);
+    const authors = Object.keys(this.cursors);
     const cursorsAtMeasure = [];
 
-    userIds.forEach((userId) => {
-      const cursor = this.cursors[userId];
+    authors.forEach((author) => {
+      const note = this.cursors[author];
 
-      if (cursor.measure === measure && cursor.display) {
-        cursorsAtMeasure.push(cursor);
+      if (note.measure === measure && note.visible) {
+        cursorsAtMeasure.push(note);
       }
     });
 

@@ -59,19 +59,19 @@ class View {
 
     const tickables = [];
 
-    for (let tick = 0; tick < 4096; tick += 1024) {
-      const cursorsAtTick = [];
+    for (let start = 0; start < 4096; start += 1024) {
+      const cursorsAtStart = [];
 
       measureCursors.forEach((cursor) => {
-        if (cursor.tick === tick) {
-          cursorsAtTick.push(cursor);
+        if (cursor.start === start) {
+          cursorsAtStart.push(cursor);
         }
       });
 
-      if (cursorsAtTick.length === 0) {
+      if (cursorsAtStart.length === 0) {
         tickables.push(vexNote({ isRest: true, beatDuration: 1 }));
       } else {
-        const { color, pitch, duration } = cursorsAtTick[0];
+        const { color, pitch, duration } = cursorsAtStart[0];
         tickables.push(vexNote({ pitches: [pitch], beatDuration: duration / 1024, color }));
       }
     }
