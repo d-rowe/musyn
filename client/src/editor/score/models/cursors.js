@@ -19,14 +19,8 @@ class Cursors {
 
   commit() {
     const { local } = this.cursors;
-    const {
-      measure,
-      start,
-      pitch,
-      duration,
-    } = local;
 
-    score.add(measure, start, pitch, duration);
+    score.add(local);
     this.hide('local');
   }
 
@@ -38,6 +32,7 @@ class Cursors {
     note.setMeasure(measure);
     note.setStart(startQuantized);
     note.setPitch(pitch);
+    note.setAuthor(author);
     note.setVisible(true);
 
     if (duration !== undefined) {
@@ -51,6 +46,7 @@ class Cursors {
 
   hide(author) {
     const note = this.cursors[author];
+
     note.setVisible(false);
     this.rerenderMeasure(note.measure);
     socket.sendCursorRemove();
@@ -70,6 +66,8 @@ class Cursors {
   }
 
   rerenderMeasure(measure) {
+    if (measure === undefined) return;
+
     this.measureViews[measure].rerender();
   }
 

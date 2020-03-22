@@ -1,7 +1,7 @@
 import axios from 'axios';
 import socket from './socket';
-import { playNote } from './audio';
 
+// TODO: Implement note model
 class Score {
   constructor() {
     this.score = {};
@@ -22,53 +22,44 @@ class Score {
     });
   }
 
-  remove(measure, tick, pitch) {
-    const currentMeasure = this.score[measure];
-    if (currentMeasure === undefined) return false;
+  remove(note) {
+    const { measure, start, pitch } = note;
+    const measureEntries = this.score[measure];
 
-    const noteArray = currentMeasure[tick];
-    if (noteArray === undefined) return false;
+    if (measureEntries === undefined || measureEntries[start] === undefined) {
+      return false; // No note to remove
+    }
 
-    for (let i = 0; i < noteArray.length; i += 1) {
-      const note = noteArray[i];
+    const notes = measureEntries[start];
 
-      if (pitch === note.pitch) {
-        if (noteArray.length === 1) {
-          delete currentMeasure[tick];
-
-          const isMeasureEmpty = Object.keys(currentMeasure).length === 0;
-
-          if (isMeasureEmpty) {
-            delete this.score[measure];
-          }
-        } else {
-          noteArray.splice(i, 1);
-        }
+    for (let i = 0; i < notes.length; i += 1) {
+      if (notes[i].pitch === pitch) {
+        notes.splice(i, 1);
         return true;
       }
     }
 
+    // TODO: Remove measure, start entry if necessary
+
     return false;
   }
 
-  add(measure, tick, pitch, duration) {
-    const currentMeasure = this.score[measure];
-    const entry = { pitch, duration };
+  add(note) {
+    const { measure, start } = note;
 
-    if (currentMeasure === undefined) {
-      this.score[measure] = { [tick]: [entry] };
-    } else {
-      const currentTick = currentMeasure[tick];
-
-      if (currentTick === undefined) {
-        this.score[measure][tick] = [entry];
-      } else {
-        currentTick.push(entry);
-      }
+    if (this.score[measure] === undefined) {
+      this.score[measure] = { [start]: [] };
     }
 
-    playNote(pitch);
-    socket.sendNoteCreate(pitch, tick);
+    if (this.score[measure][start] === undefined) {
+      this.score[measure][start] = [];
+    }
+
+    this.score[measure][start].push({ ...note });
+
+    // TODO: Note playback
+    // TODO: Send socket message
+    this.measureViews[measure].rerender();
   }
 
   registerMeasureView(measure, view) {
@@ -76,7 +67,7 @@ class Score {
   }
 
   getMeasure(measure) {
-    return this.score[measure];
+    return this.score[measure] || {};
   }
 }
 
