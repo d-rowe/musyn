@@ -1,6 +1,7 @@
 import { Flow } from 'vexflow';
 import vexNote from '../models/vexNotes';
-import scoreModel from '../../../models/score';
+import globalScore from '../../../models/score';
+import LocalScore from '../models/score';
 import cursors from '../../../models/cursors';
 
 class View {
@@ -28,7 +29,7 @@ class View {
     this.isLastBar = isLastBar;
     this.measure = measure;
 
-    scoreModel.registerMeasureView(measure, this);
+    globalScore.registerMeasureView(measure, this);
     cursors.registerMeasureView(measure, this);
   }
 
@@ -55,6 +56,8 @@ class View {
       beat_value: beatValue,
     });
 
+    const mScore = new LocalScore(this.measure);
+
     const measureCursors = cursors.getMeasure(this.measure);
 
     const tickables = [];
@@ -76,7 +79,8 @@ class View {
       }
     }
 
-    voice.addTickables(tickables);
+    voice.addTickables(mScore.vex());
+    console.log(mScore.vex());
 
     new Flow.Formatter().joinVoices([voice]).format([voice], 200);
 

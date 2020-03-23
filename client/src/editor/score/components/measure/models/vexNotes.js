@@ -40,7 +40,6 @@ const vexNote = ({
     note.setXShift(xShift);
   }
 
-
   if (color !== undefined) {
     note.setKeyStyle(colorKeyIndex, { fillStyle: color });
   }

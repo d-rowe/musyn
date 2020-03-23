@@ -20,7 +20,7 @@ class Cursors {
   commit() {
     const { local } = this.cursors;
 
-    score.add(local);
+    score.add({ ...local });
     this.hide('local');
   }
 

@@ -48,14 +48,12 @@ class Score {
     const { measure, start } = note;
 
     if (this.score[measure] === undefined) {
-      this.score[measure] = { [start]: [] };
+      this.score[measure] = { [start]: undefined };
+    } else {
+      this.score[measure][start] = undefined;
     }
 
-    if (this.score[measure][start] === undefined) {
-      this.score[measure][start] = [];
-    }
-
-    this.score[measure][start].push({ ...note });
+    this.score[measure][start] = { ...note };
 
     // TODO: Note playback
     // TODO: Send socket message
