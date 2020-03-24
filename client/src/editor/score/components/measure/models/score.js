@@ -1,42 +1,92 @@
 import globalScore from '../../../models/score';
-import vexNote from './vexNotes';
+import vexNote from './vexNote';
 
+// TODO: Implement cursors
 class Score {
   constructor(measure) {
     this.score = globalScore.getMeasure(measure);
+
+    this.getAvailableSpaces();
   }
 
-  vex() {
-    const vex = [];
+  build() {
+    const built = { ...this.score };
+
+    const addRests = (start, targetDuration) => {
+      if (targetDuration < 1) return;
+
+      const end = start + targetDuration;
+      const targetAvailable = this.isSpaceAvailable(start, end);
+
+      if (targetAvailable) {
+        built[start] = { rest: true, start, duration: targetDuration };
+      } else {
+        const nextTargetDuration = targetDuration / 2;
+
+        addRests(start, nextTargetDuration);
+        addRests(start + nextTargetDuration, nextTargetDuration);
+      }
+    };
+
+    addRests(0, 4096);
+
+    return built;
+  }
+
+  tickables() {
+    const vexEntries = [];
+    const built = this.build();
+    const startKeys = Object.keys(built)
+
+    startKeys.forEach((sKey) => {
+      const entry = built[sKey];
+
+      if (entry.rest) {
+        vexEntries.push(vexNote({ isRest: true, beatDuration: (entry.duration / 1024) }));
+      } else {
+        vexEntries.push(vexNote({ pitches: [entry.pitch], beatDuration: (entry.duration / 1024) }));
+      }
+    });
+
+    return vexEntries;
+  }
+
+  getAvailableSpaces() {
+    const space = [];
     const noteStarts = Object.keys(this.score);
     let prevEnd = 0;
 
+    const addSpace = (start, end) => {
+      if (end - start > 0) {
+        space.push([start, end]);
+      }
+    };
+
     noteStarts.forEach((startKey) => {
       const note = this.score[startKey];
-      const {
-        start,
-        end,
-        duration,
-        pitch,
-      } = note;
-      const leadingRestDuration = start - prevEnd;
+      const { start, end } = note;
 
-      if (leadingRestDuration > 0) {
-        vex.push(vexNote({ isRest: true, beatDuration: (leadingRestDuration / 1024) }));
-      }
-
-      vex.push(vexNote({ pitches: [pitch], beatDuration: (duration / 1024) }));
+      addSpace(prevEnd, start); // Space leading note
 
       prevEnd = end;
     });
 
-    const trailingRestDuration = 4096 - prevEnd;
+    addSpace(prevEnd, 4096); // Space trailing note
 
-    if (trailingRestDuration > 0) {
-      vex.push(vexNote({ isRest: true, beatDuration: (trailingRestDuration / 1024) }));
+    this.availableSpace = space;
+    return space;
+  }
+
+  isSpaceAvailable(start, end) {
+    for (let i = 0; i < this.availableSpace.length; i += 1) {
+      const [spaceStart, spaceEnd] = this.availableSpace[i];
+
+      if (start >= spaceStart && end <= spaceEnd) {
+        return true;
+      }
     }
 
-    return vex;
+    return false;
   }
 }
 
