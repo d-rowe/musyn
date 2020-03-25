@@ -36,15 +36,16 @@ class Score {
   tickables() {
     const vexEntries = [];
     const built = this.build();
-    const startKeys = Object.keys(built)
+    const startKeys = Object.keys(built);
 
     startKeys.forEach((sKey) => {
       const entry = built[sKey];
+      const { duration } = entry;
 
       if (entry.rest) {
-        vexEntries.push(vexNote({ isRest: true, beatDuration: (entry.duration / 1024) }));
+        vexEntries.push(vexNote({ isRest: true, duration }));
       } else {
-        vexEntries.push(vexNote({ pitches: [entry.pitch], beatDuration: (entry.duration / 1024) }));
+        vexEntries.push(vexNote({ key: entry.vexKey, duration }));
       }
     });
 

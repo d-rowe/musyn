@@ -1,31 +1,19 @@
 import { Flow } from 'vexflow';
-import { pitchesToVexKeys } from '../../../utils/notes';
 
 const vexNote = ({
   isRest = false,
-  beatDuration = 1,
-  pitches = ['B4'],
+  duration = 1024,
+  key = 'b/4',
   clef = 'treble',
   color,
   colorKeyIndex = 0,
 }) => {
-  const beatDurations = {
-    0.25: '16',
-    0.5: '8',
-    1: '4',
-    2: '2',
-    4: '1',
-  };
-
-  const beatDurationStr = beatDurations[beatDuration];
-  const duration = `${beatDurationStr}${isRest ? 'r' : 'n'}`;
-
-  const keys = pitchesToVexKeys(pitches);
+  const vexDuration = `${4096 / duration}${isRest ? 'r' : 'n'}`;
 
   const note = new Flow.StaveNote({
     clef,
-    keys,
-    duration,
+    keys: [key],
+    duration: vexDuration,
     auto_stem: true,
   });
 
@@ -34,7 +22,7 @@ const vexNote = ({
     '2r': 25,
   };
 
-  const xShift = xShifts[duration];
+  const xShift = xShifts[vexDuration];
 
   if (xShift !== undefined) {
     note.setXShift(xShift);
@@ -42,9 +30,6 @@ const vexNote = ({
 
   if (color !== undefined) {
     note.setKeyStyle(colorKeyIndex, { fillStyle: color });
-  }
-
-  if (keys.length === 1) {
     note.setStemStyle({ strokeStyle: color });
   }
 

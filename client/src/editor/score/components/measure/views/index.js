@@ -56,20 +56,20 @@ class View {
       beat_value: beatValue,
     });
 
-    
+
     const measureCursors = cursors.getMeasure(this.measure);
-    
+
     const tickables = [];
-    
+
     for (let start = 0; start < 4096; start += 1024) {
       const cursorsAtStart = [];
-      
+
       measureCursors.forEach((cursor) => {
         if (cursor.start === start) {
           cursorsAtStart.push(cursor);
         }
       });
-      
+
       if (cursorsAtStart.length === 0) {
         tickables.push(vexNote({ isRest: true, beatDuration: 1 }));
       } else {
@@ -77,7 +77,7 @@ class View {
         tickables.push(vexNote({ pitches: [pitch], beatDuration: duration / 1024, color }));
       }
     }
-    
+
     voice.addTickables(new LocalScore(this.measure).tickables());
 
     new Flow.Formatter().joinVoices([voice]).format([voice], 200);
