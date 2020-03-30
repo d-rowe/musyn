@@ -19,8 +19,9 @@ class Cursors {
 
   commit() {
     const { local } = this.cursors;
-
-    score.add({ ...local });
+    const note = { ...local };
+    note.color = undefined;
+    score.add(note);
     this.hide('local');
   }
 

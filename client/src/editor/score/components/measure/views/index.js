@@ -1,5 +1,4 @@
 import { Flow } from 'vexflow';
-import vexNote from '../models/vexNote';
 import globalScore from '../../../models/score';
 import LocalScore from '../models/score';
 import cursors from '../../../models/cursors';
@@ -49,36 +48,14 @@ class View {
     this.stave.setContext(this.context).draw();
   }
 
-  renderNotes() {
+  renderTickables() {
     const [numBeats, beatValue] = this.timeSig;
     const voice = new Flow.Voice({
       num_beats: numBeats,
       beat_value: beatValue,
     });
 
-
-    const measureCursors = cursors.getMeasure(this.measure);
-
-    const tickables = [];
-
-    for (let start = 0; start < 4096; start += 1024) {
-      const cursorsAtStart = [];
-
-      measureCursors.forEach((cursor) => {
-        if (cursor.start === start) {
-          cursorsAtStart.push(cursor);
-        }
-      });
-
-      if (cursorsAtStart.length === 0) {
-        tickables.push(vexNote({ isRest: true, beatDuration: 1 }));
-      } else {
-        const { color, pitch, duration } = cursorsAtStart[0];
-        tickables.push(vexNote({ pitches: [pitch], beatDuration: duration / 1024, color }));
-      }
-    }
-
-    voice.addTickables(new LocalScore(this.measure).tickables());
+    voice.addTickables(new LocalScore(this.measure).vex());
 
     new Flow.Formatter().joinVoices([voice]).format([voice], 200);
 
@@ -87,7 +64,7 @@ class View {
 
   render() {
     this.renderStave();
-    this.renderNotes();
+    this.renderTickables();
   }
 
   clear() {
