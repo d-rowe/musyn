@@ -1,5 +1,6 @@
 import axios from 'axios';
 import socket from './socket';
+import { playNote } from './audio';
 
 // TODO: Implement note model
 class Score {
@@ -45,7 +46,7 @@ class Score {
   }
 
   add(note) {
-    const { measure, start } = note;
+    const { measure, start, pitch } = note;
 
     if (this.score[measure] === undefined) {
       this.score[measure] = { [start]: undefined };
@@ -55,7 +56,7 @@ class Score {
 
     this.score[measure][start] = { ...note };
 
-    // TODO: Note playback
+    playNote(pitch);
     // TODO: Send socket message
     this.measureViews[measure].rerender();
   }
