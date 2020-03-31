@@ -30,6 +30,11 @@ class Cursors {
     const currDuration = duration === undefined ? note.duration : duration;
     const startQuantized = Math.floor(start / currDuration) * currDuration;
 
+    if (startQuantized >= 4096) {
+      this.hide('local');
+      return;
+    }
+
     if (note.measure === measure && note.start === startQuantized && note.pitch === pitch) {
       return;
     }
