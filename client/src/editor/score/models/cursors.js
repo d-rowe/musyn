@@ -30,7 +30,7 @@ class Cursors {
     const currDuration = duration === undefined ? note.duration : duration;
     const startQuantized = Math.floor(start / currDuration) * currDuration;
 
-    if (note.measure === measure && note.start === start && note.pitch === pitch) {
+    if (note.measure === measure && note.start === startQuantized && note.pitch === pitch) {
       return;
     }
 
