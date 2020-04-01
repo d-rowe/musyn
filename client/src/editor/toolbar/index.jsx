@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import NoteDurations from './noteDurations';
 import UndoButton from './buttons/undo';
 import PlayButton from './buttons/play';
 import Tempo from './tempo';
@@ -10,6 +11,7 @@ const Toolbar = () => (
     <CompositionLabel>
       Untitled composition
     </CompositionLabel>
+    <NoteDurations />
     <PlaybackWrapper>
       <Tempo />
       <PlayButton />

@@ -75,6 +75,10 @@ class Cursors {
     return `rgba(${color.join(', ')}, 0.8)`;
   }
 
+  setDuration(duration) {
+    this.cursors.local.duration = duration;
+  }
+
   rerenderMeasure(measure) {
     if (measure === undefined) return;
 

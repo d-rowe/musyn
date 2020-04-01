@@ -44,8 +44,8 @@ class Score {
       cursorSpaces.forEach((cursorSpace) => {
         const [cursorStart, cursorEnd] = cursorSpace;
 
-        const startOverlap = start >= cursorStart && start < cursorEnd;
-        const endOverlap = end > cursorStart && end < cursorEnd;
+        const startOverlap = start <= cursorStart && end > cursorEnd;
+        const endOverlap = end > cursorStart && end <= cursorEnd;
 
         if (!startOverlap && !endOverlap) {
           score[start] = note;

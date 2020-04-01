@@ -68,6 +68,10 @@ class Score {
   getMeasure(measure) {
     return this.score[measure] || {};
   }
+
+  getNotes() {
+    return this.score;
+  }
 }
 
 export default new Score();
