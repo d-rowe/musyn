@@ -1,5 +1,5 @@
 import axios from 'axios';
-import socket from './socket';
+import socket from '../controllers/socket';
 import { playNote } from './audio';
 
 // TODO: Implement note model
@@ -8,7 +8,7 @@ class Score {
     this.score = {};
     this.measureViews = {};
 
-    socket.on.update = () => this.update();
+    socket.on('update', () => this.update());
   }
 
   update() {

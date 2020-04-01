@@ -1,4 +1,4 @@
-import socket from './socket';
+import socket from '../controllers/socket';
 import score from './score';
 import Note from './note';
 
@@ -51,7 +51,7 @@ class Cursors {
 
     this.rerenderMeasure(measure);
 
-    socket.sendCursorUpdate(pitch, startQuantized);
+    socket.cursorUpdate(pitch, measure, startQuantized);
   }
 
   hide(author) {
@@ -59,7 +59,7 @@ class Cursors {
 
     note.setVisible(false);
     this.rerenderMeasure(note.measure);
-    socket.sendCursorRemove();
+    socket.cursorHide();
   }
 
   add(author) {

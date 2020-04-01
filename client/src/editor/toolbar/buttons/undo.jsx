@@ -2,7 +2,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Undo } from 'styled-icons/material/Undo';
-import socket from '../../score/models/socket';
+import socket from '../../score/controllers/socket';
 
 const UndoButton = () => (
   <Button
