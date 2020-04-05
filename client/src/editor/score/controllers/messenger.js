@@ -20,11 +20,11 @@ class Messenger {
     };
 
     this.socket.onmessage = ({ data }) => {
-      const { type, action, payload } = JSON.parse(data);
-      console.log(type, action, payload);
+      const message = JSON.parse(data);
+      console.log(message);
     };
 
-    setInterval(() => this.sendMessage('PING'), 10000);
+    setInterval(() => this.send('ping'), 10000);
   }
 
   addListener(eventName, callback) {
@@ -44,7 +44,7 @@ class Messenger {
     this.addListener('update', callback);
   }
 
-  sendMessage(type, action, payload) {
+  send(type, action, payload) {
     const message = { uuid, type };
 
     if (action) {
@@ -58,28 +58,30 @@ class Messenger {
     this.socket.send(JSON.stringify(message));
   }
 
-  cursorMove(pitch, measure, tick) {
-    this.sendMessage('cursor', 'move', { pitch, measure, tick });
+  cursorMove(pitch, measure, tick, duration) {
+    this.send('cursor', 'move', {
+      pitch, measure, tick, duration,
+    });
   }
 
   cursorHide() {
-    this.sendMessage('cursor', 'hide');
+    this.send('cursor', 'hide');
   }
 
   noteCreate(pitch, measure, tick) {
-    this.sendMessage('note', 'create', { pitch, measure, tick });
+    this.send('note', 'create', { pitch, measure, tick });
   }
 
   noteDelete(pitch, measure, tick) {
-    this.sendMessage('note', 'delete', { pitch, measure, tick });
+    this.send('note', 'delete', { pitch, measure, tick });
   }
 
   update() {
-    this.sendMessage('update');
+    this.send('update');
   }
 
   register() {
-    this.sendMessage('register');
+    this.send('register');
   }
 }
 
