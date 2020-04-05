@@ -7,8 +7,10 @@ const server = require('http').Server(app);
 const path = require('path');
 const score = require('./models/score');
 const socket = require('./controllers/sockets');
+const Messenger = require('./controllers/messenger');
 
-socket.init(server);
+// socket.init(server);
+const messenger = new Messenger(server);
 
 const PORT = process.env.PORT || 3000;
 const PUBLIC_DIR = path.resolve(__dirname, '..', 'client', 'public');
