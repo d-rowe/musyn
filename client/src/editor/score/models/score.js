@@ -1,5 +1,5 @@
 import axios from 'axios';
-import socket from '../controllers/socket';
+import messenger from '../controllers/messenger';
 import { playNote } from './audio';
 
 // TODO: Implement note model
@@ -8,7 +8,7 @@ class Score {
     this.score = {};
     this.measureViews = {};
 
-    socket.on('update', () => this.update());
+    messenger.onUpdate(() => this.update());
   }
 
   update() {
@@ -24,7 +24,7 @@ class Score {
   }
 
   remove(note) {
-    const { measure, start, pitch } = note;
+    const { pitch, measure, start } = note;
     const measureEntries = this.score[measure];
 
     if (measureEntries === undefined || measureEntries[start] === undefined) {
@@ -36,6 +36,8 @@ class Score {
     for (let i = 0; i < notes.length; i += 1) {
       if (notes[i].pitch === pitch) {
         notes.splice(i, 1);
+
+        messenger.noteDelete(pitch, measure, start);
         return true;
       }
     }
@@ -46,7 +48,7 @@ class Score {
   }
 
   add(note) {
-    const { measure, start, pitch } = note;
+    const { pitch, measure, start } = note;
 
     if (this.score[measure] === undefined) {
       this.score[measure] = { [start]: undefined };
@@ -57,7 +59,7 @@ class Score {
     this.score[measure][start] = { ...note };
 
     playNote(pitch);
-    // TODO: Send socket message
+    messenger.noteCreate(pitch, measure, start);
     this.measureViews[measure].rerender();
   }
 

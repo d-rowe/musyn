@@ -1,4 +1,4 @@
-import socket from '../controllers/socket';
+import messenger from '../controllers/messenger';
 import score from './score';
 import Note from './note';
 
@@ -51,15 +51,17 @@ class Cursors {
 
     this.rerenderMeasure(measure);
 
-    socket.cursorUpdate(pitch, measure, startQuantized);
+    messenger.cursorMove(pitch, measure, startQuantized);
   }
 
   hide(author) {
     const note = this.cursors[author];
 
+    if (!note.visible) return;
+
     note.setVisible(false);
     this.rerenderMeasure(note.measure);
-    socket.cursorHide();
+    messenger.cursorHide();
   }
 
   add(author) {

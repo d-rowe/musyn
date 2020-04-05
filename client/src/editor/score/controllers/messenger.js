@@ -2,10 +2,10 @@
 import uuid from '../utils/uuid';
 
 
-class Socket {
+class Messenger {
   constructor() {
     this.listeners = {
-      cursorUpdate: [],
+      cursorMove: [],
       cursorHide: [],
       noteCreate: [],
       noteRemove: [],
@@ -19,35 +19,33 @@ class Socket {
       this.register();
     };
 
-    this.socket.onmessage = ({ dataStr }) => {
-      const { type, action, payload } = JSON.parse(dataStr);
-      this.handleEvent(type, action, payload);
+    this.socket.onmessage = ({ data }) => {
+      const { type, action, payload } = JSON.parse(data);
+      console.log(type, action, payload);
     };
 
     setInterval(() => this.sendMessage('PING'), 10000);
   }
 
-  handleEvent(type, action, payload) {
-    const handlers = this.listeners[type];
-
-    if (handlers !== undefined) {
-      handlers.forEach((callback) => {
-        callback(...payload);
-      });
-    }
-  }
-
-  on(event, callback) {
-    if (this.listeners[event] === undefined) {
-      console.warn(`Unknown socket event: ${event}`);
+  addListener(eventName, callback) {
+    if (this.listeners[eventName] === undefined) {
+      console.warn(`Unknown socket event: ${eventName}`);
       return;
     }
 
-    this.listeners[event].push(callback);
+    this.listeners[eventName].push(callback);
+  }
+
+  onCursorMove(callback) {
+    this.addListener('cursorMove', callback);
+  }
+
+  onUpdate(callback) {
+    this.addListener('update', callback);
   }
 
   sendMessage(type, action, payload) {
-    const message = { type, uuid };
+    const message = { uuid, type };
 
     if (action) {
       message.action = action;
@@ -60,8 +58,8 @@ class Socket {
     this.socket.send(JSON.stringify(message));
   }
 
-  cursorUpdate(pitch, measure, tick) {
-    this.sendMessage('cursor', 'update', { pitch, measure, tick });
+  cursorMove(pitch, measure, tick) {
+    this.sendMessage('cursor', 'move', { pitch, measure, tick });
   }
 
   cursorHide() {
@@ -76,9 +74,13 @@ class Socket {
     this.sendMessage('note', 'delete', { pitch, measure, tick });
   }
 
+  update() {
+    this.sendMessage('update');
+  }
+
   register() {
     this.sendMessage('register');
   }
 }
 
-export default new Socket();
+export default new Messenger();

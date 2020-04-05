@@ -2,12 +2,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Undo } from 'styled-icons/material/Undo';
-import socket from '../../score/controllers/socket';
+import messenger from '../../score/controllers/messenger';
 
 const UndoButton = () => (
   <Button
     className="button is-dark"
-    onClick={() => socket.sendUndo()}
+    onClick={() => messenger.sendUndo()}
   >
     <Undo size="1.4em" />
   </Button>
