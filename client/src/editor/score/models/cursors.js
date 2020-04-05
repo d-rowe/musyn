@@ -51,7 +51,7 @@ class Cursors {
 
     this.rerenderMeasure(measure);
 
-    messenger.cursorMove(pitch, measure, startQuantized);
+    messenger.cursorMove(pitch, measure, startQuantized, note.duration);
   }
 
   hide(author) {
