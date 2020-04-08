@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
 require('dotenv').config();
 const express = require('express');
@@ -6,10 +7,8 @@ const app = express();
 const server = require('http').Server(app);
 const path = require('path');
 const score = require('./models/score');
-const socket = require('./controllers/sockets');
 const Messenger = require('./controllers/messenger');
 
-// socket.init(server);
 const messenger = new Messenger(server);
 
 const PORT = process.env.PORT || 3000;

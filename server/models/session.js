@@ -1,34 +1,35 @@
-const users = {};
+class Session {
+  constructor() {
+    this.users = {};
+  }
 
-const addUser = (uuid, connection) => {
-  users[uuid] = { connection };
-};
+  addUser(uuid, ws) {
+    this.users[uuid] = ws;
+  }
 
-const removeUser = (uuid) => {
-  delete users[uuid];
-};
-
-const authorMessage = (authorUUID, msg) => {
-  const uuids = Object.keys(users);
-
-  uuids.forEach((uuid) => {
-    if (uuid !== authorUUID) {
-      users[uuid].connection.send(msg);
+  removeUser(uuid) {
+    if (this.users[uuid] !== undefined) {
+      delete this.users[uuid];
     }
-  });
-};
+  }
 
-const notifyUpdate = () => {
-  const uuids = Object.keys(users);
+  send(message) {
+    const uuids = Object.keys(this.users);
 
-  uuids.forEach((uuid) => {
-    users[uuid].connection.send('update');
-  });
-};
+    uuids.forEach((uuid) => {
+      if (uuid !== message.uuid) {
+        this.users[uuid].connection.send(message);
+      }
+    });
+  }
 
-module.exports = {
-  addUser,
-  removeUser,
-  authorMessage,
-  notifyUpdate,
-};
+  update() {
+    const uuids = Object.keys(this.users);
+
+    uuids.forEach((uuid) => {
+      this.users[uuid].connection.send('update');
+    });
+  }
+}
+
+module.exports = new Session();

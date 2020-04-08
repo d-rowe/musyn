@@ -11,34 +11,48 @@ class Messenger {
 
     this.wss.on('connection', (ws) => {
       console.log('Client connected to websocket server');
-      ws.on('message', (message) => this.parse(message, ws));
+      ws.on('message', (message) => this.messageHandler(message, ws));
     });
   }
 
-  parse(messageString, ws) {
+  messageHandler(messageString, ws) {
     const message = JSON.parse(messageString);
     const { type } = message;
 
     if (type === 'cursor') {
-      this.cursorHandler(message);
+      session.send(message);
       return;
     }
 
     if (type === 'note') {
       this.noteHandler(message);
+      return;
+    }
+
+    if (type === 'update') {
+      session.update();
+      return;
     }
 
     if (type === 'ping') {
       this.send(ws, 'pong');
+      return;
+    }
+
+    if (type === 'register') {
+      session.addUser(message.uuid, ws);
     }
   }
 
-  cursorHandler(message) {
-    console.log(message);
-  }
-
   noteHandler(message) {
+    if (message.action === 'create') {
+      score.createNote(message);
+      return;
+    }
 
+    if (message.action === 'delete') {
+      score.deleteNote(message);
+    }
   }
 
   send(ws, type, action, payload) {
