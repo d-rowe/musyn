@@ -13,15 +13,7 @@ const deleteNote = async (uuid, pitch, measure, tick) => {
 };
 
 const undo = async () => {
-  const query = `
-  DELETE FROM score WHERE id in (
-    SELECT id
-    FROM score
-    ORDER BY id desc
-    LIMIT 1
-  )
-  `;
-  await db.query(query);
+  await db.deleteLast();
 };
 
 const getEditHistory = async () => {
@@ -31,8 +23,8 @@ const getEditHistory = async () => {
 };
 
 const get = async () => {
-  const entries = await getEditHistory();
-  return buildScore(entries);
+  const editHistory = await getEditHistory();
+  return buildScore(editHistory);
 };
 
 module.exports = {

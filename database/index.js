@@ -17,13 +17,27 @@ const query = async (queryStr, values) => {
 const insert = async (uuid, action, pitch, measure, tick) => {
   const queryString = `
     INSERT INTO score(uuid, action, pitch, measure, tick)
-    VALUES($1, $2, $3, $4)
+    VALUES($1, $2, $3, $4, $5)
   `;
 
   await query(queryString, [uuid, action, pitch, measure, tick]);
 };
 
+const deleteLast = async () => {
+  const queryString = `
+  DELETE FROM score WHERE id in (
+    SELECT id
+    FROM score
+    ORDER BY id desc
+    LIMIT 1
+  )
+  `;
+
+  query(queryString);
+};
+
 module.exports = {
   query,
   insert,
+  deleteLast,
 };
