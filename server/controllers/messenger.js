@@ -45,13 +45,15 @@ class Messenger {
   }
 
   noteHandler(message) {
+    const { uuid, payload: { pitch, measure, tick } } = message;
+
     if (message.action === 'create') {
-      score.createNote(message);
+      score.createNote(uuid, pitch, measure, tick);
       return;
     }
 
     if (message.action === 'delete') {
-      score.deleteNote(message);
+      score.deleteNote(uuid, pitch, measure, tick);
     }
   }
 
