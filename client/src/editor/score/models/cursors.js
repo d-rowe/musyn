@@ -15,6 +15,21 @@ class Cursors {
 
     this.add('local');
     this.add('remote');
+
+    messenger.onCursorMove((message) => {
+      const { payload } = message;
+      const {
+        pitch,
+        measure,
+        tick,
+        duration,
+      } = payload;
+      this.update('remote', pitch, measure, tick, duration);
+    });
+
+    messenger.onCursorHide(() => {
+      this.hide('remote');
+    });
   }
 
   commit() {
@@ -51,7 +66,9 @@ class Cursors {
 
     this.rerenderMeasure(measure);
 
-    messenger.cursorMove(pitch, measure, startQuantized, note.duration);
+    if (author === 'local') {
+      messenger.cursorMove(pitch, measure, startQuantized, note.duration);
+    }
   }
 
   hide(author) {
@@ -61,7 +78,10 @@ class Cursors {
 
     note.setVisible(false);
     this.rerenderMeasure(note.measure);
-    messenger.cursorHide();
+
+    if (author === 'local') {
+      messenger.cursorHide();
+    }
   }
 
   add(author) {

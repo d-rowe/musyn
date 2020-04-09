@@ -21,23 +21,68 @@ class Messenger {
 
     this.socket.onmessage = ({ data }) => {
       const message = JSON.parse(data);
-      console.log(message);
+      this.messageHandler(message);
     };
 
     setInterval(() => this.send('ping'), 10000);
   }
 
-  addListener(eventName, callback) {
-    if (this.listeners[eventName] === undefined) {
-      console.warn(`Unknown socket event: ${eventName}`);
+  messageHandler(message) {
+    const { type, action } = message;
+
+    if (type === 'cursor') {
+      if (action === 'move') {
+        this.invokeListenener('cursorMove', message);
+        return;
+      }
+
+      if (action === 'hide') {
+        this.invokeListenener('cursorHide', message);
+        return;
+      }
+    }
+
+    if (type === 'note') {
+      if (action === 'create') {
+        this.invokeListenener('noteCreate', message);
+        return;
+      }
+
+      if (action === 'delete') {
+        this.invokeListenener('noteDelete', message);
+        return;
+      }
+    }
+
+    if (type === 'update') {
+      this.invokeListenener('update', message);
+    }
+  }
+
+  invokeListenener(listenerName, message) {
+    const listener = this.listeners[listenerName];
+    if (listener === undefined) return;
+
+    listener.forEach((callback) => {
+      callback(message);
+    });
+  }
+
+  addListener(listenerName, callback) {
+    if (this.listeners[listenerName] === undefined) {
+      console.warn(`Unknown socket listener: ${listenerName}`);
       return;
     }
 
-    this.listeners[eventName].push(callback);
+    this.listeners[listenerName].push(callback);
   }
 
   onCursorMove(callback) {
     this.addListener('cursorMove', callback);
+  }
+
+  onCursorHide(callback) {
+    this.addListener('cursorHide', callback);
   }
 
   onUpdate(callback) {

@@ -2,7 +2,7 @@ import axios from 'axios';
 import messenger from '../controllers/messenger';
 import { playNote } from './audio';
 
-// TODO: Implement note model
+
 class Score {
   constructor() {
     this.score = {};

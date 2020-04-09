@@ -18,17 +18,14 @@ class Session {
 
     uuids.forEach((uuid) => {
       if (uuid !== message.uuid) {
-        this.users[uuid].connection.send(message);
+        const messageString = JSON.stringify(message);
+        this.users[uuid].send(messageString);
       }
     });
   }
 
   update() {
-    const uuids = Object.keys(this.users);
-
-    uuids.forEach((uuid) => {
-      this.users[uuid].connection.send('update');
-    });
+    this.send({ type: 'update' });
   }
 }
 
