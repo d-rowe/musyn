@@ -17,13 +17,15 @@ class Cursors {
     this.add('remote');
 
     messenger.onCursorMove((message) => {
-      const { payload } = message;
       const {
-        pitch,
-        measure,
-        tick,
-        duration,
-      } = payload;
+        payload: {
+          pitch,
+          measure,
+          tick,
+          duration,
+        },
+      } = message;
+
       this.update('remote', pitch, measure, tick, duration);
     });
 
