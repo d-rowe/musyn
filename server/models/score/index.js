@@ -1,21 +1,15 @@
 const db = require('../../../database');
 const buildScore = require('./build');
 
-const queryTemplate = `
-INSERT INTO score(uuid, action, notename, beat)
-VALUES($1, $2, $3, $4)
-`;
 
-const createNote = async ({ uuid, notename, beatIndex }) => {
+const createNote = async (uuid, pitch, measure, tick) => {
   const action = 'create';
-  const values = [uuid, action, notename, beatIndex];
-  await db.query(queryTemplate, values);
+  await db.insert(uuid, action, pitch, measure, tick);
 };
 
-const deleteNote = async ({ uuid, notename, beatIndex }) => {
+const deleteNote = async (uuid, pitch, measure, tick) => {
   const action = 'delete';
-  const values = [uuid, action, notename, beatIndex];
-  await db.query(queryTemplate, values);
+  await db.insert(uuid, action, pitch, measure, tick);
 };
 
 const undo = async () => {
