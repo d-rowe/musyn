@@ -48,7 +48,12 @@ class Score {
   }
 
   add(note) {
-    const { pitch, measure, start } = note;
+    const {
+      pitch,
+      measure,
+      start,
+      duration,
+    } = note;
 
     if (this.score[measure] === undefined) {
       this.score[measure] = { [start]: undefined };
@@ -59,7 +64,7 @@ class Score {
     this.score[measure][start] = { ...note };
 
     playNote(pitch);
-    messenger.noteCreate(pitch, measure, start);
+    messenger.noteCreate(pitch, measure, start, duration);
     this.measureViews[measure].rerender();
   }
 

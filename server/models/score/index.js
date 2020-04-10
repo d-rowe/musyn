@@ -2,9 +2,9 @@ const db = require('../../../database');
 const buildScore = require('./build');
 
 
-const createNote = async (uuid, pitch, measure, tick) => {
+const createNote = async (uuid, pitch, measure, tick, duration) => {
   const action = 'create';
-  await db.insert(uuid, action, pitch, measure, tick);
+  await db.insert(uuid, action, pitch, measure, tick, duration);
 };
 
 const deleteNote = async (uuid, pitch, measure, tick) => {

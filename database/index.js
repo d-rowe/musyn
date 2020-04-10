@@ -14,13 +14,13 @@ const query = async (queryStr, values) => {
   return result.rows;
 };
 
-const insert = async (uuid, action, pitch, measure, tick) => {
+const insert = async (uuid, action, pitch, measure, tick, duration) => {
   const queryString = `
-    INSERT INTO score(uuid, action, pitch, measure, tick)
-    VALUES($1, $2, $3, $4, $5)
+    INSERT INTO score(uuid, action, pitch, measure, tick, duration)
+    VALUES($1, $2, $3, $4, $5, $6)
   `;
 
-  await query(queryString, [uuid, action, pitch, measure, tick]);
+  await query(queryString, [uuid, action, pitch, measure, tick, duration]);
 };
 
 const deleteLast = async () => {

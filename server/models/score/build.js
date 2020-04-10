@@ -2,26 +2,32 @@ module.exports = (editHistory) => {
   const score = {};
 
   editHistory.forEach((edit) => {
-    const { action, notename, beat } = edit;
+    const {
+      action,
+      pitch,
+      measure,
+      tick,
+      duration,
+    } = edit;
 
-    const beatEntry = score[beat];
-
-    if (beatEntry === undefined) {
-      if (action === 'create') {
-        score[beat] = [notename];
+    if (action === 'create') {
+      if (score[measure] === undefined) {
+        score[measure] = { [tick]: { pitch, duration } };
+        return;
       }
-    } else {
-      const noteIndex = beatEntry.indexOf(notename);
 
-      if (noteIndex === -1) {
-        if (action === 'create') {
-          score[beat].push(notename);
-        }
-      } else if (action === 'delete') {
-        score[beat].splice(noteIndex, 1);
-        if (score[beat].length === 0) {
-          delete score[beat];
-        }
+      score[measure][tick] = { pitch, duration };
+    }
+
+    if (action === 'delete') {
+      if (score[measure] === undefined) return;
+
+      if (score[measure][tick] === undefined) return;
+
+      delete score[measure][tick];
+
+      if (score[measure] === undefined) {
+        delete score[measure];
       }
     }
   });

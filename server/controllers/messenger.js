@@ -45,10 +45,18 @@ class Messenger {
   }
 
   noteHandler(message) {
-    const { uuid, payload: { pitch, measure, tick } } = message;
+    const {
+      uuid,
+      payload: {
+        pitch,
+        measure,
+        tick,
+        duration,
+      },
+    } = message;
 
     if (message.action === 'create') {
-      score.createNote(uuid, pitch, measure, tick);
+      score.createNote(uuid, pitch, measure, tick, duration);
       return;
     }
 

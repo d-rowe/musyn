@@ -113,8 +113,13 @@ class Messenger {
     this.send('cursor', 'hide');
   }
 
-  noteCreate(pitch, measure, tick) {
-    this.send('note', 'create', { pitch, measure, tick });
+  noteCreate(pitch, measure, tick, duration) {
+    this.send('note', 'create', {
+      pitch,
+      measure,
+      tick,
+      duration,
+    });
   }
 
   noteDelete(pitch, measure, tick) {
