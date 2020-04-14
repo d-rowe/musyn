@@ -1,6 +1,6 @@
 import messenger from '../controllers/messenger';
 import score from './score';
-import Note from './note';
+import Note from '../../../../../lib/note';
 
 class Cursors {
   constructor() {
@@ -40,6 +40,7 @@ class Cursors {
     note.color = undefined;
     score.add(note);
     this.hide('local');
+    messenger.update();
   }
 
   update(author, pitch, measure, start, duration) {
