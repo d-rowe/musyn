@@ -6,6 +6,6 @@ CREATE TABLE score (
   action varchar(10) NOT NULL,
   pitch varchar(3) NOT NULL,
   measure numeric(3, 0) NOT NULL,
-  tick numeric(4, 0) NOT NULL,
+  start numeric(4, 0) NOT NULL,
   duration numeric(4, 0)
 );

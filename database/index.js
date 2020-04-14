@@ -1,6 +1,5 @@
 const { Pool } = require('pg');
 
-
 const pool = new Pool({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
@@ -14,13 +13,13 @@ const query = async (queryStr, values) => {
   return result.rows;
 };
 
-const insert = async (uuid, action, pitch, measure, tick, duration) => {
+const insert = async (uuid, action, pitch, measure, start, duration) => {
   const queryString = `
-    INSERT INTO score(uuid, action, pitch, measure, tick, duration)
+    INSERT INTO score(uuid, action, pitch, measure, start, duration)
     VALUES($1, $2, $3, $4, $5, $6)
   `;
 
-  await query(queryString, [uuid, action, pitch, measure, tick, duration]);
+  await query(queryString, [uuid, action, pitch, measure, start, duration]);
 };
 
 const deleteLast = async () => {

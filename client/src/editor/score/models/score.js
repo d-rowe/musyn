@@ -1,5 +1,6 @@
 import axios from 'axios';
 import messenger from '../controllers/messenger';
+import Note from '../../../../../lib/note';
 import { playNote } from './audio';
 
 
@@ -8,6 +9,7 @@ class Score {
     this.score = {};
     this.measureViews = {};
 
+    this.update();
     messenger.onUpdate(() => this.update());
   }
 
@@ -15,11 +17,36 @@ class Score {
     return new Promise((resolve, reject) => {
       axios.get('/api/score')
         .then((response) => response.data)
-        .then((scoreDat) => {
-          this.score = scoreDat;
+        .then((editHistory) => {
+          this.score = editHistory;
+          this.rerender();
           resolve();
         })
         .catch((err) => reject(err));
+    });
+  }
+
+  import(editHistory) {
+    this.score = {};
+
+    editHistory.forEach((edit) => {
+      const {
+        pitch,
+        measure,
+        start,
+        duration,
+        uuid,
+      } = edit;
+
+      const note = new Note({
+        pitch,
+        start,
+        duration,
+        measure,
+        author: uuid,
+      });
+
+      this.add(note);
     });
   }
 
@@ -70,6 +97,14 @@ class Score {
 
   registerMeasureView(measure, view) {
     this.measureViews[measure] = view;
+  }
+
+  rerender() {
+    const measureIndexes = Object.keys(this.measureViews);
+
+    measureIndexes.forEach((index) => {
+      this.measureViews[index].rerender();
+    });
   }
 
   getMeasure(measure) {
