@@ -31,6 +31,7 @@ const vexNote = ({
   if (color !== undefined) {
     note.setKeyStyle(colorKeyIndex, { fillStyle: color });
     note.setStemStyle({ strokeStyle: color });
+    note.setFlagStyle({ strokeStyle: color, fillStyle: color });
   }
 
   return note;
