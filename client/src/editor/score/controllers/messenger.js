@@ -32,34 +32,34 @@ class Messenger {
 
     if (type === 'cursor') {
       if (action === 'move') {
-        this.invokeListenener('cursorMove', message);
+        this.invokeListener('cursorMove', message);
         return;
       }
 
       if (action === 'hide') {
-        this.invokeListenener('cursorHide', message);
+        this.invokeListener('cursorHide', message);
         return;
       }
     }
 
     if (type === 'note') {
       if (action === 'create') {
-        this.invokeListenener('noteCreate', message);
+        this.invokeListener('noteCreate', message);
         return;
       }
 
       if (action === 'delete') {
-        this.invokeListenener('noteDelete', message);
+        this.invokeListener('noteDelete', message);
         return;
       }
     }
 
     if (type === 'update') {
-      this.invokeListenener('update', message);
+      this.invokeListener('update', message);
     }
   }
 
-  invokeListenener(listenerName, message) {
+  invokeListener(listenerName, message) {
     const listener = this.listeners[listenerName];
     if (listener === undefined) return;
 
