@@ -126,6 +126,10 @@ class Messenger {
     this.send('note', 'delete', { pitch, measure, tick });
   }
 
+  undo() {
+    this.send('undo');
+  }
+
   update() {
     this.send('update');
   }

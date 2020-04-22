@@ -23,7 +23,7 @@ const insert = async (uuid, action, pitch, measure, start, duration) => {
   await query(queryString, [uuid, action, pitch, measure, start, duration]);
 };
 
-const deleteLast = async () => {
+const undo = async () => {
   const queryString = `
   DELETE FROM score WHERE id in (
     SELECT id
@@ -39,5 +39,5 @@ const deleteLast = async () => {
 module.exports = {
   query,
   insert,
-  deleteLast,
+  undo,
 };
