@@ -17,7 +17,7 @@ const undo = async () => {
 };
 
 const getEditHistory = async () => {
-  const query = 'SELECT * FROM score';
+  const query = 'SELECT * FROM edits';
   const result = await db.query(query);
   return result;
 };

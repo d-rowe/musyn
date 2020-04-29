@@ -16,7 +16,7 @@ const query = async (queryStr, values) => {
 
 const insert = async (uuid, action, pitch, measure, start, duration) => {
   const queryString = `
-    INSERT INTO score(uuid, action, pitch, measure, start, duration)
+    INSERT INTO edits(uuid, action, pitch, measure, start, duration)
     VALUES($1, $2, $3, $4, $5, $6)
   `;
 
@@ -25,7 +25,7 @@ const insert = async (uuid, action, pitch, measure, start, duration) => {
 
 const undo = async () => {
   const queryString = `
-  DELETE FROM score WHERE id in (
+  DELETE FROM edits WHERE id in (
     SELECT id
     FROM score
     ORDER BY id desc
