@@ -3,7 +3,7 @@
 const Websocket = require('ws');
 const score = require('../models/score');
 const session = require('../models/session');
-const { undo } = require('../../database');
+const { undo } = require('../models/score/edits');
 
 class Messenger {
   constructor(server) {
