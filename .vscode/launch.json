@@ -5,6 +5,16 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch Server",
+      "program": "${workspaceFolder}/server/index.js",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "runtimeExecutable": "/home/daniel/.nvm/versions/node/v12.16.1/bin/node"
+    },
+    {
       "name": "Launch localhost",
       "type": "firefox",
       "request": "launch",
