@@ -1,9 +1,9 @@
 /* eslint-disable class-methods-use-this */
 /* eslint-disable no-console */
 const Websocket = require('ws');
-const score = require('../models/score');
-const session = require('../models/session');
-const { undo } = require('../models/score/edits');
+const score = require('../score');
+const session = require('../../models/session');
+const { undo } = require('../score/edits');
 
 class Messenger {
   constructor(server) {

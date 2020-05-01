@@ -20,7 +20,7 @@ const insert = async (uuid, action, pitch, measure, start, duration) => {
     VALUES($1, $2, $3, $4, $5, $6)
   `;
 
-  await query(queryString, [uuid, action, pitch, measure, start, duration]);
+  return query(queryString, [uuid, action, pitch, measure, start, duration]);
 };
 
 const undo = async () => {

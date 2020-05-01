@@ -1,18 +1,14 @@
 /* eslint-disable class-methods-use-this */
-const db = require('../../../database');
+const db = require('../../../../database');
 
 class Edits {
-  add(uuid, pitch, measure, start, duration) {
+  register(uuid, action, pitch, measure, start, duration) {
     const queryString = `
       INSERT INTO edits(uuid, action, pitch, measure, start, duration)
       VALUES($1, $2, $3, $4, $5, $6)
     `;
 
-    return new Promise((resolve, reject) => {
-      db.query(queryString, [uuid, 'create', pitch, measure, start, duration])
-        .then(resolve)
-        .catch(reject);
-    });
+    return db.query(queryString, [uuid, action, pitch, measure, start, duration]);
   }
 
   undo() {
@@ -25,11 +21,12 @@ class Edits {
       );
     `;
 
-    return new Promise((resolve, reject) => {
-      db.query(queryString)
-        .then(resolve)
-        .catch(reject);
-    });
+    return db.query(queryString);
+  }
+
+
+  get() {
+    return db.query('SELECT * FROM edits');
   }
 }
 
