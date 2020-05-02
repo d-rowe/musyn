@@ -1,30 +1,27 @@
 const edits = require('./edits');
-const buildScore = require('./build');
+const cache = require('./cache');
 
 
 class Score {
-  static createNote(uuid, pitch, measure, tick, duration) {
+  static async createNote(uuid, pitch, measure, tick, duration) {
     const action = 'create';
-    return edits.register(uuid, action, pitch, measure, tick, duration);
+    await edits.register(uuid, action, pitch, measure, tick, duration);
+    await cache.update();
   }
 
-  static deleteNote(uuid, pitch, measure, tick) {
+  static async deleteNote(uuid, pitch, measure, tick) {
     const action = 'delete';
-    return edits.register(uuid, action, pitch, measure, tick);
+    await edits.register(uuid, action, pitch, measure, tick);
+    await cache.update();
   }
 
   static undo() {
-    return edits.undo();
+    return Promise.all([edits.undo(), cache.undo()]);
   }
 
   static get() {
-    return new Promise((resolve, reject) => {
-      edits.get()
-        .then((editHistory) => {
-          resolve(buildScore(editHistory));
-        })
-        .catch(reject);
-    });
+    return cache.get()
+      .then((result) => result.score);
   }
 }
 

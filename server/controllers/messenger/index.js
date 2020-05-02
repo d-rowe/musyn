@@ -3,7 +3,6 @@
 const Websocket = require('ws');
 const score = require('../score');
 const session = require('../../models/session');
-const { undo } = require('../score/edits');
 
 class Messenger {
   constructor(server) {
@@ -35,7 +34,7 @@ class Messenger {
     }
 
     if (type === 'undo') {
-      undo();
+      score.undo();
       session.update();
     }
 

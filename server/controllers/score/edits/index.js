@@ -15,7 +15,7 @@ class Edits {
       DELETE FROM edits WHERE id in (
         SELECT id
         FROM edits
-        ORDER BY id desc
+        ORDER BY id DESC
         LIMIT 1
       );
     `;
@@ -23,8 +23,22 @@ class Edits {
     return db.query(queryString);
   }
 
-  static get() {
-    return db.query('SELECT * FROM edits;');
+  static async getFrom(startId) {
+    const queryString = `
+      SELECT * FROM edits WHERE id >= $1;
+    `;
+
+    const results = await db.query(queryString, [startId]);
+    return results;
+  }
+
+  static async getAll() {
+    const queryString = `
+      SELECT * FROM edits;
+    `;
+
+    const editHistory = await db.query(queryString);
+    return editHistory;
   }
 
   static getLastId() {
