@@ -14,30 +14,4 @@ const query = async (queryStr, values) => {
   return result.rows;
 };
 
-const insert = async (uuid, action, pitch, measure, start, duration) => {
-  const queryString = `
-    INSERT INTO edits(uuid, action, pitch, measure, start, duration)
-    VALUES($1, $2, $3, $4, $5, $6)
-  `;
-
-  return query(queryString, [uuid, action, pitch, measure, start, duration]);
-};
-
-const undo = async () => {
-  const queryString = `
-  DELETE FROM edits WHERE id in (
-    SELECT id
-    FROM score
-    ORDER BY id desc
-    LIMIT 1
-  )
-  `;
-
-  query(queryString);
-};
-
-module.exports = {
-  query,
-  insert,
-  undo,
-};
+module.exports = { query };
