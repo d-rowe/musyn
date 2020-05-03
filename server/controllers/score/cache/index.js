@@ -1,6 +1,6 @@
 const db = require('../../../../database');
 const edits = require('../edits');
-const { compileEdits } = require('./compile');
+const compileEdits = require('./compile');
 
 class Cache {
   static get() {
@@ -34,8 +34,8 @@ class Cache {
     const buildEdits = await edits.getFrom(lastCompiled.editId + 1);
 
     const queryString = `
-    INSERT INTO scores(edit_id, data)
-    VALUES ($1, $2);
+      INSERT INTO scores(edit_id, data)
+      VALUES ($1, $2);
     `;
 
     const { editId, score } = compileEdits(lastCompiled.score, buildEdits);

@@ -1,59 +1,87 @@
 const Note = require('../../../../lib/note');
 
 
-// TODO: Handle overwrites
-class CacheCompile {
-  static compileEdits(currentScore, edits) {
-    const score = { ...currentScore };
-    let lastEditId;
+const compileEdits = (currentScore, edits) => {
+  const score = { ...currentScore };
+  let lastEditId;
 
-    edits.forEach((edit) => {
-      lastEditId = edit.id;
-      const {
-        action,
+  edits.forEach((edit) => {
+
+    lastEditId = edit.id;
+    const {
+      action,
+      pitch,
+      measure,
+      start,
+      duration,
+      uuid,
+    } = edit;
+
+    if (action === 'create') {
+      const startInt = parseInt(start, 10);
+      const measureInt = parseInt(measure, 10);
+      const durationInt = parseInt(duration, 10);
+
+      const note = new Note({
         pitch,
-        measure,
-        start,
-        duration,
-        uuid,
-      } = edit;
+        start: startInt,
+        measure: measureInt,
+        duration: durationInt,
+        author: uuid,
+      });
 
-      if (action === 'create') {
-        const startInt = parseInt(start, 10);
-        const measureInt = parseInt(measure, 10);
-        const durationInt = parseInt(duration, 10);
+      overwriteDelete(score, note);
 
-        const note = new Note({
-          pitch,
-          start: startInt,
-          measure: measureInt,
-          duration: durationInt,
-          author: uuid,
-        });
-
-        if (score[measure] === undefined) {
-          score[measure] = { [start]: note };
-          return;
-        }
-
-        score[measure][start] = note;
+      if (score[measure] === undefined) {
+        score[measure] = { [start]: note };
+        return;
       }
 
-      if (action === 'delete') {
-        if (score[measure] === undefined) return;
+      score[measure][start] = note;
+    }
 
-        if (score[measure][start] === undefined) return;
+    if (action === 'delete') {
+      if (score[measure] === undefined) return;
 
-        delete score[measure][start];
+      if (score[measure][start] === undefined) return;
 
-        if (score[measure] === undefined) {
-          delete score[measure];
-        }
+      delete score[measure][start];
+
+      if (score[measure] === undefined) {
+        delete score[measure];
       }
-    });
+    }
+  });
 
-    return { editId: lastEditId, score };
+  return { editId: lastEditId, score };
+};
+
+// Remove notes that overlap with an incoming edit
+const overwriteDelete = (score, note) => {
+  const { measure, start, end } = note;
+  const measureScore = score[measure];
+
+  if (!measureScore) return; // No entry yet for this measure
+
+  const noteStartsArr = Object.keys(measureScore);
+
+  for (let i = 0; i < noteStartsArr.length; i += 1) {
+    const currStart = parseInt(noteStartsArr[i], 10);
+    if (currStart >= end) break;
+
+    const { end: currEnd } = measureScore[currStart];
+
+    if (
+      (start >= currStart && start < currEnd)
+      || (end > currStart && end <= currEnd)
+      ) {
+      delete score[measure][currStart];
+
+      if (Object.keys(score[measure]).length === 0) {
+        delete score[measure];
+      }
+    }
   }
-}
+};
 
-module.exports = CacheCompile;
+module.exports = compileEdits;
