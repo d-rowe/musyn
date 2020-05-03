@@ -38,8 +38,8 @@ class Cursors {
     const { local } = this.cursors;
     const note = { ...local };
     note.color = undefined;
-    score.add(note);
     this.hide('local');
+    score.add(note);
   }
 
   update(author, pitch, measure, start, duration) {
