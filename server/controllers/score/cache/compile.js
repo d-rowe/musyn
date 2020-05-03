@@ -1,12 +1,42 @@
+/* eslint-disable no-param-reassign */
 const Note = require('../../../../lib/note');
 
+
+// Remove notes that overlap with an incoming edit
+const overwriteDelete = (score, note) => {
+  const { measure, start, end } = note;
+  const measureScore = score[measure];
+
+  if (!measureScore) return; // No entry yet for this measure
+
+  const noteStartsArr = Object.keys(measureScore);
+
+  for (let i = 0; i < noteStartsArr.length; i += 1) {
+    const currStart = parseInt(noteStartsArr[i], 10);
+    if (currStart >= end) break;
+
+    const { end: currEnd } = measureScore[currStart];
+
+    // Delete note if it will be overwritten by an incoming note
+    if (
+      (start >= currStart && start < currEnd)
+      || (end > currStart && end <= currEnd)
+    ) {
+      delete score[measure][currStart];
+
+      // Delete measure if now empty
+      if (Object.keys(score[measure]).length === 0) {
+        delete score[measure];
+      }
+    }
+  }
+};
 
 const compileEdits = (currentScore, edits) => {
   const score = { ...currentScore };
   let lastEditId;
 
   edits.forEach((edit) => {
-
     lastEditId = edit.id;
     const {
       action,
@@ -42,7 +72,6 @@ const compileEdits = (currentScore, edits) => {
 
     if (action === 'delete') {
       if (score[measure] === undefined) return;
-
       if (score[measure][start] === undefined) return;
 
       delete score[measure][start];
@@ -54,34 +83,6 @@ const compileEdits = (currentScore, edits) => {
   });
 
   return { editId: lastEditId, score };
-};
-
-// Remove notes that overlap with an incoming edit
-const overwriteDelete = (score, note) => {
-  const { measure, start, end } = note;
-  const measureScore = score[measure];
-
-  if (!measureScore) return; // No entry yet for this measure
-
-  const noteStartsArr = Object.keys(measureScore);
-
-  for (let i = 0; i < noteStartsArr.length; i += 1) {
-    const currStart = parseInt(noteStartsArr[i], 10);
-    if (currStart >= end) break;
-
-    const { end: currEnd } = measureScore[currStart];
-
-    if (
-      (start >= currStart && start < currEnd)
-      || (end > currStart && end <= currEnd)
-      ) {
-      delete score[measure][currStart];
-
-      if (Object.keys(score[measure]).length === 0) {
-        delete score[measure];
-      }
-    }
-  }
 };
 
 module.exports = compileEdits;
