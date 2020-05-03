@@ -19,5 +19,5 @@ app.use(express.static(PUBLIC_DIR));
 app.use('/api', apiRouter);
 
 server.listen(PORT, () => {
-  console.log('Server listening on port', 3000);
+  console.log('Server listening on port', PORT);
 });
