@@ -21,6 +21,8 @@ const overwriteDelete = (score, note) => {
     if (
       (start >= currStart && start < currEnd)
       || (end > currStart && end <= currEnd)
+      || (currStart >= start && currStart < end)
+      || (currEnd > end && currEnd <= end)
     ) {
       delete score[measure][currStart];
 
