@@ -40,7 +40,6 @@ class Cursors {
     note.color = undefined;
     score.add(note);
     this.hide('local');
-    messenger.update();
   }
 
   update(author, pitch, measure, start, duration) {

@@ -48,7 +48,7 @@ class Messenger {
     }
   }
 
-  noteHandler(message) {
+  async noteHandler(message) {
     const {
       uuid,
       payload: {
@@ -60,13 +60,14 @@ class Messenger {
     } = message;
 
     if (message.action === 'create') {
-      score.createNote(uuid, pitch, measure, tick, duration);
-      return;
+      await score.createNote(uuid, pitch, measure, tick, duration);
     }
 
     if (message.action === 'delete') {
-      score.deleteNote(uuid, pitch, measure, tick);
+      await score.deleteNote(uuid, pitch, measure, tick);
     }
+
+    session.update();
   }
 
   send(ws, type, action, payload) {
