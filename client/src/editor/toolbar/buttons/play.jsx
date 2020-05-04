@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { PlayArrow } from 'styled-icons/material/PlayArrow';
 import { Stop } from 'styled-icons/material/Stop';
 import scoreModel from '../../score/models/score';
-import { playScore, stop } from '../../score/models/audio';
+
 
 const PlayButton = () => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -19,11 +19,9 @@ const PlayButton = () => {
     if (Object.keys(notes).length === 0) return;
 
     if (isPlaying) {
-      stop();
       setIsPlaying(false);
     } else {
       setIsPlaying(true);
-      playScore(notes).then(() => setIsPlaying(false));
     }
   };
 
