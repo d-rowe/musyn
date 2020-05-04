@@ -1,0 +1,14 @@
+[Unit]
+Description=musyn server
+Documentation=https://github.com/d-rowe/musyn
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/home/ubuntu/musyn
+ExecStart=/usr/bin/node /home/ubuntu/musyn/server
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
