@@ -1,7 +1,7 @@
 import axios from 'axios';
 import messenger from '../controllers/messenger';
 import Note from '../../../../../lib/note';
-import { playNote } from './audio';
+import instrument from '../controllers/playback/instrument';
 
 
 class Score {
@@ -90,7 +90,7 @@ class Score {
 
     this.score[measure][start] = { ...note };
 
-    playNote(pitch);
+    instrument.play(pitch);
     messenger.noteCreate(pitch, measure, start, duration);
     this.measureViews[measure].rerender();
   }
