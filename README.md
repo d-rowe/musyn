@@ -11,10 +11,10 @@
 </p>
 
 # Features
-
+ 
 #### Live View
 
-Always be on the same page. Live view shows you where other collaborators are at all times. It makes it easy to collaborate without stepping on anyone's toes.
+Work with your collaborators on the same composition and see their work in real-time with Live View. Collaborating is easy and you can edit with confidence without any interference.
 
 #### Smart Rests
 
