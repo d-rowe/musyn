@@ -1,16 +1,16 @@
 <h1 align="center">
-  <br>
   <img src="https://i.imgur.com/4RZYKjf.png" alt="musyn" width="300">
 </h1>
 <h4 align="center">A collaborative music notation editor</h4>
 
 <p align="center">
+  <a href="http://musyn.danielrowetech.com">Demo</a> •
   <a href="#features">Features</a> •
   <a href="#installation">Installation</a> •
-  <a href="#download">Contributing</a>
+  <a href="#contributing">Contributing</a>
 </p>
 
-## Features
+# Features
 
 #### Live View
 
@@ -24,7 +24,7 @@ Spend more time writing music, and less time on formatting. Smart rests find the
 
 Make a mistake? No worries. Musyn keeps track of all your edits, so you can always go back to a previous version of the composition.
 
-## Installation
+# Installation
 
 1. Clone this repository from your terminal
 
@@ -44,6 +44,6 @@ Make a mistake? No worries. Musyn keeps track of all your edits, so you can alwa
 
 7. Start with `npm run dev`
 
-## Contributing
+# Contributing
 
 Want to help? Great! Checkout the [issue](https://github.com/d-rowe/musyn/issues) tracker and find something you'd like to tackle.
