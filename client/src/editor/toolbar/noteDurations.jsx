@@ -4,6 +4,10 @@ import cursors from '../score/models/cursors';
 
 const NoteDurations = () => {
   const [duration, setDuration] = useState(1024);
+  const eighth = 512;
+  const quarter = 1024;
+  const half = 2048;
+  const whole = 4096;
 
   useEffect(() => {
     cursors.setDuration(duration);
@@ -11,16 +15,16 @@ const NoteDurations = () => {
 
   return (
     <Wrapper>
-      <Button className="button is-dark" onClick={() => setDuration(512)}>
+      <Button className={`button ${duration === eighth ? '' : 'is-dark'}`} onClick={() => setDuration(eighth)}>
         ♪
       </Button>
-      <Button className="button is-dark" onClick={() => setDuration(1024)}>
+      <Button className={`button ${duration === quarter ? '' : 'is-dark'}`} onClick={() => setDuration(quarter)}>
         𝅘𝅥
       </Button>
-      <Button className="button is-dark" onClick={() => setDuration(2048)}>
+      <Button className={`button ${duration === half ? '' : 'is-dark'}`} onClick={() => setDuration(half)}>
         𝅗𝅥
       </Button>
-      <Button className="button is-dark" onClick={() => setDuration(4096)}>
+      <Button className={`button ${duration === whole ? '' : 'is-dark'}`} onClick={() => setDuration(whole)}>
         𝅝
       </Button>
     </Wrapper>

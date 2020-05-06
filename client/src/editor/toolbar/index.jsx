@@ -11,11 +11,14 @@ const Toolbar = () => (
     <CompositionLabel>
       Untitled composition
     </CompositionLabel>
-    <NoteDurations />
-    <PlaybackWrapper>
-      <Tempo />
-      <PlayButton />
-    </PlaybackWrapper>
+    <RightTools>
+      <NoteDurations />
+      <Spacer />
+      <PlaybackWrapper>
+        <Tempo />
+        <PlayButton />
+      </PlaybackWrapper>
+    </RightTools>
   </Wrapper>
 );
 
@@ -24,6 +27,11 @@ const CompositionLabel = styled.div`
   align-items: center;
   color: white;
   font-size: 1.25em;
+`;
+
+const RightTools = styled.div`
+  display: flex;
+  align-items: right;
 `;
 
 const PlaybackWrapper = styled.div`
@@ -36,6 +44,10 @@ const Wrapper = styled.div`
   width: 100%;
   padding: 0.25em;
   margin: 0!important;
+`;
+
+const Spacer = styled.div`
+  width: 1em;
 `;
 
 export default Toolbar;
