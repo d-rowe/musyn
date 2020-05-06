@@ -4,6 +4,7 @@ import Note from '../../../../../lib/note';
 import instrument from '../controllers/playback/instrument';
 
 
+// TODO: Update score data on note add
 class Score {
   constructor() {
     this.score = {};
@@ -17,8 +18,8 @@ class Score {
     return new Promise((resolve, reject) => {
       axios.get('/api/score')
         .then((response) => response.data)
-        .then((editHistory) => {
-          this.score = editHistory;
+        .then((score) => {
+          this.score = score;
           this.rerender();
           resolve();
         })

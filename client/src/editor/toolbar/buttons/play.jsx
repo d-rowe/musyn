@@ -3,24 +3,25 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { PlayArrow } from 'styled-icons/material/PlayArrow';
 import { Stop } from 'styled-icons/material/Stop';
-import scoreModel from '../../score/models/score';
+import { Transport } from 'tone';
+import playback from '../../score/controllers/playback';
 
 
 const PlayButton = () => {
   const [isPlaying, setIsPlaying] = useState(false);
+  Transport.on('stop', () => setIsPlaying(false));
+  Transport.on('start', () => setIsPlaying(true));
 
   const playIcon = isPlaying
     ? <Stop size="1.4em" />
     : <PlayArrow size="1.4em" />;
 
   const onClick = () => {
-    const notes = scoreModel.getNotes();
-
-    if (Object.keys(notes).length === 0) return;
-
     if (isPlaying) {
+      playback.stop();
       setIsPlaying(false);
     } else {
+      playback.start();
       setIsPlaying(true);
     }
   };
