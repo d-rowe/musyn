@@ -12,7 +12,7 @@ class Instrument {
     }).toMaster();
   }
 
-  play(pitch, duration = '4n') {
+  play(pitch, duration = '0:0:2') {
     if (!this.samplesLoaded) {
       // eslint-disable-next-line no-console
       console.warn('Cannot play notes with instrument before samples are loaded');
