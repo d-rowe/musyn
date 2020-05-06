@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Plus } from 'styled-icons/boxicons-regular/Plus';
 import { Minus } from 'styled-icons/boxicons-regular/Minus';
+import { Transport } from 'tone';
 
 const Tempo = () => {
-  const [bpm, setBpm] = useState(80);
+  const [bpm, setBpm] = useState(Transport.bpm.value);
 
   const updateBpm = (newBpm) => {
+    Transport.bpm.rampTo(newBpm, 0.1);
     setBpm(newBpm);
   };
 
