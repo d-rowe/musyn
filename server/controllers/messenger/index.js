@@ -34,8 +34,7 @@ class Messenger {
     }
 
     if (type === 'undo') {
-      score.undo();
-      session.update();
+      score.undo().then(() => session.update());
     }
 
     if (type === 'ping') {
