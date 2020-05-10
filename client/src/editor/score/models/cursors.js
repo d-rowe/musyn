@@ -18,12 +18,10 @@ class Cursors {
 
     messenger.onCursorMove((message) => {
       const {
-        payload: {
-          pitch,
-          measure,
-          tick,
-          duration,
-        },
+        pitch,
+        measure,
+        tick,
+        duration,
       } = message;
 
       this.update('remote', pitch, measure, tick, duration);
