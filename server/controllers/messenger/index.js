@@ -1,52 +1,45 @@
-/* eslint-disable class-methods-use-this */
-/* eslint-disable no-console */
-const IO = require('socket.io');
+const socketIO = require('socket.io');
 const score = require('../score');
 
 
-class Messenger {
-  constructor(server) {
-    const io = IO(server);
-    io.on('connection', (socket) => {
-      console.log('SocketIO client connected');
+const noteHandler = async (msg) => {
+  const {
+    pitch,
+    measure,
+    tick,
+    duration,
+  } = msg;
 
-      socket.on('cursor', (msg) => {
-        socket.broadcast.emit('cursor', msg);
-      });
+  // TODO: Reimpliment uuid
+  if (msg.action === 'create') {
+    await score.createNote('default', pitch, measure, tick, duration);
+  } else if (msg.action === 'delete') {
+    await score.deleteNote('default', pitch, measure, tick);
+  }
+};
 
-      socket.on('note', (msg) => {
-        this.noteHandler(msg)
-          .then(() => socket.broadcast.emit('update'));
-      });
+module.exports = (server) => {
+  const io = socketIO(server);
+  io.on('connection', (socket) => {
+    // eslint-disable-next-line no-console
+    console.log('SocketIO client connected');
 
-      socket.on('update', () => {
-        socket.broadcast.emit('update');
-      });
-
-      socket.on('undo', () => {
-        score.undo()
-          .then(() => socket.emit('update'));
-      });
+    socket.on('cursor', (msg) => {
+      socket.broadcast.emit('cursor', msg);
     });
-  }
 
-  async noteHandler(msg) {
-    const {
-      pitch,
-      measure,
-      tick,
-      duration,
-    } = msg;
+    socket.on('note', (msg) => {
+      noteHandler(msg)
+        .then(() => socket.broadcast.emit('update'));
+    });
 
-    // TODO: Reimpliment uuid
-    if (msg.action === 'create') {
-      await score.createNote('default', pitch, measure, tick, duration);
-    }
+    socket.on('update', () => {
+      socket.broadcast.emit('update');
+    });
 
-    if (msg.action === 'delete') {
-      await score.deleteNote('default', pitch, measure, tick);
-    }
-  }
-}
-
-module.exports = Messenger;
+    socket.on('undo', () => {
+      score.undo()
+        .then(() => socket.emit('update'));
+    });
+  });
+};
