@@ -1,6 +1,5 @@
 import axios from 'axios';
 import messenger from '../controllers/messenger';
-import Note from '../../../../../lib/note';
 import instrument from '../controllers/playback/instrument';
 
 
@@ -24,30 +23,6 @@ class Score {
           resolve();
         })
         .catch((err) => reject(err));
-    });
-  }
-
-  import(editHistory) {
-    this.score = {};
-
-    editHistory.forEach((edit) => {
-      const {
-        pitch,
-        measure,
-        start,
-        duration,
-        uuid,
-      } = edit;
-
-      const note = new Note({
-        pitch,
-        start,
-        duration,
-        measure,
-        author: uuid,
-      });
-
-      this.add(note);
     });
   }
 
