@@ -1,7 +1,9 @@
 /* eslint-disable no-console */
-import uuid from '../utils/uuid';
+import io from 'socket.io-client';
+// import uuid from '../utils/uuid';
 
 
+// TODO: Reimpliment uuid
 class Messenger {
   constructor() {
     this.listeners = {
@@ -12,50 +14,27 @@ class Messenger {
       update: [],
     };
 
-    this.socket = new WebSocket(`ws://${window.location.host}`);
+    this.socket = io.connect(window.location.host);
 
-    this.socket.onopen = () => {
-      console.log('Connected to websocket server');
-      this.register();
-    };
+    this.socket.on('cursor', (msg) => this.cursorHandler(msg));
+    this.socket.on('note', (msg) => this.nodeHandler(msg));
 
-    this.socket.onmessage = ({ data }) => {
-      const message = JSON.parse(data);
-      this.messageHandler(message);
-    };
-
-    setInterval(() => this.send('ping'), 10000);
+    this.socket.on('update', () => this.invokeListener('update'));
   }
 
-  messageHandler(message) {
-    const { type, action } = message;
-
-    if (type === 'cursor') {
-      if (action === 'move') {
-        this.invokeListener('cursorMove', message);
-        return;
-      }
-
-      if (action === 'hide') {
-        this.invokeListener('cursorHide', message);
-        return;
-      }
+  cursorHandler(msg) {
+    if (msg.action === 'move') {
+      this.invokeListener('cursorMove', msg);
+    } else if (msg.action === 'hide') {
+      this.invokeListener('cursorHide', msg);
     }
+  }
 
-    if (type === 'note') {
-      if (action === 'create') {
-        this.invokeListener('noteCreate', message);
-        return;
-      }
-
-      if (action === 'delete') {
-        this.invokeListener('noteDelete', message);
-        return;
-      }
-    }
-
-    if (type === 'update') {
-      this.invokeListener('update', message);
+  noteHandler(msg) {
+    if (msg.action === 'create') {
+      this.invokeListener('noteCreate', msg);
+    } else if (msg.action === 'delete') {
+      this.invokeListener('noteDelete', msg);
     }
   }
 
@@ -89,32 +68,19 @@ class Messenger {
     this.addListener('update', callback);
   }
 
-  send(type, action, payload) {
-    const message = { uuid, type };
-
-    if (action) {
-      message.action = action;
-    }
-
-    if (payload) {
-      message.payload = payload;
-    }
-
-    this.socket.send(JSON.stringify(message));
-  }
-
   cursorMove(pitch, measure, tick, duration) {
-    this.send('cursor', 'move', {
-      pitch, measure, tick, duration,
+    this.socket.emit('cursor', {
+      action: 'move', pitch, measure, tick, duration,
     });
   }
 
   cursorHide() {
-    this.send('cursor', 'hide');
+    this.socket.emit('cursor', { action: 'hide' });
   }
 
   noteCreate(pitch, measure, tick, duration) {
-    this.send('note', 'create', {
+    this.socket.emit('note', {
+      action: 'create',
       pitch,
       measure,
       tick,

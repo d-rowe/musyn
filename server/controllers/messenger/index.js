@@ -1,86 +1,51 @@
 /* eslint-disable class-methods-use-this */
 /* eslint-disable no-console */
-const Websocket = require('ws');
+const IO = require('socket.io');
 const score = require('../score');
-const session = require('../../models/session');
+
 
 class Messenger {
   constructor(server) {
-    this.wss = new Websocket.Server({ server });
+    const io = IO(server);
+    io.on('connection', (socket) => {
+      console.log('SocketIO client connected');
 
-    this.wss.on('connection', (ws) => {
-      console.log('Client connected to websocket server');
-      ws.on('message', (message) => this.messageHandler(message, ws));
+      socket.on('cursor', (msg) => {
+        socket.broadcast.emit('cursor', msg);
+      });
+
+      socket.on('note', (msg) => {
+        this.noteHandler(msg)
+          .then(() => socket.broadcast.emit('update'));
+      });
+
+      socket.on('update', () => {
+        socket.broadcast.emit('update');
+      });
+
+      socket.on('undo', () => {
+        score.undo()
+          .then(() => socket.emit('update'));
+      });
     });
   }
 
-  messageHandler(messageString, ws) {
-    const message = JSON.parse(messageString);
-    const { type } = message;
-
-    if (type === 'cursor') {
-      session.send(message);
-      return;
-    }
-
-    if (type === 'note') {
-      this.noteHandler(message);
-      return;
-    }
-
-    if (type === 'update') {
-      session.update();
-      return;
-    }
-
-    if (type === 'undo') {
-      score.undo().then(() => session.update());
-    }
-
-    if (type === 'ping') {
-      this.send(ws, 'pong');
-      return;
-    }
-
-    if (type === 'register') {
-      session.addUser(message.uuid, ws);
-    }
-  }
-
-  async noteHandler(message) {
+  async noteHandler(msg) {
     const {
-      uuid,
-      payload: {
-        pitch,
-        measure,
-        tick,
-        duration,
-      },
-    } = message;
+      pitch,
+      measure,
+      tick,
+      duration,
+    } = msg;
 
-    if (message.action === 'create') {
-      await score.createNote(uuid, pitch, measure, tick, duration);
+    // TODO: Reimpliment uuid
+    if (msg.action === 'create') {
+      await score.createNote('default', pitch, measure, tick, duration);
     }
 
-    if (message.action === 'delete') {
-      await score.deleteNote(uuid, pitch, measure, tick);
+    if (msg.action === 'delete') {
+      await score.deleteNote('default', pitch, measure, tick);
     }
-
-    session.update();
-  }
-
-  send(ws, type, action, payload) {
-    const message = { type };
-
-    if (action) {
-      message.action = action;
-    }
-
-    if (payload) {
-      message.payload = payload;
-    }
-
-    ws.send(JSON.stringify(message));
   }
 }
 
