@@ -39,7 +39,7 @@ module.exports = (server) => {
 
     socket.on('undo', () => {
       score.undo()
-        .then(() => socket.emit('update'));
+        .then(() => io.emit('update'));
     });
   });
 };

@@ -17,8 +17,7 @@ class Messenger {
     this.socket = io.connect(window.location.host);
 
     this.socket.on('cursor', (msg) => this.cursorHandler(msg));
-    this.socket.on('note', (msg) => this.nodeHandler(msg));
-
+    this.socket.on('note', (msg) => this.noteHandler(msg));
     this.socket.on('update', () => this.invokeListener('update'));
   }
 
@@ -33,8 +32,6 @@ class Messenger {
   noteHandler(msg) {
     if (msg.action === 'create') {
       this.invokeListener('noteCreate', msg);
-    } else if (msg.action === 'delete') {
-      this.invokeListener('noteDelete', msg);
     }
   }
 
@@ -88,20 +85,12 @@ class Messenger {
     });
   }
 
-  noteDelete(pitch, measure, tick) {
-    this.send('note', 'delete', { pitch, measure, tick });
-  }
-
   undo() {
-    this.send('undo');
+    this.socket.emit('undo');
   }
 
   update() {
-    this.send('update');
-  }
-
-  register() {
-    this.send('register');
+    this.socket.emit('update');
   }
 }
 
