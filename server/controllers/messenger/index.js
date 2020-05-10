@@ -27,7 +27,7 @@ module.exports = (server) => {
 
     socket.on('note', (msg) => {
       noteHandler(msg)
-        .then(() => socket.broadcast.emit('update'));
+        .then(() => io.emit('update'));
     });
 
     socket.on('update', () => {
