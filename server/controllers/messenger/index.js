@@ -4,26 +4,23 @@ const score = require('../score');
 
 const noteHandler = async (msg) => {
   const {
+    uuid,
     pitch,
     measure,
     tick,
     duration,
   } = msg;
 
-  // TODO: Reimpliment uuid
   if (msg.action === 'create') {
-    await score.createNote('default', pitch, measure, tick, duration);
+    await score.createNote(uuid, pitch, measure, tick, duration);
   } else if (msg.action === 'delete') {
-    await score.deleteNote('default', pitch, measure, tick);
+    await score.deleteNote(uuid, pitch, measure, tick);
   }
 };
 
 module.exports = (server) => {
   const io = socketIO(server);
   io.on('connection', (socket) => {
-    // eslint-disable-next-line no-console
-    console.log('SocketIO client connected');
-
     socket.on('cursor', (msg) => {
       socket.broadcast.emit('cursor', msg);
     });

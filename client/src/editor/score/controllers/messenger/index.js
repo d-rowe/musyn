@@ -1,9 +1,7 @@
-/* eslint-disable no-console */
 import io from 'socket.io-client';
-// import uuid from '../utils/uuid';
+import uuid from '../../utils/uuid';
 
 
-// TODO: Reimpliment uuid
 class Messenger {
   constructor() {
     this.listeners = {
@@ -46,6 +44,7 @@ class Messenger {
 
   addListener(listenerName, callback) {
     if (this.listeners[listenerName] === undefined) {
+      // eslint-disable-next-line no-console
       console.warn(`Unknown socket listener: ${listenerName}`);
       return;
     }
@@ -66,17 +65,17 @@ class Messenger {
   }
 
   cursorMove(pitch, measure, tick, duration) {
-    this.socket.emit('cursor', {
+    this.send('cursor', {
       action: 'move', pitch, measure, tick, duration,
     });
   }
 
   cursorHide() {
-    this.socket.emit('cursor', { action: 'hide' });
+    this.send('cursor', { action: 'hide' });
   }
 
   noteCreate(pitch, measure, tick, duration) {
-    this.socket.emit('note', {
+    this.send('note', {
       action: 'create',
       pitch,
       measure,
@@ -86,11 +85,15 @@ class Messenger {
   }
 
   undo() {
-    this.socket.emit('undo');
+    this.send('undo');
   }
 
   update() {
-    this.socket.emit('update');
+    this.send('update');
+  }
+
+  send(type, msg) {
+    this.socket.emit(type, { ...msg, uuid });
   }
 }
 
