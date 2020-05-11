@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import CompositionTitle from './compositionTitle';
 import NoteDurations from './noteDurations';
 import UndoButton from './buttons/undo';
 import PlayButton from './buttons/play';
@@ -8,9 +9,7 @@ import Tempo from './tempo';
 const Toolbar = () => (
   <Wrapper className="box toolbar">
     <UndoButton />
-    <CompositionLabel>
-      Untitled composition
-    </CompositionLabel>
+    <CompositionTitle />
     <RightTools>
       <NoteDurations />
       <Spacer />
@@ -21,13 +20,6 @@ const Toolbar = () => (
     </RightTools>
   </Wrapper>
 );
-
-const CompositionLabel = styled.div`
-  display: flex;
-  align-items: center;
-  color: white;
-  font-size: 1.25em;
-`;
 
 const RightTools = styled.div`
   display: flex;
