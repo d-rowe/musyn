@@ -5,7 +5,7 @@ const compileEdits = require('./compile');
 class Cache {
   static get() {
     const queryString = `
-      SELECT edit_id, data FROM scores
+      SELECT edit_id, score FROM score_cache
       ORDER BY edit_id DESC
       LIMIT 1
     `;
@@ -17,7 +17,7 @@ class Cache {
           let score;
           if (result) {
             editId = result.edit_id;
-            score = result.data;
+            score = result.score;
           } else {
             editId = 0;
             score = {};
@@ -34,7 +34,7 @@ class Cache {
     const buildEdits = await edits.getFrom(lastCompiled.editId + 1);
 
     const queryString = `
-      INSERT INTO scores(edit_id, data)
+      INSERT INTO score_cache(edit_id, score)
       VALUES ($1, $2);
     `;
 
@@ -44,9 +44,9 @@ class Cache {
 
   static undo() {
     const queryString = `
-      DELETE FROM scores WHERE edit_id in (
+      DELETE FROM score_cache WHERE edit_id in (
         SELECT edit_id
-        FROM scores
+        FROM score_cache
         ORDER BY edit_id DESC
         LIMIT 1
       );
