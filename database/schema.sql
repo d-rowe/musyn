@@ -2,21 +2,21 @@ DROP TABLE IF EXISTS edits, score_cache, compositions;
 
 CREATE TABLE edits (
   id SERIAL PRIMARY KEY NOT NULL,
-  composition_id SERIAL NOT NULL,
-  uuid VARCHAR(15) NOT NULL,
-  action VARCHAR(10) NOT NULL,
-  pitch VARCHAR(3) NOT NULL,
-  measure NUMERIC(3, 0) NOT NULL,
-  start NUMERIC(4, 0) NOT NULL,
-  duration NUMERIC(4, 0)
+  composition_id INTEGER,
+  uuid VARCHAR NOT NULL,
+  action VARCHAR NOT NULL,
+  pitch VARCHAR NOT NULL,
+  measure INTEGER NOT NULL,
+  start INTEGER NOT NULL,
+  duration INTEGER
 );
 
 CREATE UNIQUE INDEX ON edits(composition_id);
 
 CREATE TABLE score_cache (
   id SERIAL PRIMARY KEY NOT NULL,
-  composition_id SERIAL NOT NULL,
-  edit_id SERIAL NOT NULL,
+  composition_id INTEGER,
+  edit_id INTEGER NOT NULL,
   score JSONB NOT NULL
 );
 
@@ -27,7 +27,7 @@ CREATE TABLE compositions (
   id SERIAL PRIMARY KEY NOT NULL,
   title VARCHAR NOT NULL,
   hash VARCHAR NOT NULL,
-  version SERIAL NOT NULL
+  version INTEGER NOT NULL
 );
 
 CREATE UNIQUE INDEX ON compositions(hash);
