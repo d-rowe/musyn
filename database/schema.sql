@@ -31,4 +31,3 @@ CREATE TABLE compositions (
 );
 
 CREATE UNIQUE INDEX ON compositions(hash);
-CREATE UNIQUE INDEX ON compositions(version);
