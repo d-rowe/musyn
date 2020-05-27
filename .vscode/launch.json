@@ -12,7 +12,7 @@
       "skipFiles": [
         "<node_internals>/**"
       ],
-      "runtimeExecutable": "/home/daniel/.nvm/versions/node/v12.16.1/bin/node"
+      "runtimeExecutable": "/home/daniel/.nvm/versions/node/v12.16.3/bin/node"
     },
     {
       "name": "Launch localhost",
