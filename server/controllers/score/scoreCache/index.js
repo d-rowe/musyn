@@ -7,7 +7,7 @@ class Cache {
     const queryString = `
       SELECT edit_id, score FROM score_cache
       ORDER BY edit_id DESC
-      LIMIT 1
+      LIMIT 1;
     `;
 
     return new Promise((resolve, reject) => {

@@ -1,26 +1,25 @@
 const edits = require('./edits');
-const cache = require('./cache');
-
+const scoreCache = require('./scoreCache');
 
 class Score {
   static async createNote(uuid, pitch, measure, tick, duration) {
     const action = 'create';
     await edits.register(uuid, action, pitch, measure, tick, duration);
-    await cache.update();
+    await scoreCache.update();
   }
 
   static async deleteNote(uuid, pitch, measure, tick) {
     const action = 'delete';
     await edits.register(uuid, action, pitch, measure, tick);
-    await cache.update();
+    await scoreCache.update();
   }
 
   static undo() {
-    return Promise.all([edits.undo(), cache.undo()]);
+    return Promise.all([edits.undo(), scoreCache.undo()]);
   }
 
   static get() {
-    return cache.get()
+    return scoreCache.get()
       .then((result) => result.score);
   }
 }
