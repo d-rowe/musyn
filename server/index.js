@@ -11,6 +11,7 @@ const PORT = process.env.PORT || 3000;
 const PUBLIC_DIR = path.resolve(__dirname, '..', 'client', 'public');
 
 app.use(express.static(PUBLIC_DIR));
+app.use('/compositions/:hash', express.static(PUBLIC_DIR));
 
 app.use('/api', apiRouter);
 
