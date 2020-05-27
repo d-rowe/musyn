@@ -10,13 +10,8 @@ class Compositions {
       LIMIT 1;
     `;
 
-    return new Promise((resolve, reject) => {
-      db.query(queryString, [hash])
-        .then(([result]) => {
-          resolve(result);
-        })
-        .catch(reject);
-    });
+    return db.query(queryString, [hash])
+      .then(([result]) => result);
   }
 
   static async create(title = 'Untitled Composition') {
@@ -36,11 +31,8 @@ class Compositions {
 
     const hash = crypto.createHash('md5').update(nextId.toString()).digest('hex');
 
-    return new Promise((resolve, reject) => {
-      db.query(queryString, [title, hash, 0])
-        .then(() => resolve(hash))
-        .catch(reject);
-    });
+    return db.query(queryString, [title, hash, 0])
+      .then(() => hash);
   }
 
   static changeVersion(hash, interval) {

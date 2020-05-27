@@ -42,11 +42,8 @@ class Edits {
   }
 
   static getLastId() {
-    return new Promise((resolve, reject) => {
-      db.query('SELECT id FROM edits ORDER BY id DESC LIMIT 1;')
-        .then(([result]) => resolve(result.id))
-        .catch(reject);
-    });
+    return db.query('SELECT id FROM edits ORDER BY id DESC LIMIT 1;')
+      .then(([result]) => result.id);
   }
 }
 

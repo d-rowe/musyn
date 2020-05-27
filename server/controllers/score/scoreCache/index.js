@@ -10,23 +10,20 @@ class Cache {
       LIMIT 1;
     `;
 
-    return new Promise((resolve, reject) => {
-      db.query(queryString)
-        .then(([result]) => {
-          let editId;
-          let score;
-          if (result) {
-            editId = result.edit_id;
-            score = result.score;
-          } else {
-            editId = 0;
-            score = {};
-          }
+    return db.query(queryString)
+      .then(([result]) => {
+        let editId;
+        let score;
+        if (result) {
+          editId = result.edit_id;
+          score = result.score;
+        } else {
+          editId = 0;
+          score = {};
+        }
 
-          resolve({ editId, score });
-        })
-        .catch(reject);
-    });
+        return { editId, score };
+      });
   }
 
   static async update() {
