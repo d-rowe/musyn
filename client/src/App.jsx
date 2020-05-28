@@ -5,9 +5,9 @@ import {
   Switch,
   Route,
 } from 'react-router-dom';
-const Editor = React.lazy(() => import('./editor'));
-const Landing = React.lazy(() => import('./landing'));
 import Navbar from './layout/navbar';
+const Landing = React.lazy(() => import('./landing'));
+const Editor = React.lazy(() => import('./editor'));
 
 const App = () => (
   <Router>

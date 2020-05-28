@@ -49,7 +49,7 @@ const Wrapper = styled.div`
   height: 7.5em;
   width: 15em;
   background-color: white;
-  margin-left: ${(props) => props.begBarline ? '1.1em' : 0}
+  margin-left: ${(props) => props.begBarline ? '1.1em' : 0};
 `;
 
 export default Measure;
