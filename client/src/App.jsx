@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import styled from 'styled-components';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
 } from 'react-router-dom';
-import Landing from './landing';
-import Editor from './editor';
+const Editor = React.lazy(() => import('./editor'));
+const Landing = React.lazy(() => import('./landing'));
 import Navbar from './layout/navbar';
 
 const App = () => (
@@ -15,10 +15,14 @@ const App = () => (
       <Navbar />
       <Switch>
         <Route path="/compositions/:hash">
-          <Editor />
+          <Suspense fallback={<div>Loading...</div>}>
+            <Editor />
+          </Suspense>
         </Route>
         <Router path="/">
-          <Landing />
+          <Suspense fallback={<div>Loading...</div>}>
+            <Landing />
+          </Suspense>
         </Router>
       </Switch>
     </Wrapper>
