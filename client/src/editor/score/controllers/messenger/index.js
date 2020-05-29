@@ -1,5 +1,6 @@
 import io from 'socket.io-client';
 import uuid from '../../utils/uuid';
+import composition from '../../models/composition';
 
 
 class Messenger {
@@ -93,7 +94,10 @@ class Messenger {
   }
 
   send(type, msg) {
-    this.socket.emit(type, { ...msg, uuid });
+    this.socket.emit(
+      type,
+      { ...msg, uuid, composition: composition.getHash() },
+    );
   }
 }
 

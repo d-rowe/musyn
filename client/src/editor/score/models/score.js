@@ -14,16 +14,12 @@ class Score {
   }
 
   update() {
-    return new Promise((resolve, reject) => {
-      axios.get('/api/score')
-        .then((response) => response.data)
-        .then((score) => {
-          this.score = score;
-          this.rerender();
-          resolve();
-        })
-        .catch((err) => reject(err));
-    });
+    return axios.get('/api/score')
+      .then((response) => response.data)
+      .then((score) => {
+        this.score = score;
+        this.rerender();
+      });
   }
 
   remove(note) {
