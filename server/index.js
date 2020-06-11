@@ -5,7 +5,7 @@ const path = require('path');
 const app = express();
 const server = require('http').Server(app);
 require('./controllers/messenger')(server);
-const apiRouter = require('./controllers/api');
+const apiRouter = require('./routes/api');
 
 const PORT = process.env.PORT || 3000;
 const PUBLIC_DIR = path.resolve(__dirname, '..', 'client', 'public');
