@@ -29,7 +29,10 @@ class Compositions {
       VALUES ($1, $2, $3);
     `;
 
-    const hash = crypto.createHash('md5').update(nextId.toString()).digest('hex');
+    const hash = crypto
+      .createHash('md5')
+      .update(nextId.toString())
+      .digest('hex');
 
     return db.query(queryString, [title, hash, 0])
       .then(() => hash);
