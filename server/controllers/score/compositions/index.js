@@ -6,12 +6,14 @@ class Compositions {
     const queryString = `
       SELECT * FROM compositions
       WHERE hash = $1
-      ORDER BY edit_id DESC
       LIMIT 1;
     `;
 
     return db.query(queryString, [hash])
-      .then(([result]) => result);
+      .then(([result]) => {
+        if (result) return result;
+        throw new Error('No composition found');
+      });
   }
 
   static async create(title = 'Untitled Composition') {
@@ -51,17 +53,14 @@ class Compositions {
   static getId(hash) {
     const queryString = 'SELECT id FROM compositions WHERE hash = $1;';
 
-    return new Promise((resolve, reject) => {
-      db.query(queryString, [hash])
-        .then(([result]) => {
-          if (!result || !result.id) {
-            reject(new Error('No composition found'));
-          } else {
-            resolve(result.id);
-          }
-        })
-        .catch(reject);
-    });
+    return db.query(queryString, [hash])
+      .then(([result]) => {
+        if (!result || !result.id) {
+          throw new Error('No composition found');
+        } else {
+          return result.id;
+        }
+      });
   }
 }
 
