@@ -10,7 +10,14 @@ router.get('/score', (req, res) => {
     .catch((err) => res.status(500).send(err));
 });
 
-router.post('/compositions/create', (req, res) => {
+router.get('/compositions/:hash', (req, res) => {
+  const { hash } = req.params;
+  compositions.get(hash)
+    .then((comp) => res.status(200).send(comp))
+    .catch(() => res.sendStatus(500));
+});
+
+router.post('/compositions', (req, res) => {
   compositions.create()
     .then((hash) => res.status(201).send(hash))
     .catch(() => res.status(500).send());
