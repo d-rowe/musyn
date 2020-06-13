@@ -18,9 +18,16 @@ router.get('/compositions/:hash', (req, res) => {
 });
 
 router.post('/compositions', (req, res) => {
-  compositions.create()
-    .then((hash) => res.status(201).send(hash))
-    .catch(() => res.status(500).send());
+  const title = req.body.title || undefined;
+  compositions.create(title)
+    .then((hash) => {
+      res
+        .status(201)
+        .send({ hash });
+    })
+    .catch(() => res
+      .status(500)
+      .send('There was a problem creating the composition'));
 });
 
 module.exports = router;
