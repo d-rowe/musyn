@@ -11,7 +11,7 @@ CREATE TABLE edits (
   duration INTEGER
 );
 
-CREATE UNIQUE INDEX ON edits(composition_id);
+CREATE INDEX ON edits(composition_id);
 
 CREATE TABLE score_cache (
   id SERIAL PRIMARY KEY NOT NULL,

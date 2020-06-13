@@ -2,9 +2,9 @@ const edits = require('./edits');
 const scoreCache = require('./scoreCache');
 
 class Score {
-  static async createNote(uuid, pitch, measure, tick, duration) {
+  static async createNote(uuid, composition, pitch, measure, tick, duration) {
     const action = 'create';
-    await edits.register(uuid, action, pitch, measure, tick, duration);
+    await edits.register(uuid, composition, action, pitch, measure, tick, duration);
     await scoreCache.update();
   }
 

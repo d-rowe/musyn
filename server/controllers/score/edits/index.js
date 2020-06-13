@@ -1,13 +1,16 @@
 const db = require('../../../../database');
+const compositions = require('../compositions');
 
 class Edits {
-  static register(uuid, action, pitch, measure, start, duration) {
+  static async register(uuid, composition, action, pitch, measure, start, duration) {
     const queryString = `
-      INSERT INTO edits(uuid, action, pitch, measure, start, duration)
-      VALUES($1, $2, $3, $4, $5, $6);
+      INSERT INTO edits(uuid, composition_id, action, pitch, measure, start, duration)
+      VALUES($1, $2, $3, $4, $5, $6, $7);
     `;
 
-    return db.query(queryString, [uuid, action, pitch, measure, start, duration]);
+    const compositionId = await compositions.getId(composition);
+
+    return db.query(queryString, [uuid, compositionId, action, pitch, measure, start, duration]);
   }
 
   static undo() {
