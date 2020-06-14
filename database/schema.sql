@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS edits, score_cache, compositions;
 
 CREATE TABLE compositions (
-  id SERIAL PRIMARY KEY NOT NULL,
+  id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   title VARCHAR NOT NULL,
   hash VARCHAR NOT NULL,
   version INTEGER NOT NULL
@@ -10,7 +10,7 @@ CREATE TABLE compositions (
 CREATE UNIQUE INDEX ON compositions(hash);
 
 CREATE TABLE edits (
-  id SERIAL PRIMARY KEY NOT NULL,
+  id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   composition_id INTEGER REFERENCES compositions(id),
   uuid VARCHAR NOT NULL,
   action VARCHAR NOT NULL,
@@ -23,7 +23,7 @@ CREATE TABLE edits (
 CREATE INDEX ON edits(composition_id);
 
 CREATE TABLE score_cache (
-  id SERIAL PRIMARY KEY NOT NULL,
+  id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   composition_id INTEGER REFERENCES compositions(id),
   edit_id INTEGER NOT NULL REFERENCES edits(id),
   score JSONB NOT NULL
