@@ -1,20 +1,48 @@
 const db = require('../../../../database');
-const compositions = require('../compositions');
 
 class Edits {
-  static async register(uuid, composition, action, pitch, measure, start, duration) {
-    const queryString = `
-      INSERT INTO edits(uuid, composition_id, action, pitch, measure, start, duration)
-      VALUES($1, $2, $3, $4, $5, $6, $7);
+  static async register(uuid, compositionId, action, pitch, measure, start, duration) {
+    const versionQuery = `
+      SELECT ROW_NUMBER() OVER(PARTITION BY composition_id)
+      FROM edits WHERE composition_id = $1 ORDER BY id DESC LIMIT 1;
     `;
 
-    const compositionId = await compositions.getId(composition);
+    const [lastVersionResult] = await db.query(versionQuery, [compositionId]);
+    const version = lastVersionResult
+      ? parseInt(lastVersionResult.row_number, 10) + 1
+      : 1;
 
-    return db.query(queryString, [uuid, compositionId, action, pitch, measure, start, duration]);
+    const insertQuery = `
+      INSERT INTO edits(uuid, composition_id, version, action, pitch, measure, start, duration)
+      VALUES(
+        $1, 
+        $2,
+        $3, 
+        $4, 
+        $5, 
+        $6, 
+        $7,
+        $8
+      );
+    `;
+
+    return db.query(
+      insertQuery,
+      [
+        uuid,
+        compositionId,
+        version,
+        action,
+        pitch,
+        measure,
+        start,
+        duration,
+      ],
+    );
   }
 
   static undo() {
-    const queryString = `
+    const query = `
       DELETE FROM edits WHERE id in (
         SELECT id
         FROM edits
@@ -23,30 +51,30 @@ class Edits {
       );
     `;
 
-    return db.query(queryString);
+    return db.query(query);
   }
 
-  static async getFrom(startId) {
-    const queryString = `
-      SELECT * FROM edits WHERE id >= $1;
+  static async getFrom(compositionId, startId) {
+    const query = `
+      SELECT * FROM edits WHERE id >= $1 AND composition_id = $2;
     `;
 
-    const results = await db.query(queryString, [startId]);
+    const results = await db.query(query, [startId, compositionId]);
     return results;
   }
 
   static async getAll() {
-    const queryString = `
+    const query = `
       SELECT * FROM edits;
     `;
 
-    const editHistory = await db.query(queryString);
+    const editHistory = await db.query(query);
     return editHistory;
   }
 
-  static getLastId() {
-    return db.query('SELECT id FROM edits ORDER BY id DESC LIMIT 1;')
-      .then(([result]) => result.id);
+  static async getLastId() {
+    const [result] = await db.query('SELECT id FROM edits ORDER BY id DESC LIMIT 1;');
+    return result.id;
   }
 }
 

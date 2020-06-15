@@ -26,17 +26,18 @@ class Cache {
       });
   }
 
-  static async update() {
+  static async update(compositionId) {
     const lastCompiled = await this.get();
-    const buildEdits = await edits.getFrom(lastCompiled.editId + 1);
 
     const queryString = `
-      INSERT INTO score_cache(edit_id, score)
-      VALUES ($1, $2);
+      INSERT INTO score_cache(composition_id, edit_id, score)
+      VALUES ($1, $2, $3);
     `;
 
+    const buildEdits = await edits.getFrom(compositionId, lastCompiled.editId + 1);
+
     const { editId, score } = compileEdits(lastCompiled.score, buildEdits);
-    return db.query(queryString, [editId, score]);
+    return db.query(queryString, [compositionId, editId, score]);
   }
 
   static undo() {

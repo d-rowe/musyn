@@ -1,11 +1,14 @@
 const edits = require('./edits');
 const scoreCache = require('./scoreCache');
+const compositions = require('./compositions');
 
 class Score {
-  static async createNote(uuid, composition, pitch, measure, tick, duration) {
+  static async createNote(uuid, compositionHash, pitch, measure, tick, duration) {
     const action = 'create';
-    await edits.register(uuid, composition, action, pitch, measure, tick, duration);
-    await scoreCache.update();
+    const compositionId = await compositions.getId(compositionHash);
+
+    await edits.register(uuid, compositionId, action, pitch, measure, tick, duration);
+    await scoreCache.update(compositionId);
   }
 
   static async deleteNote(uuid, pitch, measure, tick) {

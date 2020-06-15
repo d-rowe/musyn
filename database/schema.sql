@@ -12,6 +12,7 @@ CREATE UNIQUE INDEX ON compositions(hash);
 CREATE TABLE edits (
   id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   composition_id INTEGER REFERENCES compositions(id),
+  version INT,
   uuid VARCHAR NOT NULL,
   action VARCHAR NOT NULL,
   pitch VARCHAR NOT NULL,
@@ -30,4 +31,4 @@ CREATE TABLE score_cache (
 );
 
 CREATE UNIQUE INDEX ON score_cache(edit_id);
-CREATE UNIQUE INDEX ON score_cache(composition_id);
+CREATE INDEX ON score_cache(composition_id);
