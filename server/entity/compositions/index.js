@@ -1,5 +1,5 @@
 const crypto = require('crypto');
-const db = require('../../../../database');
+const db = require('../../../database');
 
 class Compositions {
   static get(hash) {

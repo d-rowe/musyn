@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-const Note = require('../../../../lib/note');
+const Note = require('../../../lib/note');
 
 
 // Remove notes that overlap with an incoming edit

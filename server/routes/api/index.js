@@ -1,6 +1,6 @@
 const express = require('express');
-const score = require('../../controllers/score');
-const compositions = require('../../controllers/score/compositions');
+const score = require('../../entity');
+const compositions = require('../../entity/compositions');
 
 const router = express.Router();
 

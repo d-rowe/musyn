@@ -1,4 +1,4 @@
-const db = require('../../../../database');
+const db = require('../../../database');
 
 class Edits {
   static async register(uuid, compositionId, action, pitch, measure, start, duration) {

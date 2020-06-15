@@ -1,4 +1,4 @@
-const db = require('../../../../database');
+const db = require('../../../database');
 const edits = require('../edits');
 const compileEdits = require('./compile');
 
