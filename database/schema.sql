@@ -25,10 +25,8 @@ CREATE INDEX ON edits(composition_id);
 
 CREATE TABLE score_cache (
   id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-  composition_id INTEGER REFERENCES compositions(id),
   edit_id INTEGER NOT NULL REFERENCES edits(id),
   score JSONB NOT NULL
 );
 
 CREATE UNIQUE INDEX ON score_cache(edit_id);
-CREATE INDEX ON score_cache(composition_id);
