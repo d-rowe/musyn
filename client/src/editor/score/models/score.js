@@ -14,7 +14,10 @@ class Score {
   }
 
   update() {
-    return axios.get('/api/score')
+    // TODO: use composition model or something better
+    const compositionHash = window.location.pathname.replace('/compositions/', '');
+
+    return axios.get(`/api/score/${compositionHash}`)
       .then((response) => response.data)
       .then((score) => {
         this.score = score;

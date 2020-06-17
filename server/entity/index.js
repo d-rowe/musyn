@@ -21,8 +21,8 @@ class Score {
     return Promise.all([edits.undo(), scoreCache.undo()]);
   }
 
-  static get() {
-    return scoreCache.get()
+  static get(hash) {
+    return scoreCache.get(hash)
       .then((result) => result.score);
   }
 }

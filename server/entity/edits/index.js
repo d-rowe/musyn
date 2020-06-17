@@ -54,13 +54,15 @@ class Edits {
     return db.query(query);
   }
 
-  static async getFrom(compositionId, startId) {
+  static getFrom(compositionId, startVersion) {
     const query = `
-      SELECT * FROM edits WHERE id >= $1 AND composition_id = $2;
+      SELECT * FROM edits
+      WHERE composition_id = $1
+      AND version >= $2
+      ORDER BY version ASC;
     `;
 
-    const results = await db.query(query, [startId, compositionId]);
-    return results;
+    return db.query(query, [compositionId, startVersion]);
   }
 
   static async getAll() {

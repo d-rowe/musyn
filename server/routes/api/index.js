@@ -4,8 +4,11 @@ const compositions = require('../../entity/compositions');
 
 const router = express.Router();
 
-router.get('/score', (req, res) => {
-  score.get()
+// TODO: Move logic to controllers
+router.get('/score/:hash', (req, res) => {
+  const { hash } = req.params;
+
+  score.get(hash)
     .then((scoreDat) => res.status(200).send(scoreDat))
     .catch((err) => res.status(500).send(err));
 });
