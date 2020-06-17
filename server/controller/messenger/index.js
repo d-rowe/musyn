@@ -1,4 +1,3 @@
-const socketIO = require('socket.io');
 const score = require('../../entity');
 
 
@@ -19,8 +18,7 @@ const noteHandler = async (msg) => {
   }
 };
 
-module.exports = (server) => {
-  const io = socketIO(server);
+module.exports = (io) => {
   io.on('connection', (socket) => {
     socket.on('cursor', (msg) => {
       socket.broadcast.emit('cursor', msg);

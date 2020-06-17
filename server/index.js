@@ -5,7 +5,8 @@ const path = require('path');
 
 const app = express();
 const server = require('http').Server(app);
-require('./controller/messenger')(server);
+const io = require('socket.io').listen(server);
+require('./controller/messenger')(io);
 const compositionController = require('./controller/composition');
 const apiRouter = require('./routes/api');
 
