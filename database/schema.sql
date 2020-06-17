@@ -12,7 +12,7 @@ CREATE UNIQUE INDEX ON compositions(hash);
 CREATE TABLE edits (
   id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   composition_id INTEGER REFERENCES compositions(id),
-  version INT,
+  version INT NOT NULL,
   uuid VARCHAR NOT NULL,
   action VARCHAR NOT NULL,
   pitch VARCHAR NOT NULL,
