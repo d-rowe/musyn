@@ -31,9 +31,10 @@ class Compositions {
       VALUES ($1, $2, $3);
     `;
 
+    const salt = process.env.COMPOSITION_SALT;
     const hash = crypto
       .createHash('md5')
-      .update(nextId.toString())
+      .update(nextId.toString() + salt)
       .digest('hex');
 
     return db.query(queryString, [title, hash, 0])
