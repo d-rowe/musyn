@@ -30,14 +30,14 @@ class Cache {
     const lastCompiled = await this.get();
 
     const queryString = `
-      INSERT INTO score_cache(composition_id, edit_id, score)
-      VALUES ($1, $2, $3);
+      INSERT INTO score_cache(edit_id, score)
+      VALUES ($1, $2);
     `;
 
     const buildEdits = await edits.getFrom(compositionId, lastCompiled.editId + 1);
 
     const { editId, score } = compileEdits(lastCompiled.score, buildEdits);
-    return db.query(queryString, [compositionId, editId, score]);
+    return db.query(queryString, [editId, score]);
   }
 
   static undo() {
