@@ -1,6 +1,6 @@
 const express = require('express');
 const score = require('../../entity');
-const compositions = require('../../entity/compositions');
+const composition = require('../../entity/composition');
 
 const router = express.Router();
 
@@ -15,14 +15,14 @@ router.get('/score/:hash', (req, res) => {
 
 router.get('/compositions/:hash', (req, res) => {
   const { hash } = req.params;
-  compositions.get(hash)
+  composition.get(hash)
     .then((comp) => res.status(200).send(comp))
     .catch(() => res.sendStatus(500));
 });
 
 router.post('/compositions', (req, res) => {
   const title = req.body.title || undefined;
-  compositions.create(title)
+  composition.create(title)
     .then((hash) => {
       res
         .status(201)

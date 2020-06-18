@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS edits, score_cache, compositions;
+DROP TABLE IF EXISTS edits, snapshots, compositions;
 
 CREATE TABLE compositions (
   id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
@@ -23,10 +23,10 @@ CREATE TABLE edits (
 
 CREATE INDEX ON edits(composition_id);
 
-CREATE TABLE score_cache (
+CREATE TABLE snapshots (
   id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   edit_id INTEGER NOT NULL REFERENCES edits(id),
   score JSONB NOT NULL
 );
 
-CREATE UNIQUE INDEX ON score_cache(edit_id);
+CREATE UNIQUE INDEX ON snapshots(edit_id);

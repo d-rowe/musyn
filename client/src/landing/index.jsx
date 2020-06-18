@@ -22,10 +22,10 @@ const Landing = () => {
   };
 
   const hashUpdate = (e) => {
-    const hash = e.target.value;
+    const hash = e.target.value.toLowerCase();
     setCompositionHash(hash);
 
-    if (hash.length === 32) {
+    if (hash.length === 5) {
       axios.get(`/api/compositions/${hash}`)
         .then(() => setValidHash(true))
         .catch(() => {
@@ -48,7 +48,7 @@ const Landing = () => {
       </button>
       <div className="field has-addons">
         <div className="control">
-          <input className="input" type="text" placeholder="Composition code" maxLength="32" onChange={hashUpdate} />
+          <input className="input" type="text" placeholder="Composition code" maxLength="5" onChange={hashUpdate} />
         </div>
         <div className="control">
           <button

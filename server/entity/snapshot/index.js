@@ -1,11 +1,11 @@
 const db = require('../../../database');
-const edits = require('../edits');
+const edit = require('../edit');
 const compileEdits = require('./compile');
 
 class Cache {
   static async get(hash) {
-    const query = `
-      SELECT edit_id, version, score FROM score_cache
+    const getQ = `
+      SELECT edit_id, version, score FROM snapshots
       INNER JOIN edits ON edits.id = edit_id
       WHERE edits.composition_id = (
         SELECT id FROM compositions WHERE hash = $1 
@@ -14,7 +14,7 @@ class Cache {
       LIMIT 1;
     `;
 
-    return db.query(query, [hash])
+    return db.query(getQ, [hash])
       .then(([result]) => {
         let editId = 0;
         let version = 0;
@@ -32,28 +32,28 @@ class Cache {
   static async update(compositionHash) {
     const lastCompiled = await this.get();
 
-    const queryString = `
-      INSERT INTO score_cache(edit_id, score)
+    const insertQ = `
+      INSERT INTO snapshots(edit_id, score)
       VALUES ($1, $2);
     `;
 
-    const buildEdits = await edits.getFrom(compositionHash, lastCompiled.version + 1);
+    const buildEdits = await edit.getFrom(compositionHash, lastCompiled.version + 1);
 
     const { editId, score } = compileEdits(lastCompiled.score, buildEdits);
-    return db.query(queryString, [editId, score]);
+    return db.query(insertQ, [editId, score]);
   }
 
   static undo() {
-    const queryString = `
-      DELETE FROM score_cache WHERE edit_id in (
+    const deleteQ = `
+      DELETE FROM snapshots WHERE edit_id in (
         SELECT edit_id
-        FROM score_cache
+        FROM snapshots
         ORDER BY edit_id DESC
         LIMIT 1
       );
     `;
 
-    return db.query(queryString);
+    return db.query(deleteQ);
   }
 }
 

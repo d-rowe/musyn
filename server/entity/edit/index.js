@@ -2,32 +2,23 @@ const db = require('../../../database');
 
 class Edits {
   static async register(uuid, compositionId, action, pitch, measure, start, duration) {
-    const versionQuery = `
+    const versionQ = `
       SELECT ROW_NUMBER() OVER(PARTITION BY composition_id)
       FROM edits WHERE composition_id = $1 ORDER BY id DESC LIMIT 1;
     `;
 
-    const [lastVersionResult] = await db.query(versionQuery, [compositionId]);
+    const [lastVersionResult] = await db.query(versionQ, [compositionId]);
     const version = lastVersionResult
       ? parseInt(lastVersionResult.row_number, 10) + 1
       : 1;
 
-    const insertQuery = `
+    const insertQ = `
       INSERT INTO edits(uuid, composition_id, version, action, pitch, measure, start, duration)
-      VALUES(
-        $1, 
-        $2,
-        $3, 
-        $4, 
-        $5, 
-        $6, 
-        $7,
-        $8
-      );
+      VALUES($1, $2, $3, $4, $5, $6, $7, $8);
     `;
 
     return db.query(
-      insertQuery,
+      insertQ,
       [
         uuid,
         compositionId,
@@ -42,7 +33,7 @@ class Edits {
   }
 
   static undo() {
-    const query = `
+    const undoQ = `
       DELETE FROM edits WHERE id in (
         SELECT id
         FROM edits
@@ -51,31 +42,32 @@ class Edits {
       );
     `;
 
-    return db.query(query);
+    return db.query(undoQ);
   }
 
   static getFrom(compositionId, startVersion) {
-    const query = `
+    const newEditsQ = `
       SELECT * FROM edits
       WHERE composition_id = $1
       AND version >= $2
       ORDER BY version ASC;
     `;
 
-    return db.query(query, [compositionId, startVersion]);
+    return db.query(newEditsQ, [compositionId, startVersion]);
   }
 
   static async getAll() {
-    const query = `
+    const getQ = `
       SELECT * FROM edits;
     `;
 
-    const editHistory = await db.query(query);
+    const editHistory = await db.query(getQ);
     return editHistory;
   }
 
   static async getLastId() {
-    const [result] = await db.query('SELECT id FROM edits ORDER BY id DESC LIMIT 1;');
+    const lastQ = 'SELECT id FROM edits ORDER BY id DESC LIMIT 1;';
+    const [result] = await db.query(lastQ);
     return result.id;
   }
 }
