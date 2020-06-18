@@ -19,23 +19,39 @@ const noteHandler = async (msg) => {
 };
 
 module.exports = (io) => {
+  io.use((socket, next) => {
+    const { composition } = socket.handshake.query;
+
+    if (composition) {
+      socket.join(composition);
+    }
+
+    next();
+  });
+
+
   io.on('connection', (socket) => {
+    const sendToRoom = (type, msg) => {
+      const composition = Object.keys(socket.rooms)[0];
+      socket.to(composition).emit(type, msg);
+    };
+
     socket.on('cursor', (msg) => {
-      socket.broadcast.emit('cursor', msg);
+      sendToRoom('cursor', msg);
     });
 
     socket.on('note', (msg) => {
       noteHandler(msg)
-        .then(() => io.emit('update'));
+        .then(() => sendToRoom('update'));
     });
 
     socket.on('update', () => {
-      socket.broadcast.emit('update');
+      sendToRoom('update');
     });
 
     socket.on('undo', () => {
       score.undo()
-        .then(() => io.emit('update'));
+        .then(() => sendToRoom('update'));
     });
   });
 };

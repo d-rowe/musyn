@@ -12,8 +12,9 @@ class Messenger {
       noteRemove: [],
       update: [],
     };
-
-    this.socket = io.connect(window.location.host);
+    this.socket = io.connect(window.location.host, {
+      query: { composition: window.location.pathname.replace('/compositions/', '').replace('/', '') },
+    });
 
     this.socket.on('cursor', (msg) => this.cursorHandler(msg));
     this.socket.on('note', (msg) => this.noteHandler(msg));
