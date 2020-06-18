@@ -24,7 +24,15 @@ const Landing = () => {
   const hashUpdate = (e) => {
     const hash = e.target.value;
     setCompositionHash(hash);
-    setValidHash(hash.length === 32);
+
+    if (hash.length === 32) {
+      axios.get(`/api/compositions/${hash}`)
+        .then(() => setValidHash(true))
+        .catch(() => {
+          setValidHash(false);
+          alert("Hmm... I'm having trouble finding that composition. Make sure you've entered it in correctly.");
+        });
+    }
   };
 
   return (
