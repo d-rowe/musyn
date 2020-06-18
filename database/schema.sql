@@ -1,19 +1,32 @@
-DROP TABLE IF EXISTS edits, scores;
+DROP TABLE IF EXISTS edits, snapshots, compositions;
+
+CREATE TABLE compositions (
+  id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  title VARCHAR NOT NULL,
+  hash VARCHAR NOT NULL,
+  version INTEGER NOT NULL
+);
+
+CREATE UNIQUE INDEX ON compositions(hash);
 
 CREATE TABLE edits (
-  id SERIAL PRIMARY KEY NOT NULL,
-  uuid VARCHAR(15) NOT NULL,
-  action VARCHAR(10) NOT NULL,
-  pitch VARCHAR(3) NOT NULL,
-  measure NUMERIC(3, 0) NOT NULL,
-  start NUMERIC(4, 0) NOT NULL,
-  duration NUMERIC(4, 0)
+  id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  composition_id INTEGER REFERENCES compositions(id) ON DELETE CASCADE,
+  version INT NOT NULL,
+  uuid VARCHAR NOT NULL,
+  action VARCHAR NOT NULL,
+  pitch VARCHAR NOT NULL,
+  measure INTEGER NOT NULL,
+  start INTEGER NOT NULL,
+  duration INTEGER
 );
 
-CREATE TABLE scores (
-  id SERIAL PRIMARY KEY NOT NULL,
-  edit_id SERIAL NOT NULL,
-  data JSONB NOT NULL
+CREATE INDEX ON edits(composition_id);
+
+CREATE TABLE snapshots (
+  id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  edit_id INTEGER NOT NULL REFERENCES edits(id) ON DELETE CASCADE,
+  score JSONB NOT NULL
 );
 
-CREATE UNIQUE INDEX edit_idx ON scores (edit_id);
+CREATE UNIQUE INDEX ON snapshots(edit_id);

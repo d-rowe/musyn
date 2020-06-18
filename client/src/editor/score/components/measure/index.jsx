@@ -1,8 +1,8 @@
 /* eslint-disable no-confusing-arrow */
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import View from './views';
-import Controller from './controllers';
+import View from './view';
+import Controller from './controller';
 
 const Measure = ({
   clef = 'treble',
@@ -49,7 +49,7 @@ const Wrapper = styled.div`
   height: 7.5em;
   width: 15em;
   background-color: white;
-  margin-left: ${(props) => props.begBarline ? '1.1em' : 0}
+  margin-left: ${(props) => props.begBarline ? '1.1em' : 0};
 `;
 
 export default Measure;

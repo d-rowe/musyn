@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { PlayArrow } from 'styled-icons/material/PlayArrow';
 import { Stop } from 'styled-icons/material/Stop';
 import { Transport } from 'tone';
-import playback from '../../score/controllers/playback';
+import playback from '../../score/controller/playback';
 
 
 const PlayButton = () => {
