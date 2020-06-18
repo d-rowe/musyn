@@ -30,6 +30,7 @@ const Landing = () => {
         .then(() => setValidHash(true))
         .catch(() => {
           setValidHash(false);
+          // eslint-disable-next-line no-alert
           alert("Hmm... I'm having trouble finding that composition. Make sure you've entered it in correctly.");
         });
     }
