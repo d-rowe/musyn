@@ -1,6 +1,6 @@
 import axios from 'axios';
-import messenger from '../controllers/messenger';
-import instrument from '../controllers/playback/instrument';
+import messenger from '../controller/messenger';
+import instrument from '../controller/playback/instrument';
 
 
 // TODO: Update score data on note add

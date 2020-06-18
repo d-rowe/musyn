@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import Score from './score';
 import Toolbar from './toolbar';
-import composition from './score/models/composition';
+import composition from './score/model/composition';
 
 
 const Editor = () => {

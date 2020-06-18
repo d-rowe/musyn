@@ -1,5 +1,5 @@
 /* eslint-disable class-methods-use-this */
-import cursors from '../../../models/cursors';
+import cursors from '../../../model/cursors';
 import pitchMap from '../../../../../../../lib/pitchMap';
 
 class Controller {

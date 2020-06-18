@@ -1,8 +1,8 @@
 /* eslint-disable no-confusing-arrow */
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import View from './views';
-import Controller from './controllers';
+import View from './view';
+import Controller from './controller';
 
 const Measure = ({
   clef = 'treble',

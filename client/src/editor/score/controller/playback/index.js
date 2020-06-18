@@ -1,7 +1,7 @@
 /* eslint-disable class-methods-use-this */
 import { Transport } from 'tone';
 import instrument from './instrument';
-import globalScore from '../../models/score';
+import globalScore from '../../model/score';
 
 class Playback {
   schedule() {

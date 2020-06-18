@@ -1,7 +1,7 @@
 import { Flow } from 'vexflow';
-import globalScore from '../../../models/score';
-import LocalScore from '../models/score';
-import cursors from '../../../models/cursors';
+import globalScore from '../../../model/score';
+import LocalScore from '../model/score';
+import cursors from '../../../model/cursors';
 
 class View {
   constructor({

@@ -1,4 +1,4 @@
-import messenger from '../controllers/messenger';
+import messenger from '../controller/messenger';
 import score from './score';
 import Note from '../../../../../lib/note';
 

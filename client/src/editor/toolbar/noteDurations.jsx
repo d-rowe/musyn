@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import cursors from '../score/models/cursors';
+import cursors from '../score/model/cursors';
 
 const NoteDurations = () => {
   const [duration, setDuration] = useState(1024);

@@ -1,6 +1,6 @@
 import io from 'socket.io-client';
 import uuid from '../../utils/uuid';
-import composition from '../../models/composition';
+import composition from '../../model/composition';
 
 
 class Messenger {

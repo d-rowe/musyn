@@ -1,5 +1,5 @@
-import globalScore from '../../../models/score';
-import cursors from '../../../models/cursors';
+import globalScore from '../../../model/score';
+import cursors from '../../../model/cursors';
 import vexNote from './vexNote';
 
 

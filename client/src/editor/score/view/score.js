@@ -1,7 +1,7 @@
 /* eslint-disable import/no-cycle */
 import Vex from 'vexflow';
 import { parseAndSortNotes } from '../utils/notes';
-import scoreModel from '../models/score';
+import scoreModel from '../model/score';
 
 const VF = Vex.Flow;
 
