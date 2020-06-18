@@ -15,7 +15,7 @@ const PUBLIC_DIR = path.resolve(__dirname, '..', 'client', 'public');
 
 app.use(express.static(PUBLIC_DIR));
 
-app.use('/compositions/:hash', compositionController(PUBLIC_DIR));
+app.use('/compositions/:hash', compositionController.serve(PUBLIC_DIR));
 
 app.use('/api', bodyParser.json(), apiRouter);
 

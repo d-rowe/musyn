@@ -1,10 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 
 const Landing = () => {
   const [compositionHash, setCompositionHash] = useState('');
+  const [compositionCount, setCompositionCount] = useState('');
   const [validHash, setValidHash] = useState(false);
+
+  useEffect(() => {
+    axios.get('/api/compositions')
+      .then((response) => response.data.count)
+      .then((count) => setCompositionCount(count));
+  }, []);
 
   const redirectToHash = (hash) => {
     window.location = `/compositions/${hash}`;
@@ -39,10 +46,10 @@ const Landing = () => {
 
   return (
     <Wrapper>
-      {/* <h1 className="title">Welcome to Musyn</h1> */}
+      <h2 className="subtitle">{compositionCount ? `Home to ${compositionCount} compositions and counting` : null}</h2>
       <button
         type="button"
-        className="button is-link is-fullwidth"
+        className="button is-link"
         onClick={createComposition}
       >
         New Composition
@@ -67,11 +74,12 @@ const Landing = () => {
 };
 
 const Wrapper = styled.div`
-  margin-top: 4em;
+  margin-top: 2em;
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: space-between;
-  height: 7em;
+  height: 10em;
 `;
 
 export default Landing;

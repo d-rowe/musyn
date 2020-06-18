@@ -64,6 +64,15 @@ class Compositions {
         }
       });
   }
+
+  static count() {
+    const countQ = `
+      SELECT COUNT(*) FROM compositions;
+    `;
+
+    return db.query(countQ)
+      .then(([result]) => ({ ...result, count: parseInt(result.count, 10) }));
+  }
 }
 
 module.exports = Compositions;

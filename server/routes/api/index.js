@@ -1,10 +1,11 @@
 const express = require('express');
 const score = require('../../entity');
+const compositionController = require('../../controller/composition');
 const composition = require('../../entity/composition');
 
 const router = express.Router();
 
-// TODO: Move logic to controllers
+// TODO: Move logic to controller
 router.get('/score/:hash', (req, res) => {
   const { hash } = req.params;
 
@@ -13,6 +14,9 @@ router.get('/score/:hash', (req, res) => {
     .catch((err) => res.status(500).send(err));
 });
 
+router.get('/compositions', compositionController.count);
+
+// TODO: Move logic to controller
 router.get('/compositions/:hash', (req, res) => {
   const { hash } = req.params;
   composition.get(hash)
@@ -20,6 +24,7 @@ router.get('/compositions/:hash', (req, res) => {
     .catch(() => res.sendStatus(500));
 });
 
+// TODO: Move logic to controller
 router.post('/compositions', (req, res) => {
   const title = req.body.title || undefined;
   composition.create(title)
@@ -32,5 +37,6 @@ router.post('/compositions', (req, res) => {
       .status(500)
       .send('There was a problem creating the composition'));
 });
+
 
 module.exports = router;
