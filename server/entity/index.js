@@ -17,8 +17,8 @@ class Score {
     await snapshot.update();
   }
 
-  static undo() {
-    return Promise.all([edits.undo(), snapshot.undo()]);
+  static undo(composition) {
+    return edits.undo(composition);
   }
 
   static get(hash) {

@@ -31,9 +31,14 @@ module.exports = (io) => {
 
 
   io.on('connection', (socket) => {
+    const composition = Object.keys(socket.rooms)[0];
+
     const sendToRoom = (type, msg) => {
-      const composition = Object.keys(socket.rooms)[0];
       socket.to(composition).emit(type, msg);
+    };
+
+    const sendToRoomInclude = (type, msg) => {
+      io.in(composition).emit(type, msg);
     };
 
     socket.on('cursor', (msg) => {
@@ -50,8 +55,8 @@ module.exports = (io) => {
     });
 
     socket.on('undo', () => {
-      score.undo()
-        .then(() => sendToRoom('update'));
+      score.undo(composition)
+        .then(() => sendToRoomInclude('update'));
     });
   });
 };

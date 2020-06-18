@@ -42,19 +42,6 @@ class Cache {
     const { editId, score } = compileEdits(lastCompiled.score, buildEdits);
     return db.query(insertQ, [editId, score]);
   }
-
-  static undo() {
-    const deleteQ = `
-      DELETE FROM snapshots WHERE edit_id in (
-        SELECT edit_id
-        FROM snapshots
-        ORDER BY edit_id DESC
-        LIMIT 1
-      );
-    `;
-
-    return db.query(deleteQ);
-  }
 }
 
 module.exports = Cache;

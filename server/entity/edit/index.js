@@ -32,17 +32,20 @@ class Edits {
     );
   }
 
-  static undo() {
+  static undo(composition) {
     const undoQ = `
       DELETE FROM edits WHERE id in (
         SELECT id
         FROM edits
+        WHERE composition_id = (
+          SELECT id FROM compositions WHERE hash = $1
+        )
         ORDER BY id DESC
         LIMIT 1
       );
     `;
 
-    return db.query(undoQ);
+    return db.query(undoQ, [composition]);
   }
 
   static getFrom(compositionId, startVersion) {

@@ -11,7 +11,7 @@ CREATE UNIQUE INDEX ON compositions(hash);
 
 CREATE TABLE edits (
   id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-  composition_id INTEGER REFERENCES compositions(id),
+  composition_id INTEGER REFERENCES compositions(id) ON DELETE CASCADE,
   version INT NOT NULL,
   uuid VARCHAR NOT NULL,
   action VARCHAR NOT NULL,
@@ -25,7 +25,7 @@ CREATE INDEX ON edits(composition_id);
 
 CREATE TABLE snapshots (
   id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-  edit_id INTEGER NOT NULL REFERENCES edits(id),
+  edit_id INTEGER NOT NULL REFERENCES edits(id) ON DELETE CASCADE,
   score JSONB NOT NULL
 );
 
