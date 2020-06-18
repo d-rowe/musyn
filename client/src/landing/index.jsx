@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import styled from 'styled-components';
 
 const Landing = () => {
   const [compositionHash, setCompositionHash] = useState('');
@@ -37,23 +38,23 @@ const Landing = () => {
   };
 
   return (
-    <div>
-      <h1 className="title">Welcome to Musyn</h1>
+    <Wrapper>
+      {/* <h1 className="title">Welcome to Musyn</h1> */}
       <button
         type="button"
-        className="button"
+        className="button is-link is-fullwidth"
         onClick={createComposition}
       >
-        Create Composition
+        New Composition
       </button>
       <div className="field has-addons">
         <div className="control">
-          <input className="input" type="text" placeholder="Composition code" maxLength="5" onChange={hashUpdate} />
+          <input className="input" type="text" size="5" placeholder="A47P4" maxLength="5" onChange={hashUpdate} />
         </div>
         <div className="control">
           <button
             type="button"
-            className="button is-info"
+            className="button is-link"
             onClick={() => redirectToHash(compositionHash)}
             disabled={!validHash}
           >
@@ -61,8 +62,16 @@ const Landing = () => {
           </button>
         </div>
       </div>
-    </div>
+    </Wrapper>
   );
 };
+
+const Wrapper = styled.div`
+  margin-top: 4em;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 7em;
+`;
 
 export default Landing;
