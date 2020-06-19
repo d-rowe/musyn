@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useState, useEffect } from 'react';
 
-const Modal = ({ active = false, children }) => {
+const Modal = ({ active = false, width = '25em', children }) => {
   const [isActive, setIsActive] = useState(active);
 
   const handleEsc = (e) => {
@@ -26,7 +26,7 @@ const Modal = ({ active = false, children }) => {
   return (
     <div className="modal is-active">
       <div className="modal-background" onClick={() => setIsActive(false)} />
-      <div className="modal-content">
+      <div className="modal-content" style={{ width }}>
         {children}
       </div>
       <button
