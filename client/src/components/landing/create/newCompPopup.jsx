@@ -38,6 +38,7 @@ const NewCompPopup = ({ active }) => {
                   placeholder="Mahler Symphony No. 5"
                   defaultValue="Untitled Composition"
                   onChange={(e) => setTitle(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && createComposition()}
                 />
               </p>
             </div>
