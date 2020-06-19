@@ -1,6 +1,6 @@
 import io from 'socket.io-client';
 import uuid from '../../utils/uuid';
-import composition from '../../model/composition';
+import getHash from '../../../../../helpers/getHash';
 
 
 class Messenger {
@@ -12,8 +12,10 @@ class Messenger {
       noteRemove: [],
       update: [],
     };
+    this.hash = getHash();
+
     this.socket = io.connect(window.location.host, {
-      query: { composition: window.location.pathname.replace('/compositions/', '').replace('/', '') },
+      query: { composition: this.hash },
     });
 
     this.socket.on('cursor', (msg) => this.cursorHandler(msg));
@@ -97,7 +99,7 @@ class Messenger {
   send(type, msg) {
     this.socket.emit(
       type,
-      { ...msg, uuid, composition: composition.getHash() },
+      { ...msg, uuid, composition: this.hash },
     );
   }
 }

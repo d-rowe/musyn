@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
+import getHash from '../../../../helpers/getHash';
 
 const Title = styled.div`
   display: flex;
@@ -15,8 +17,16 @@ const EditTitle = styled.input`
 
 const CompositionTitle = () => {
   const inputEl = useRef(null);
-  const [title, setTitle] = useState('Untitled Composition');
+  const [title, setTitle] = useState('');
   const [editMode, setEditMode] = useState(false);
+
+  const updateTitle = () => {
+    axios.get(`/api/compositions/${getHash()}`)
+      .then((response) => response.data)
+      .then((comp) => setTitle(comp.title));
+  };
+
+  useEffect(updateTitle, []);
 
   const onBlur = () => {
     const text = inputEl.current.value;
@@ -31,6 +41,7 @@ const CompositionTitle = () => {
       inputEl.current.focus();
     }
   });
+
 
   if (editMode) {
     return (

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import messenger from '../controller/messenger';
 import instrument from '../controller/playback/instrument';
+import getHash from '../../../../helpers/getHash';
 
 
 // TODO: Update score data on note add
@@ -15,7 +16,7 @@ class Score {
 
   update() {
     // TODO: use composition model or something better
-    const compositionHash = window.location.pathname.replace('/compositions/', '');
+    const compositionHash = getHash();
 
     return axios.get(`/api/score/${compositionHash}`)
       .then((response) => response.data)
