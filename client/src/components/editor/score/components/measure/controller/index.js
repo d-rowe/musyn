@@ -1,6 +1,6 @@
 /* eslint-disable class-methods-use-this */
 import cursors from '../../../model/cursors';
-import pitchMap from '../../../../../../../lib/pitchMap';
+import pitchMap from '../../../../../../../../lib/pitchMap';
 
 class Controller {
   constructor(svgContext, measure = 0) {

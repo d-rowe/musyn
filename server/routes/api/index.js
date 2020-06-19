@@ -26,6 +26,7 @@ router.get('/compositions/:hash', (req, res) => {
 
 // TODO: Move logic to controller
 router.post('/compositions', (req, res) => {
+  console.log(req.body);
   const title = req.body.title || undefined;
   composition.create(title)
     .then((hash) => {

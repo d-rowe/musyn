@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import CompositionCounter from './compositionCounter';
-import CreateButton from './createButton';
+import CreateButton from './create/createButton';
 import JoinButton from './joinButton';
 
 const Landing = () => (

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import redirectToHash from '../helpers/redirectToHash';
+import redirectToHash from '../../helpers/redirectToHash';
 
 const JoinButton = () => {
   const [compositionHash, setCompositionHash] = useState('');
