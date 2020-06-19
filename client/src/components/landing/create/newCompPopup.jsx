@@ -22,7 +22,7 @@ const NewCompPopup = ({ active }) => {
 
   return (
     <Modal active={active}>
-      <Card title="New composition" submitLabel="Create" onSubmit={createComposition}>
+      <Card title="New Composition" submitLabel="Create" onSubmit={createComposition}>
         <div className="field is-horizontal">
           <div className="field-label is-normal">
             <label type="label" className="label">

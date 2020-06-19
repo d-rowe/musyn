@@ -4,35 +4,23 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React from 'react';
 
-const Card = (
-  {
-    title = 'Musyn',
-    submitLabel = 'Go',
-    onSubmit = () => { },
-    children,
-  },
-) => (
-  <div className="card">
-    <header className="card-header is-dark">
-      <p className="card-header-title">
-        {title}
-      </p>
-      <a href="#" className="card-header-icon" aria-label="more options">
-        <span className="icon">
-          <i className="fas fa-angle-down" aria-hidden="true" />
-        </span>
-      </a>
-    </header>
-    <div className="card-content">
-      <div className="content">
-        {children}
-      </div>
+const Card = ({
+  title = 'Musyn',
+  submitLabel = 'Go',
+  onSubmit = () => { },
+  children,
+}) => (
+  <article className="message is-link">
+    <div className="message-header">
+      {title}
     </div>
-    <footer className="card-footer">
-      <a className="card-footer-item" onClick={onSubmit}>{submitLabel}</a>
-      <a className="card-footer-item">Nevermind</a>
-    </footer>
-  </div>
+    <div className="message-body">
+      {children}
+      <button type="button" className="button is-success is-fullwidth" onClick={onSubmit}>
+        {submitLabel}
+      </button>
+    </div>
+  </article>
 );
 
 export default Card;
