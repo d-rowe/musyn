@@ -19,19 +19,11 @@ const noteHandler = async (msg) => {
 };
 
 module.exports = (io) => {
-  io.use((socket, next) => {
+  io.on('connection', (socket) => {
     const { composition } = socket.handshake.query;
-
     if (composition) {
       socket.join(composition);
     }
-
-    next();
-  });
-
-
-  io.on('connection', (socket) => {
-    const composition = Object.keys(socket.rooms)[0];
 
     const sendToRoom = (type, msg) => {
       socket.to(composition).emit(type, msg);
