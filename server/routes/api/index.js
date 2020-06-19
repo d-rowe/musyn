@@ -6,7 +6,7 @@ const composition = require('../../entity/composition');
 const router = express.Router();
 
 // TODO: Move logic to controller
-router.get('/score/:hash', (req, res) => {
+router.get('/scores/:hash', (req, res) => {
   const { hash } = req.params;
 
   score.get(hash)
