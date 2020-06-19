@@ -4,7 +4,22 @@ import React, { useState, useEffect } from 'react';
 
 const Modal = ({ active = false, children }) => {
   const [isActive, setIsActive] = useState(active);
+
+  const handleEsc = (e) => {
+    if (e.key === 'Escape') {
+      document.removeEventListener('keydown', handleEsc, true);
+      setIsActive(false);
+    }
+  };
+
   useEffect(() => setIsActive(active), [active]);
+
+  useEffect(() => {
+    if (isActive) {
+      document.addEventListener('keydown', handleEsc, true);
+    }
+  }, [isActive]);
+
 
   if (!isActive) return null;
 
