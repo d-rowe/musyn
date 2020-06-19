@@ -26,7 +26,6 @@ router.get('/compositions/:hash', (req, res) => {
 
 // TODO: Move logic to controller
 router.post('/compositions', (req, res) => {
-  console.log(req.body);
   const title = req.body.title || undefined;
   composition.create(title)
     .then((hash) => {
@@ -39,5 +38,12 @@ router.post('/compositions', (req, res) => {
       .send('There was a problem creating the composition'));
 });
 
+router.put('/compositions/:hash', (req, res) => {
+  const { hash } = req.params;
+  const title = req.body.title || undefined;
+  composition.updateTitle(hash, title)
+    .then(() => res.sendStatus(202))
+    .catch(() => res.sendStatus(500));
+});
 
 module.exports = router;

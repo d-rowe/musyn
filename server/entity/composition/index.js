@@ -65,6 +65,12 @@ class Compositions {
       });
   }
 
+  static updateTitle(composition, title) {
+    const updateQ = 'UPDATE compositions SET title = $1 WHERE hash = $2';
+
+    return db.query(updateQ, [title, composition]);
+  }
+
   static count() {
     const countQ = `
       SELECT COUNT(*) FROM compositions;

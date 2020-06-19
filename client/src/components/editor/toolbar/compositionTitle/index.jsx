@@ -16,12 +16,13 @@ const EditTitle = styled.input`
 `;
 
 const CompositionTitle = () => {
+  const hash = getHash();
   const inputEl = useRef(null);
   const [title, setTitle] = useState('');
   const [editMode, setEditMode] = useState(false);
 
   const updateTitle = () => {
-    axios.get(`/api/compositions/${getHash()}`)
+    axios.get(`/api/compositions/${hash}`)
       .then((response) => response.data)
       .then((comp) => setTitle(comp.title));
   };
@@ -32,6 +33,7 @@ const CompositionTitle = () => {
     const text = inputEl.current.value;
     if (text.length > 0) {
       setTitle(text);
+      axios.put(`/api/compositions/${hash}`, { title: text });
     }
     setEditMode(false);
   };
