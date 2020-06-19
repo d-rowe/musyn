@@ -50,5 +50,9 @@ module.exports = (io) => {
       score.undo(composition)
         .then(() => sendToRoomInclude('update'));
     });
+
+    socket.on('rename', (msg) => {
+      sendToRoom('rename', msg);
+    });
   });
 };

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
+import messenger from '../../score/controller/messenger';
 import getHash from '../../../../helpers/getHash';
 
 const Title = styled.div`
@@ -21,18 +22,22 @@ const CompositionTitle = () => {
   const [title, setTitle] = useState('');
   const [editMode, setEditMode] = useState(false);
 
-  const updateTitle = () => {
+  messenger.onRename((msg) => setTitle(msg.title));
+
+  const fetchTitle = () => {
     axios.get(`/api/compositions/${hash}`)
       .then((response) => response.data)
       .then((comp) => setTitle(comp.title));
   };
 
-  useEffect(updateTitle, []);
+  useEffect(fetchTitle, []);
 
   const onBlur = () => {
     const text = inputEl.current.value;
+
     if (text.length > 0) {
       setTitle(text);
+      messenger.rename(text);
       axios.put(`/api/compositions/${hash}`, { title: text });
     }
     setEditMode(false);
