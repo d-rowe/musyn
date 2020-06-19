@@ -11,7 +11,9 @@ class Messenger {
       noteCreate: [],
       noteRemove: [],
       update: [],
+      rename: [],
     };
+
     this.hash = getHash();
 
     this.socket = io.connect(window.location.host, {
@@ -21,6 +23,7 @@ class Messenger {
     this.socket.on('cursor', (msg) => this.cursorHandler(msg));
     this.socket.on('note', (msg) => this.noteHandler(msg));
     this.socket.on('update', () => this.invokeListener('update'));
+    this.socket.on('rename', (msg) => this.invokeListener('rename', msg));
   }
 
   cursorHandler(msg) {
@@ -68,6 +71,10 @@ class Messenger {
     this.addListener('update', callback);
   }
 
+  onRename(callback) {
+    this.addListener('rename', callback);
+  }
+
   cursorMove(pitch, measure, tick, duration) {
     this.send('cursor', {
       action: 'move', pitch, measure, tick, duration,
@@ -96,7 +103,16 @@ class Messenger {
     this.send('update');
   }
 
+  rename(title) {
+    this.send('rename', { title });
+  }
+
   send(type, msg) {
+    /*
+      TODO:
+        We shouldn't need the composition hash in the messages anymore
+        We should be able to grab the composition hash from the server controller directly
+    */
     this.socket.emit(
       type,
       { ...msg, uuid, composition: this.hash },
