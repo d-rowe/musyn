@@ -18,7 +18,7 @@ class Score {
     // TODO: use composition model or something better
     const compositionHash = getHash();
 
-    return axios.get(`/api/score/${compositionHash}`)
+    return axios.get(`/api/scores/${compositionHash}`)
       .then((response) => response.data)
       .then((score) => {
         this.score = score;

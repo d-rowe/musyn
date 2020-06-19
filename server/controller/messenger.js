@@ -1,4 +1,4 @@
-const score = require('../../entity');
+const score = require('../entity');
 
 
 const noteHandler = async (msg) => {
