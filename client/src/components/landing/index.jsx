@@ -13,7 +13,7 @@ const Landing = () => (
             Welcome to musyn
           </h1>
           <h2 className="subtitle">
-            Let's create music together
+            Let's write music together
           </h2>
           <ActionsWrapper>
             <NewButton />

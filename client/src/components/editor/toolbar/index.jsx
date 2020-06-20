@@ -35,6 +35,7 @@ const Wrapper = styled.div`
   justify-content: space-between;
   padding: 0.25em;
   border-radius: 0;
+  flex-wrap: wrap;
 `;
 
 const Spacer = styled.div`
