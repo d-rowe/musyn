@@ -6,17 +6,18 @@ import {
 } from 'react-router-dom';
 const Landing = React.lazy(() => import('./components/landing'));
 const Editor = React.lazy(() => import('./components/editor'));
+import Loading from './components/general/loading';
 
 const App = () => (
   <Router>
     <Switch>
       <Route path="/compositions/:hash">
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<Loading message="Digging through the library" />}>
           <Editor />
         </Suspense>
       </Route>
       <Router path="/">
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<div />}>
           <Landing />
         </Suspense>
       </Router>
