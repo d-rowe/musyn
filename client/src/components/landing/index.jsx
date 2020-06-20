@@ -28,6 +28,10 @@ const Landing = () => (
 const ActionsWrapper = styled.div`
   display: flex;
   justify-content: center;
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 
 export default Landing;
