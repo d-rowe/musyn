@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import cursors from '../score/model/cursors';
 
 const NoteDurations = () => {
+  const stateClasses = { active: 'is-link', nonActive: 'is-light' };
   const [duration, setDuration] = useState(1024);
   const eighth = 512;
   const quarter = 1024;
@@ -15,16 +16,16 @@ const NoteDurations = () => {
 
   return (
     <Wrapper>
-      <Button className={`button ${duration === eighth ? '' : 'is-dark'}`} onClick={() => setDuration(eighth)}>
+      <Button className={`button ${duration === eighth ? stateClasses.active : stateClasses.nonActive}`} onClick={() => setDuration(eighth)}>
         ♪
       </Button>
-      <Button className={`button ${duration === quarter ? '' : 'is-dark'}`} onClick={() => setDuration(quarter)}>
+      <Button className={`button ${duration === quarter ? stateClasses.active : stateClasses.nonActive}`} onClick={() => setDuration(quarter)}>
         𝅘𝅥
       </Button>
-      <Button className={`button ${duration === half ? '' : 'is-dark'}`} onClick={() => setDuration(half)}>
+      <Button className={`button ${duration === half ? stateClasses.active : stateClasses.nonActive}`} onClick={() => setDuration(half)}>
         𝅗𝅥
       </Button>
-      <Button className={`button ${duration === whole ? '' : 'is-dark'}`} onClick={() => setDuration(whole)}>
+      <Button className={`button ${duration === whole ? stateClasses.active : stateClasses.nonActive}`} onClick={() => setDuration(whole)}>
         𝅝
       </Button>
     </Wrapper>

@@ -7,7 +7,6 @@ import getHash from '../../../../helpers/getHash';
 const Title = styled.div`
   display: flex;
   align-items: center;
-  color: white;
 `;
 
 const EditTitle = styled.input`

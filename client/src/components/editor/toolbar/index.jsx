@@ -7,7 +7,7 @@ import PlayButton from './buttons/play';
 import Tempo from './tempo';
 
 const Toolbar = () => (
-  <Wrapper className="box toolbar">
+  <Wrapper className="box has-background-dark has-text-white">
     <UndoButton />
     <CompositionTitle />
     <RightTools>
@@ -33,9 +33,8 @@ const PlaybackWrapper = styled.div`
 const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
-  width: 100%;
   padding: 0.25em;
-  margin: 0!important;
+  border-radius: 0;
 `;
 
 const Spacer = styled.div`

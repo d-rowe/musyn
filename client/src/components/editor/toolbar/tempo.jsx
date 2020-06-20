@@ -14,11 +14,11 @@ const Tempo = () => {
 
   return (
     <Wrapper>
-      <Label className="has-background-dark">{bpm}</Label>
-      <Button className="button is-dark">
+      <Label className="has-background-light has-text-dark">{bpm}</Label>
+      <Button className="button is-light">
         <Minus size="1.3em" onClick={() => updateBpm(bpm - 5)} />
       </Button>
-      <Button className="button is-dark">
+      <Button className="button is-light">
         <Plus size="1.3em" onClick={() => updateBpm(bpm + 5)} />
       </Button>
     </Wrapper>
@@ -41,7 +41,6 @@ const Label = styled.div`
   display: flex;
   justify-content: center;
   font-size: 1.3em;
-  color: white;
   padding-left: 0.25em;
   padding-right: 0.25em;
   margin: 0.25em;
