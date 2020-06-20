@@ -1,41 +1,27 @@
 import React, { Suspense } from 'react';
-import styled from 'styled-components';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
 } from 'react-router-dom';
-import Navbar from './components/layout/navbar';
 const Landing = React.lazy(() => import('./components/landing'));
 const Editor = React.lazy(() => import('./components/editor'));
 
 const App = () => (
   <Router>
-    <Wrapper>
-      <Navbar />
-      <Switch>
-        <Route path="/compositions/:hash">
-          <Suspense fallback={<div>Loading...</div>}>
-            <Editor />
-          </Suspense>
-        </Route>
-        <Router path="/">
-          <Suspense fallback={<div>Loading...</div>}>
-            <Landing />
-          </Suspense>
-        </Router>
-      </Switch>
-    </Wrapper>
+    <Switch>
+      <Route path="/compositions/:hash">
+        <Suspense fallback={<div>Loading...</div>}>
+          <Editor />
+        </Suspense>
+      </Route>
+      <Router path="/">
+        <Suspense fallback={<div>Loading...</div>}>
+          <Landing />
+        </Suspense>
+      </Router>
+    </Switch>
   </Router>
 );
-
-// TODO: Use a proper grid system
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 100%;
-  width: 100%;
-`;
 
 export default App;

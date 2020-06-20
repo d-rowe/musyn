@@ -12,15 +12,10 @@ const CompositionCounter = () => {
   }, []);
 
   return (
-    <Subtitle className="subtitle">
-      {count ? `Home to ${count} compositions and counting` : null}
-    </Subtitle>
+    <h2 className="subtitle has-text-centered">
+      {count ? `home to ${count} compositions and counting` : null}
+    </h2>
   );
 };
-
-const Subtitle = styled.h2`
-  margin-top: 2em;
-  margin-bottom: 5em;
-`;
 
 export default CompositionCounter;
