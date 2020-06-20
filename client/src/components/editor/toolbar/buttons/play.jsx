@@ -27,7 +27,7 @@ const PlayButton = () => {
   };
 
   return (
-    <Button className="button is-dark" onClick={() => onClick()}>
+    <Button className="button is-light" onClick={() => onClick()}>
       {playIcon}
     </Button>
   );

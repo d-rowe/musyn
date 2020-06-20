@@ -10,7 +10,7 @@ const Card = ({
   onSubmit = () => { },
   children,
 }) => (
-  <article className="message is-link">
+  <article className="message is-dark">
     <div className="message-header">
       {title}
     </div>

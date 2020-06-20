@@ -9,6 +9,8 @@ const Measure = ({
   begBarline = false,
   isLastBar = false,
   index,
+  width = '7.5em',
+  height = '15em',
 }) => {
   const container = React.createRef();
   let view;
@@ -41,15 +43,15 @@ const Measure = ({
       onMouseMove={(e) => controller.onMove(e)}
       onClick={() => controller.onClick()}
       onMouseLeave={() => controller.onBlur()}
+      height={height}
+      width={width}
     />
   );
 };
 
 const Wrapper = styled.div`
-  height: 7.5em;
-  width: 15em;
-  background-color: white;
-  margin-left: ${(props) => props.begBarline ? '1.1em' : 0};
+  height: ${(props) => props.height};
+  width: ${(props) => props.width};
 `;
 
 export default Measure;

@@ -6,7 +6,7 @@ import messenger from '../../score/controller/messenger';
 
 const UndoButton = () => (
   <Button
-    className="button is-dark"
+    className="button is-light"
     onClick={() => messenger.undo()}
   >
     <Undo size="1.4em" />

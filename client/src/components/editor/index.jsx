@@ -5,14 +5,13 @@ import Toolbar from './toolbar';
 
 
 const Editor = () => (
-  <Wrapper className="box">
+  <Wrapper>
     <Toolbar />
     <Score />
   </Wrapper>
 );
 
 const Wrapper = styled.div`
-  width: 67em;
   padding: 0;
   margin: 0;
 `;

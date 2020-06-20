@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import ButtonWrapper from './buttonWrapper';
 import redirectToHash from '../../helpers/redirectToHash';
 
 const JoinButton = () => {
@@ -13,11 +14,7 @@ const JoinButton = () => {
     if (hash.length === 5) {
       axios.get(`/api/compositions/${hash}`)
         .then(() => setValidHash(true))
-        .catch(() => {
-          setValidHash(false);
-          // eslint-disable-next-line no-alert
-          alert("Hmm... I'm having trouble finding that composition. Make sure you've entered it in correctly.");
-        });
+        .catch(() => setValidHash(false));
     }
   };
 
@@ -33,30 +30,47 @@ const JoinButton = () => {
     }
   };
 
+  let LeftIcon;
+  if (validHash) {
+    LeftIcon = <i className="fas fa-check" style={{ color: 'hsl(141, 53%, 53%)' }} />;
+  } else if (compositionHash.length === 5) {
+    LeftIcon = <i className="fas fa-times" style={{ color: 'red' }} />;
+  } else {
+    LeftIcon = <i className="fas fa-fingerprint" />;
+  }
+
   return (
-    <div className="field has-addons">
-      <div className="control">
+    <ButtonWrapper className="field has-addons">
+      <p className="control has-icons-left has-icons-right">
         <input
-          className="input"
+          className="input is-medium"
           type="text"
           size="5"
           placeholder="A47P4"
           maxLength="5"
           onChange={updateCode}
           onKeyPress={keyPress}
+          style={{
+            paddingRight: '0px',
+            textTransform: 'uppercase',
+          }}
         />
-      </div>
+        <span className="icon is-small is-left">
+          {LeftIcon}
+        </span>
+      </p>
+
       <div className="control">
         <button
           type="button"
-          className="button is-link"
+          className={`button is-medium${validHash ? ' is-success' : ''}`}
           onClick={join}
           disabled={!validHash}
         >
           Join
         </button>
       </div>
-    </div>
+    </ButtonWrapper>
   );
 };
 
