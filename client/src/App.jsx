@@ -4,8 +4,8 @@ import {
   Switch,
   Route,
 } from 'react-router-dom';
-const Landing = React.lazy(() => import('./components/landing'));
-const Editor = React.lazy(() => import('./components/editor'));
+const Landing = React.lazy(() => import('./pages/landing'));
+const Editor = React.lazy(() => import('./pages/editor'));
 import Loading from './components/general/loading';
 
 const App = () => (

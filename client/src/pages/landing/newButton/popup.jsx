@@ -2,8 +2,8 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState } from 'react';
 import axios from 'axios';
-import Modal from '../../general/modal';
-import Card from '../../general/card';
+import Modal from '../../../components/general/modal';
+import Card from '../../../components/general/card';
 import redirectToHash from '../../../helpers/redirectToHash';
 
 
