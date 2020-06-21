@@ -36,7 +36,7 @@ const JoinButton = () => {
   } else if (compositionHash.length === 5) {
     LeftIcon = <i className="fas fa-times" style={{ color: 'red' }} />;
   } else {
-    LeftIcon = <i className="fas fa-fingerprint" />;
+    LeftIcon = <i className="fas fa-key" />;
   }
 
   return (
