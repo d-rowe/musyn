@@ -15,6 +15,8 @@ const JoinButton = () => {
       axios.get(`/api/compositions/${hash}`)
         .then(() => setValidHash(true))
         .catch(() => setValidHash(false));
+    } else {
+      setValidHash(false);
     }
   };
 
