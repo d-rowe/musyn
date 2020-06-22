@@ -3,7 +3,7 @@ DROP TABLE IF EXISTS edits, snapshots, compositions;
 CREATE TABLE compositions (
   id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   title VARCHAR NOT NULL,
-  hash VARCHAR NOT NULL,
+  hash VARCHAR UNIQUE NOT NULL,
   version INTEGER NOT NULL
 );
 
