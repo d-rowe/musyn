@@ -1,7 +1,6 @@
 /* eslint-disable react/button-has-type */
 import React from 'react';
 import styled from 'styled-components';
-import { Undo } from 'styled-icons/material/Undo';
 import messenger from '../../score/controller/messenger';
 
 const UndoButton = () => (
@@ -9,7 +8,7 @@ const UndoButton = () => (
     className="button is-light"
     onClick={() => messenger.undo()}
   >
-    <Undo size="1.4em" />
+    <i className="fas fa-undo" />
   </Button>
 );
 

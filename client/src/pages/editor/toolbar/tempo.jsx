@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Plus } from 'styled-icons/boxicons-regular/Plus';
-import { Minus } from 'styled-icons/boxicons-regular/Minus';
 import { Transport } from 'tone';
 
 const Tempo = () => {
@@ -15,11 +13,11 @@ const Tempo = () => {
   return (
     <Wrapper>
       <Label className="has-background-light has-text-dark">{bpm}</Label>
-      <Button className="button is-light">
-        <Minus size="1.3em" onClick={() => updateBpm(bpm - 5)} />
+      <Button className="button is-light" onClick={() => updateBpm(bpm - 5)}>
+        <i className="fas fa-minus" />
       </Button>
-      <Button className="button is-light">
-        <Plus size="1.3em" onClick={() => updateBpm(bpm + 5)} />
+      <Button className="button is-light" onClick={() => updateBpm(bpm + 5)}>
+        <i className="fas fa-plus" />
       </Button>
     </Wrapper>
   );
