@@ -3,12 +3,16 @@ import styled from 'styled-components';
 import CompositionTitle from './compositionTitle';
 import NoteDurations from './noteDurations';
 import UndoButton from './buttons/undo';
+import ShareButton from './buttons/share';
 import PlayButton from './buttons/play';
 import Tempo from './tempo';
 
 const Toolbar = () => (
   <Wrapper className="box has-background-dark has-text-white">
-    <UndoButton />
+    <LeftTools>
+      <UndoButton />
+      <ShareButton />
+    </LeftTools>
     <CompositionTitle />
     <RightTools>
       <NoteDurations />
@@ -20,6 +24,11 @@ const Toolbar = () => (
     </RightTools>
   </Wrapper>
 );
+
+const LeftTools = styled.div`
+  display: flex;
+  align-items: left;
+`;
 
 const RightTools = styled.div`
   display: flex;
