@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import cursors from '../score/model/cursors';
 
-const imgLocation = '/assets/svg/';
-const imgExtension = 'svg';
+const imgLocation = '/assets/img/';
+const imgExtension = 'png';
 
 const NoteDurations = () => {
   const stateClasses = { active: 'is-link', nonActive: 'is-light' };
