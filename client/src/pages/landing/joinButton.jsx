@@ -4,17 +4,23 @@ import ButtonWrapper from './buttonWrapper';
 import redirectToHash from '../../helpers/redirectToHash';
 
 const JoinButton = () => {
+  const validColor = 'hsl(141, 53%, 53%)';
+  const invalidColor = 'red';
   const [compositionHash, setCompositionHash] = useState('');
   const [validHash, setValidHash] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const updateCode = (e) => {
     const hash = e.target.value.toLowerCase();
     setCompositionHash(hash);
 
     if (hash.length === 5) {
+      setLoading(true);
+
       axios.get(`/api/compositions/${hash}`)
         .then(() => setValidHash(true))
-        .catch(() => setValidHash(false));
+        .catch(() => setValidHash(false))
+        .finally(() => setLoading(false));
     } else {
       setValidHash(false);
     }
@@ -32,14 +38,21 @@ const JoinButton = () => {
     }
   };
 
-  let LeftIcon;
-  if (validHash) {
-    LeftIcon = <i className="fas fa-check" style={{ color: 'hsl(141, 53%, 53%)' }} />;
-  } else if (compositionHash.length === 5) {
-    LeftIcon = <i className="fas fa-times" style={{ color: 'red' }} />;
-  } else {
-    LeftIcon = <i className="fas fa-key" />;
-  }
+  const getStatusIcon = () => {
+    if (loading) {
+      return <i className="fas fa-circle-notch fa-spin" />;
+    }
+
+    if (validHash) {
+      return <i className="fas fa-check" style={{ color: validColor }} />;
+    }
+
+    if (compositionHash.length === 5) {
+      return <i className="fas fa-times" style={{ color: invalidColor }} />;
+    }
+
+    return <i className="fas fa-key" />;
+  };
 
   return (
     <ButtonWrapper className="field has-addons">
@@ -58,7 +71,7 @@ const JoinButton = () => {
           }}
         />
         <span className="icon is-small is-left">
-          {LeftIcon}
+          {getStatusIcon()}
         </span>
       </p>
 
