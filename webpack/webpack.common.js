@@ -4,7 +4,7 @@ const CompressionPlugin = require('compression-webpack-plugin');
 const BrotliPlugin = require('brotli-webpack-plugin');
 
 const ENTRY = path.resolve(__dirname, '..', 'client', 'src', 'index.jsx');
-const OUTPUT_PATH = path.resolve(__dirname, '..', 'client', 'public');
+const OUTPUT_PATH = path.resolve(__dirname, '..', 'client', 'public', 'build');
 const OUTPUT_FILENAME = 'js/bundle.js';
 
 module.exports = {
@@ -12,7 +12,7 @@ module.exports = {
   output: {
     path: OUTPUT_PATH,
     filename: OUTPUT_FILENAME,
-    publicPath: '/',
+    publicPath: '/build/',
   },
   module: {
     rules: [
@@ -49,7 +49,7 @@ module.exports = {
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: 'css/mystyles.css',
+      filename: 'css/styles.css',
     }),
     new CompressionPlugin({
       filename: '[path].gz[query]',
