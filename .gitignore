@@ -1,6 +1,5 @@
 node_modules
-bundle.js
-*.bundle.js
 .env
 client/public/*.ogg
-client/public/css/mystyles.css
+client/public/js
+client/public/css
