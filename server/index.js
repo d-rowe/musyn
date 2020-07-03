@@ -17,8 +17,8 @@ messenger(server);
 
 // Middleware
 app.use(compression());
+app.get('/compositions/:hash', composition.serve(PUBLIC_DIR));
 app.use(static(PUBLIC_DIR));
-app.use('/compositions/:hash', composition.serve(PUBLIC_DIR));
 app.use('/api', bodyParser.json(), api);
 
 server.listen(PORT, () => {

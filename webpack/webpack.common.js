@@ -12,6 +12,7 @@ module.exports = {
   output: {
     path: OUTPUT_PATH,
     filename: OUTPUT_FILENAME,
+    publicPath: '/',
   },
   module: {
     rules: [
