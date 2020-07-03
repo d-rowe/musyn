@@ -3,3 +3,4 @@ bundle.js
 *.bundle.js
 .env
 client/public/*.ogg
+client/public/css/mystyles.css
