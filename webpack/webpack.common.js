@@ -1,7 +1,5 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const CompressionPlugin = require('compression-webpack-plugin');
-const BrotliPlugin = require('brotli-webpack-plugin');
 
 const ENTRY = path.resolve(__dirname, '..', 'client', 'src', 'index.jsx');
 const OUTPUT_PATH = path.resolve(__dirname, '..', 'client', 'public', 'build');
@@ -50,19 +48,6 @@ module.exports = {
   plugins: [
     new MiniCssExtractPlugin({
       filename: 'css/styles.css',
-    }),
-    new CompressionPlugin({
-      filename: '[path].gz[query]',
-      algorithm: 'gzip',
-      test: /\.js$|\.css$|\.html$/,
-      threshold: 10240,
-      minRatio: 0.7
-    }),
-    new BrotliPlugin({
-      asset: '[path].br[query]',
-      test: /\.js$|\.css$|\.html$/,
-      threshold: 10240,
-      minRatio: 0.7
     }),
   ],
 };
