@@ -4,9 +4,9 @@
   "description": "Collaborative music notation",
   "main": "index.js",
   "scripts": {
-    "server-dev": "nodemon server",
-    "client-dev": "webpack --config webpack/webpack.dev.js --watch",
-    "dev": "concurrently \"npm:server-dev\" \"npm:client-dev\"",
+    "server:dev": "nodemon server",
+    "client:dev": "webpack --config webpack/webpack.dev.js --watch",
+    "dev": "concurrently \"npm:server:dev\" \"npm:client:dev\"",
     "start": "node server",
     "build": "webpack --config webpack/webpack.prod.js"
   },
