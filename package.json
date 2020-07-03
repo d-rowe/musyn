@@ -41,6 +41,7 @@
     "webpack-merge": "^4.2.2"
   },
   "devDependencies": {
+    "babel-eslint": "^10.1.0",
     "bulma": "^0.8.2",
     "concurrently": "^5.1.0",
     "css-loader": "^3.6.0",
