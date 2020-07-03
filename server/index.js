@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const compression = require('compression');
 const bodyParser = require('body-parser');
 const path = require('path');
 const expressStaticGzip = require('express-static-gzip');
@@ -13,6 +14,8 @@ const apiRouter = require('./routes/api');
 
 const PORT = process.env.PORT || 3000;
 const PUBLIC_DIR = path.resolve(__dirname, '..', 'client', 'public');
+
+app.use(compression());
 
 app.use(expressStaticGzip(PUBLIC_DIR, {
   enableBrotli: true,
