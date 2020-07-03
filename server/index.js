@@ -6,14 +6,16 @@ const path = require('path');
 
 const app = express();
 const server = require('http').Server(app);
-const io = require('socket.io').listen(server);
-require('./controller/messenger')(io);
-const { static, composition } = require('./controller');
+const { static, composition, messenger } = require('./controller');
 const api = require('./routes/api');
 
 const PORT = process.env.PORT || 3000;
 const PUBLIC_DIR = path.resolve(__dirname, '..', 'client', 'public');
 
+// Initialize socket.io messenger server
+messenger(server);
+
+// Middleware
 app.use(compression());
 app.use(static(PUBLIC_DIR));
 app.use('/compositions/:hash', composition.serve(PUBLIC_DIR));
