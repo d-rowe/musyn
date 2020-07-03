@@ -1,5 +1,5 @@
+const socketIO = require('socket.io');
 const score = require('../entity');
-
 
 const noteHandler = async (msg) => {
   const {
@@ -18,7 +18,9 @@ const noteHandler = async (msg) => {
   }
 };
 
-module.exports = (io) => {
+module.exports = (server) => {
+  const io = socketIO.listen(server);
+
   io.on('connection', (socket) => {
     const { composition } = socket.handshake.query;
     if (composition) {
