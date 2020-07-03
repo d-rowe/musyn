@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const composition = require('../entity/composition');
 
 module.exports = {
@@ -31,10 +32,12 @@ module.exports = {
       .catch(() => res.sendStatus(500));
   },
 
-  serve: (PUBLIC_DIR) => (req, res, next) => {
+  serve: (PUBLIC_DIR) => (req, res) => {
     const { hash } = req.params;
+    const html = path.join(PUBLIC_DIR, 'index.html');
+
     composition.getId(hash)
-      .then(() => express.static(PUBLIC_DIR)(req, res, next))
+      .then(() => res.sendFile(html))
       .catch(() => res.status(404).send('Composition not found!'));
   },
 
