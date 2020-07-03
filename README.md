@@ -32,9 +32,11 @@ Make a mistake? Change your mind? No worries. We’ll keep track of your edits s
 
 2. Install dependencies with `npm install`
 
-3. Create a database in PostgreSQL
+3. Create a database in PostgreSQL. These instructions and the `.env.example` file default to a database and user called `musyn`.
 
-4. Execute the database schema located in `database/schema.sql`
+4. Execute the database schema 
+
+   `$ psql -d musyn -U musyn -f database/schema.sql`
 
 5. Copy `.env.example` to `.env`
 
@@ -46,4 +48,4 @@ Make a mistake? Change your mind? No worries. We’ll keep track of your edits s
 
 # Contributing
 
-Want to help? Great! Checkout the [issue](https://github.com/d-rowe/musyn/issues) tracker and find something you'd like to tackle.
+Want to help? Great! Checkout the [issue tracker](https://github.com/d-rowe/musyn/issues) and find something you'd like to tackle.
