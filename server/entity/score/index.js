@@ -1,24 +1,24 @@
-const edits = require('./edit');
-const snapshot = require('./snapshot');
-const compositions = require('./composition');
+const edit = require('../edit');
+const snapshot = require('../snapshot');
+const composition = require('../composition');
 
 class Score {
   static async createNote(uuid, compositionHash, pitch, measure, tick, duration) {
     const action = 'create';
-    const compositionId = await compositions.getId(compositionHash);
+    const compositionId = await composition.getId(compositionHash);
 
-    await edits.register(uuid, compositionId, action, pitch, measure, tick, duration);
+    await edit.register(uuid, compositionId, action, pitch, measure, tick, duration);
     await snapshot.update(compositionId);
   }
 
   static async deleteNote(uuid, pitch, measure, tick) {
     const action = 'delete';
-    await edits.register(uuid, action, pitch, measure, tick);
+    await edit.register(uuid, action, pitch, measure, tick);
     await snapshot.update();
   }
 
-  static undo(composition) {
-    return edits.undo(composition);
+  static undo(compositionHash) {
+    return edit.undo(compositionHash);
   }
 
   static get(hash) {

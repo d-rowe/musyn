@@ -1,6 +1,6 @@
 const db = require('../../../database');
 
-class Edits {
+class Edit {
   static async register(uuid, compositionId, action, pitch, measure, start, duration) {
     const versionQ = `
       SELECT ROW_NUMBER() OVER(PARTITION BY composition_id)
@@ -75,4 +75,4 @@ class Edits {
   }
 }
 
-module.exports = Edits;
+module.exports = Edit;

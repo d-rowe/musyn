@@ -2,7 +2,7 @@ const db = require('../../../database');
 const edit = require('../edit');
 const compileEdits = require('./compile');
 
-class Cache {
+class Snapshot {
   static async get(hash) {
     const getQ = `
       SELECT edit_id, version, score FROM snapshots
@@ -44,4 +44,4 @@ class Cache {
   }
 }
 
-module.exports = Cache;
+module.exports = Snapshot;
