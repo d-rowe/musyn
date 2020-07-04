@@ -1,5 +1,5 @@
 const socketIO = require('socket.io');
-const score = require('../entity');
+const score = require('../entity/score');
 
 const noteHandler = async (msg) => {
   const {
