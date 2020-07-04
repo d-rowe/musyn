@@ -19,7 +19,7 @@ const NewButton = () => {
 
         <button
           type="button"
-          className="button is-medium is-light"
+          className="button is-medium"
           onClick={() => {
             if (popupHasOpened) {
               setPopupActive(false);

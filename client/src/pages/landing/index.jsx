@@ -19,6 +19,15 @@ const Landing = () => (
             <NewButton />
             <JoinButton />
           </ActionsWrapper>
+          <br />
+          <h2 className="subtitle">
+            Login
+          </h2>
+          <form action="/auth/google">
+            <button type="submit" className="button">
+              <i className="fab fa-google" />
+            </button>
+          </form>
         </div>
       </div>
     </section>
