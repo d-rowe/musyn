@@ -1,4 +1,23 @@
-DROP TABLE IF EXISTS edits, snapshots, compositions;
+DROP TABLE IF EXISTS auth_providers, users, edits, snapshots, compositions;
+
+CREATE TABLE auth_providers (
+  id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  name VARCHAR NOT NULL
+);
+
+INSERT INTO auth_providers (name) VALUES ('github');
+INSERT INTO auth_providers (name) VALUES ('google');
+
+CREATE TABLE users (
+  id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  display_name VARCHAR NOT NULL,
+  given_name VARCHAR NOT NULL,
+  family_name VARCHAR,
+  auth_id VARCHAR UNIQUE NOT NULL,
+  auth_provider_id INTEGER REFERENCES auth_providers(id) ON DELETE CASCADE
+);
+
+CREATE UNIQUE INDEX ON users(auth_id);
 
 CREATE TABLE compositions (
   id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,

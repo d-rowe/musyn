@@ -1,7 +1,7 @@
 const crypto = require('crypto');
 const db = require('../../../database');
 
-class Compositions {
+class Composition {
   static get(hash) {
     const getQ = `
       SELECT * FROM compositions
@@ -81,4 +81,4 @@ class Compositions {
   }
 }
 
-module.exports = Compositions;
+module.exports = Composition;
