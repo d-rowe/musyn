@@ -6,7 +6,7 @@ const path = require('path');
 
 const app = express();
 const server = require('http').Server(app);
-const { static, composition, messenger } = require('./controller');
+const { serveStatic, composition, messenger } = require('./controller');
 const api = require('./routes/api');
 
 const PORT = process.env.PORT || 3000;
@@ -18,7 +18,7 @@ messenger(server);
 // Middleware
 app.use(compression());
 app.get('/compositions/:hash', composition.serve(PUBLIC_DIR));
-app.use(static(PUBLIC_DIR));
+app.use(serveStatic(PUBLIC_DIR));
 app.use('/api', bodyParser.json(), api);
 
 server.listen(PORT, () => {

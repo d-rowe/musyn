@@ -4,9 +4,10 @@ import {
   Switch,
   Route,
 } from 'react-router-dom';
+import Loading from './components/general/loading';
+
 const Landing = React.lazy(() => import('./pages/landing'));
 const Editor = React.lazy(() => import('./pages/editor'));
-import Loading from './components/general/loading';
 
 const App = () => (
   <Router>
