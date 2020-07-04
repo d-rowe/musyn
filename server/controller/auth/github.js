@@ -1,3 +1,5 @@
-module.exports = (req, res) => {
-  res.send('Logging in with GitHub');
-};
+const passport = require('passport');
+
+module.exports = passport.authenticate('github', {
+  scope: ['profile'],
+});
