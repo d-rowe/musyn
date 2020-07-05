@@ -5,5 +5,5 @@ module.exports = {
     scope: ['profile'],
   }),
   middleware: passport.authenticate('google'),
-  redirect: (req, res) => res.send('Callback URI'),
+  redirect: (req, res) => res.redirect('/profile'),
 };

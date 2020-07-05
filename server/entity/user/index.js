@@ -14,15 +14,25 @@ class User {
     );
   }
 
-  static exists(provider, authID) {
+  static get(userID) {
     const query = `
-      SELECT id FROM users
-      WHERE auth_provider_id = (SELECT id FROM auth_providers WHERE name = $1 LIMIT 1)
-      AND auth_id = $2;
+      SELECT * FROM USERS
+      WHERE id = $1
     `;
 
-    return db.query(query, [provider, authID])
-      .then(([results]) => results !== undefined);
+    return db.query(query, [userID])
+      .then(([user]) => user);
+  }
+
+  static getByAuthID(authID) {
+    const query = `
+      SELECT * FROM users
+      WHERE auth_id = $1
+      LIMIT 1;
+    `;
+
+    return db.query(query, [authID])
+      .then(([user]) => user);
   }
 }
 
