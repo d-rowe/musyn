@@ -2,13 +2,24 @@ const User = require('../../entity/user');
 
 module.exports = (authProvider) => async (accessToken, refreshToken, profile, done) => {
   const authID = profile.id;
-  const name = profile.displayName;
+  const { displayName } = profile;
+  let name;
+  if (authProvider === 'github') {
+    name = displayName;
+  } else if (authProvider === 'google') {
+    const { givenName, familyName } = profile.name;
+    name = familyName ? `${givenName} ${familyName}` : givenName;
+  } else {
+    // eslint-disable-next-line no-console
+    console.error('Unknown auth provider:', authProvider);
+    return;
+  }
 
   User.getByAuthID(authID)
     .then((user) => {
       if (!user) {
         // TODO: Log new user registration
-        return User.register(authID, name, authProvider)
+        return User.register(authID, name, displayName, authProvider)
           .then(() => User.getByAuthID(authID));
       }
 

@@ -11,6 +11,7 @@ INSERT INTO auth_providers (name) VALUES ('google');
 CREATE TABLE users (
   id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   name VARCHAR NOT NULL,
+  display_name VARCHAR NOT NULL,
   auth_id VARCHAR UNIQUE NOT NULL,
   auth_provider_id INTEGER REFERENCES auth_providers(id) ON DELETE CASCADE
 );
