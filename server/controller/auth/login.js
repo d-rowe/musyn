@@ -1,19 +1,14 @@
 const User = require('../../entity/user');
 
-module.exports = async (accessToken, refreshToken, profile, done) => {
-  const {
-    id: authID,
-    displayName,
-    name: {
-      givenName, familyName,
-    },
-  } = profile;
+module.exports = (authProvider) => async (accessToken, refreshToken, profile, done) => {
+  const authID = profile.id;
+  const name = profile.displayName;
 
   User.getByAuthID(authID)
     .then((user) => {
       if (!user) {
         // TODO: Log new user registration
-        return User.register(displayName, givenName, familyName, authID, 'google')
+        return User.register(authID, name, authProvider)
           .then(() => User.getByAuthID(authID));
       }
 

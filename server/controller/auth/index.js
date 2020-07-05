@@ -1,6 +1,7 @@
 require('./setup');
 const authCheck = require('./authCheck');
 const google = require('./google');
+const github = require('./github');
 
 module.exports = {
   login: (req, res) => {
@@ -11,4 +12,5 @@ module.exports = {
   },
   authCheck,
   google,
+  github,
 };
