@@ -28,11 +28,10 @@ app.use(cookieSession({
 app.use(passport.initialize());
 app.use(passport.session());
 app.get('/compositions/:hash', composition.serve(PUBLIC_DIR));
-app.use(authCheck, serveStatic(PUBLIC_DIR));
-app.use('/welcome', serveStatic(PUBLIC_DIR));
-app.use('/api', bodyParser.json(), apiRoutes);
+app.use('/', serveStatic(PUBLIC_DIR));
+app.use('/home', authCheck, serveStatic(PUBLIC_DIR));
+app.use('/api', authCheck, bodyParser.json(), apiRoutes);
 app.use('/auth', authRoutes);
-app.use('/profile', authCheck, (req, res) => res.send(`Welcome ${req.user.display_name}`));
 
 server.listen(PORT, () => {
   // eslint-disable-next-line no-console
