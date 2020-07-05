@@ -1,7 +1,7 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20');
 const GithubStrategy = require('passport-github2').Strategy;
-const login = require('./login');
+const redirectCallback = require('./redirectCallback');
 const User = require('../../entity/user');
 
 passport.serializeUser((user, done) => {
@@ -23,7 +23,7 @@ passport.use(
     callbackURL: '/auth/google/redirect',
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  }, login('google')),
+  }, redirectCallback('google')),
 );
 
 passport.use(
@@ -31,5 +31,5 @@ passport.use(
     callbackURL: '/auth/github/redirect',
     clientID: process.env.GITHUB_CLIENT_ID,
     clientSecret: process.env.GITHUB_CLIENT_SECRET,
-  }, login('github')),
+  }, redirectCallback('github')),
 );
