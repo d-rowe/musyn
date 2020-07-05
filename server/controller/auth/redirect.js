@@ -12,13 +12,12 @@ module.exports = async (accessToken, refreshToken, profile, done) => {
   User.getByAuthID(authID)
     .then((user) => {
       if (!user) {
-        // eslint-disable-next-line no-console
-        console.log('Registering', displayName);
+        // TODO: Log new user registration
         return User.register(displayName, givenName, familyName, authID, 'google')
           .then(() => User.getByAuthID(authID));
       }
-      // eslint-disable-next-line no-console
-      console.log(displayName, 'already registered');
+
+      // TODO: Log user login
       return user;
     })
     .then((user) => done(null, user))
