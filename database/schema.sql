@@ -2,7 +2,7 @@ DROP TABLE IF EXISTS auth_providers, users, edits, snapshots, compositions;
 
 CREATE TABLE auth_providers (
   id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-  name VARCHAR NOT NULL
+  name VARCHAR UNIQUE NOT NULL
 );
 
 INSERT INTO auth_providers (name) VALUES ('github');
