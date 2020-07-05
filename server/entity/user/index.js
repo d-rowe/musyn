@@ -1,23 +1,22 @@
 const db = require('../../../database');
 
 class User {
-  static register(displayName, givenName, familyName, authID, provider) {
+  static register(authID, name, provider) {
     const query = `
-      INSERT INTO users (
-        display_name, given_name, family_name, auth_id, auth_provider_id
-      ) VALUES ($1, $2, $3, $4, (SELECT id FROM auth_providers WHERE name = $5 LIMIT 1));
+      INSERT INTO users (auth_id, name, auth_provider_id)
+      VALUES ($1, $2, (SELECT id FROM auth_providers WHERE name = $3 LIMIT 1));
     `;
 
     return db.query(
       query,
-      [displayName, givenName, familyName, authID, provider],
+      [authID, name, provider],
     );
   }
 
   static get(userID) {
     const query = `
       SELECT * FROM USERS
-      WHERE id = $1
+      WHERE id = $1;
     `;
 
     return db.query(query, [userID])
