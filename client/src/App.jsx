@@ -7,7 +7,6 @@ import {
 import Loading from './components/general/loading';
 
 const Home = React.lazy(() => import('./pages/home'));
-const Landing = React.lazy(() => import('./pages/landing'));
 const Editor = React.lazy(() => import('./pages/editor'));
 
 const App = () => (
@@ -18,14 +17,9 @@ const App = () => (
           <Editor />
         </Suspense>
       </Route>
-      <Route path="/home">
-        <Suspense fallback={<div />}>
-          <Home />
-        </Suspense>
-      </Route>
       <Router path="/">
         <Suspense fallback={<div />}>
-          <Landing />
+          <Home />
         </Suspense>
       </Router>
     </Switch>

@@ -9,7 +9,6 @@ const passport = require('passport');
 const app = express();
 const server = require('http').Server(app);
 const { serveStatic, composition, messenger } = require('./controller');
-const { authCheck } = require('./controller/auth');
 const apiRoutes = require('./routes/api');
 const authRoutes = require('./routes/auth');
 
@@ -28,9 +27,8 @@ app.use(cookieSession({
 app.use(passport.initialize());
 app.use(passport.session());
 app.get('/compositions/:hash', composition.serve(PUBLIC_DIR));
-app.use('/', serveStatic(PUBLIC_DIR));
-app.use('/home', authCheck, serveStatic(PUBLIC_DIR));
-app.use('/api', authCheck, bodyParser.json(), apiRoutes);
+app.use(serveStatic(PUBLIC_DIR));
+app.use('/api', bodyParser.json(), apiRoutes);
 app.use('/auth', authRoutes);
 
 server.listen(PORT, () => {
