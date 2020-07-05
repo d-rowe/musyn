@@ -1,6 +1,6 @@
 require('./setup');
+const authCheck = require('./authCheck');
 const google = require('./google');
-const github = require('./github');
 
 module.exports = {
   login: (req, res) => {
@@ -9,6 +9,6 @@ module.exports = {
   logout: (req, res) => {
     res.send('Logging out');
   },
+  authCheck,
   google,
-  github,
 };
