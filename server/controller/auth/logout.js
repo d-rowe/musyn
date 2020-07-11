@@ -1,1 +1,4 @@
-module.exports = (req) => req.logout();
+module.exports = (req, res) => {
+  req.logout();
+  res.redirect('/');
+};
