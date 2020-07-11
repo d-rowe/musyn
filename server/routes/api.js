@@ -1,7 +1,6 @@
 const router = require('express').Router();
-const composition = require('../../controller/composition');
-const score = require('../../controller/score');
-
+const composition = require('../controller/composition');
+const score = require('../controller/score');
 
 router.get('/scores/:hash', score.get);
 router.get('/compositions', composition.count);

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import ButtonWrapper from './buttonWrapper';
-import redirectToHash from '../../helpers/redirectToHash';
+import redirectToHash from '../../client/src/helpers/redirectToHash';
 
 const JoinButton = () => {
   const validColor = 'hsl(141, 53%, 53%)';

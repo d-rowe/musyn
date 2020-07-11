@@ -17,6 +17,7 @@ const PUBLIC_DIR = path.resolve(__dirname, '..', 'client', 'public');
 
 const dev = process.env.NODE_ENV !== 'production';
 const nextApp = next({ dev });
+const pageController = require('./controller/pages')(nextApp);
 
 nextApp.prepare().then(() => {
   const app = express();
@@ -36,11 +37,10 @@ nextApp.prepare().then(() => {
   app.use(passport.session());
 
   app.get('/compositions/:hash', composition.serve(PUBLIC_DIR));
+  app.get('/', pageController('/home'));
   app.use(serveStatic(PUBLIC_DIR));
   app.use('/api', bodyParser.json(), apiRoutes);
   app.use('/auth', authRoutes);
-
-  app.get('/home', (req, res) => nextApp.render(req, res, '/home', req.query));
 
   app.all('*', (req, res) => handle(req, res));
 

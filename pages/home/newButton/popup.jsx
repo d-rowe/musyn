@@ -2,10 +2,9 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState } from 'react';
 import axios from 'axios';
-import Modal from '../../../components/general/modal';
-import Card from '../../../components/general/card';
-import redirectToHash from '../../../helpers/redirectToHash';
-
+import Modal from '../../../client/src/components/general/modal';
+import Card from '../../../client/src/components/general/card';
+import redirectToHash from '../../../client/src/helpers/redirectToHash';
 
 const NewCompPopup = ({ active }) => {
   const [title, setTitle] = useState('');

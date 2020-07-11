@@ -1,9 +1,5 @@
 const router = require('express').Router();
-const {
-  logout,
-  google,
-  github,
-} = require('../../controller/auth');
+const { logout, google, github } = require('../controller/auth');
 
 router.get('/logout', logout);
 
