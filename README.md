@@ -32,7 +32,7 @@ Make a mistake? Change your mind? No worries. We’ll keep track of your edits s
 
 2. Install dependencies with `npm install`
 
-3. Create a database in PostgreSQL. These instructions and the `.env.example` file default to a database and user called `musyn`.
+3. Create a database in PostgreSQL. These instructions and the `.env.example` assume a database and user named `musyn`.
 
 4. Execute the database schema 
 
