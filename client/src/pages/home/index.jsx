@@ -4,7 +4,6 @@ import axios from 'axios';
 import styled from 'styled-components';
 import NewButton from './newButton';
 import JoinButton from './joinButton';
-import Login from './login';
 
 const Landing = () => {
   const [username, setUsername] = useState(null);
@@ -31,13 +30,6 @@ const Landing = () => {
               <NewButton />
               <JoinButton />
             </ActionsWrapper>
-            {username
-              ? null
-              : (
-                <LoginWrapper>
-                  <Login />
-                </LoginWrapper>
-              )}
           </div>
         </div>
       </section>
@@ -52,13 +44,6 @@ const ActionsWrapper = styled.div`
     flex-direction: column;
     align-items: center;
   }
-`;
-
-const LoginWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  margin-top: 50px;
 `;
 
 export default Landing;
