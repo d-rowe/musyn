@@ -5,6 +5,7 @@ import NoteDurations from './noteDurations';
 import UndoButton from './buttons/undo';
 import ShareButton from './buttons/share';
 import PlayButton from './buttons/play';
+import ToneButton from './buttons/tone';
 import Tempo from './tempo';
 
 const Toolbar = () => (
@@ -12,6 +13,7 @@ const Toolbar = () => (
     <LeftTools>
       <UndoButton />
       <ShareButton />
+      <ToneButton />
     </LeftTools>
     <CompositionTitle />
     <RightTools>
