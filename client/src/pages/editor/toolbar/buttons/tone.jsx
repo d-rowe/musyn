@@ -4,11 +4,11 @@ import styled from 'styled-components';
 const imgLocation = '/assets/img/';
 const imgExtension = 'svg';
 
-const ToneButton = () => {
-  const [isOpen, setIsOpen] = useState(false);
-
+const ToneButton = ({toneOnClick}) => {
   return (
-    <Button className='button is-light' onClick = {() => onClick()} img = 'piano_keys' >
+    <Button className='button is-light'
+      onClick = {() => toneOnClick()}
+      img = 'piano_keys' >
     </Button>
   )
 }
