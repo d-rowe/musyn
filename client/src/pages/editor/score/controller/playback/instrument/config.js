@@ -1,4 +1,4 @@
-const PATH = '/assets/audio/samples';
+const PATH = '/assets/audio/samples/';
 const EXTENSION = 'ogg';
 const PITCHES = [
   'A3', 'A4', 'A5', 'A6', 'A7',

@@ -8,12 +8,12 @@ import PlayButton from './buttons/play';
 import ToneButton from './buttons/tone';
 import Tempo from './tempo';
 
-const Toolbar = () => (
+const Toolbar = ({toneOnClick}) => (
   <Wrapper className="box has-background-dark has-text-white">
     <LeftTools>
       <UndoButton />
       <ShareButton />
-      <ToneButton />
+      <ToneButton toneOnClick = {() => toneOnClick()} />
     </LeftTools>
     <CompositionTitle />
     <RightTools>
