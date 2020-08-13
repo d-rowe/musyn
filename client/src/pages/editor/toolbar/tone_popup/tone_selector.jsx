@@ -10,13 +10,11 @@ const toneReducer = (state, action) => {
       return {isOpen: true}
     case 'close':
       return {isOpen: false}
-    default :
+    default:
       throw new Error();
   }
-
 }
 const ToneSelector = () => {
-
 
   return (
     <>
