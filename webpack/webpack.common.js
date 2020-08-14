@@ -46,8 +46,8 @@ module.exports = {
     extensions: ['.js', '.jsx'],
     modules: ['node_modules'],
     alias: {
-      config: path.resolve(__dirname, '..', 'config')
-    }
+      config: path.resolve(__dirname, '..', 'config'),
+    },
   },
   plugins: [
     new MiniCssExtractPlugin({
@@ -55,9 +55,3 @@ module.exports = {
     }),
   ],
 };
-
-
-
-
-
-
