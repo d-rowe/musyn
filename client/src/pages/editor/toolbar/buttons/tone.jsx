@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import paths from 'config/paths';
 
-const imgLocation = '/assets/img/';
+const imgLocation = paths.image;
 const imgExtension = 'svg';
 
 const ToneButton = ({toneOnClick}) => {
   return (
     <Button className='button is-light'
       onClick = {() => toneOnClick()}
-      img = 'piano_keys' >
+      img = 'Keys_Piano' >
     </Button>
   )
 }

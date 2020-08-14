@@ -9,12 +9,13 @@ import Loading from './components/general/loading';
 const Home = React.lazy(() => import('./pages/home'));
 const Editor = React.lazy(() => import('./pages/editor'));
 
-const App = () => (
+const App = ({tones}) => {
+  return (
   <Router>
     <Switch>
       <Route path="/compositions/:hash">
         <Suspense fallback={<Loading message="Digging through the library" />}>
-          <Editor />
+          <Editor tones={tones}/>
         </Suspense>
       </Route>
       <Router path="/">
@@ -24,6 +25,7 @@ const App = () => (
       </Router>
     </Switch>
   </Router>
-);
+  )
+};
 
 export default App;

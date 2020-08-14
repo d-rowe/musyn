@@ -18,6 +18,7 @@
     "@babel/preset-react": "^7.8.3",
     "axios": "^0.19.2",
     "babel-loader": "^8.0.6",
+    "bluebird": "^3.7.2",
     "body-parser": "^1.19.0",
     "brotli-webpack-plugin": "^1.1.0",
     "compression": "^1.7.4",
@@ -31,10 +32,12 @@
     "passport": "^0.4.1",
     "passport-github2": "^0.1.12",
     "passport-google-oauth20": "^2.0.0",
+    "path": "^0.12.7",
     "pg": "^7.18.2",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "react-router-dom": "^5.2.0",
+    "require-all": "^3.0.0",
     "socket.io": "^2.3.0",
     "socket.io-client": "^2.3.0",
     "styled-components": "^5.0.1",
@@ -56,6 +59,7 @@
     "eslint-plugin-react": "^7.18.3",
     "eslint-plugin-react-hooks": "^1.7.0",
     "node-sass": "^4.14.1",
+    "nodemon": "^2.0.4",
     "sass-loader": "^9.0.0",
     "style-loader": "^1.2.1"
   }

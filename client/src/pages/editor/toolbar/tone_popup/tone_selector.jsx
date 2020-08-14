@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import paths from 'config/paths';
 
 const imgLocation = '/assets/img/';
 const imgExtension = 'svg';
@@ -13,20 +14,41 @@ const toneReducer = (state, action) => {
     default:
       throw new Error();
   }
-}
-const ToneSelector = () => {
+  }
 
+const ToneSelector = ({tones}) => {
+  let l = tones.length;
+  const EXTENSION = '.svg';
   return (
     <>
-      <PopUp className='popUp' onClick = {() => onClick()}>
-        <Circle className='circle' />
+      <PopUp className='popUp' >
+        <Circle className='circle'>
+           {
+             tones.map((tone,i)=>{
+               let left = (50 - 35*Math.cos(-0.5 * Math.PI - 2*(1/l)*i*Math.PI)).toFixed(4) + "%";
+               let top = (50 + 35*Math.sin(-0.5 * Math.PI - 2*(1/l)*i*Math.PI)).toFixed(4) + "%";
+               let background = `url(${paths.image}${tone}${EXTENSION})`;
+               let divStyle = {
+               left: left,
+               top: top,
+               background: background
+             };
+             return (
+               <Icon className='icon' id={tone} key={tone+i} style={divStyle} >
+                <ToolTip>{tone}</ToolTip>
+               </Icon>
+
+             );
+           })}
+        </Circle>
       </PopUp>
     </>
   )
-}
+};
 
 const PopUp = styled.nav`
   position: fixed;
+  border-radius: 50%;
   background-color: white;
   width: 50%;
   height: 50%;
@@ -43,66 +65,57 @@ const PopUp = styled.nav`
 const Circle = styled.div`
   width: 250px;
   height: 250px;
-  opacity: 0;
-
-  -webkit-transform: scale(0);
-  -moz-transform: scale(0);
-  transform: scale(0);
-
-  -webkit-transition: all 0.4s ease-out;
-  -moz-transition: all 0.4s ease-out;
-  transition: all 0.4s ease-out;
-
-
-.open.& {
   opacity: 1;
-
-  -webkit-transform: scale(1);
-  -moz-transform: scale(1);
-  transform: scale(1);
-}
-
-& a {
-  text-decoration: none;
-  color: white;
-  display: block;
-  height: 40px;
-  width: 40px;
-  line-height: 40px;
-  margin-left: -20px;
-  margin-top: -20px;
-  position: absolute;
-  text-align: center;
-
-}
-
-& a:hover {
-  color: #eef;
-}
-
 `;
 
-const menuButton = styled.div`
-  & {
-    position: absolute;
-    top: calc(50% - 30px);
-    left: calc(50% - 30px);
+const Icon = styled.div`
     text-decoration: none;
-    text-align: center;
-    color: #444;
-    border-radius: 50%;
+    color: white;
     display: block;
-    height: 40px;
-    width: 40px;
+    height: 35px;
+    width: 35px;
     line-height: 40px;
-    padding: 10px;
-    background: #dde;
-  }
+    margin-left: -20px;
+    margin-top: -20px;
+    position: absolute;
+    text-align: center;
 
   &:hover {
-    background-color: #eef;
+    color: blue;
+  }`;
+
+  const ToolTip = styled.span`
+    visibility: hidden;
+    width: 120px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 0.3s;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
   }
-`;
+
+  .icon:hover & {
+    visibility: visible;
+    opacity: 1;
+  }
+  `;
 
 export { toneReducer };
 export default ToneSelector;
