@@ -6,12 +6,12 @@ import ToneSelector, { toneReducer } from './toolbar/tone_popup/tone_selector';
 
 const initialState = {isOpen: false};
 
-const Editor = () => {
+const Editor = ({tones}) => {
   const [state, dispatch] = useReducer(toneReducer, initialState);
   return (
     <Wrapper>
       <Toolbar toneOnClick = {() => dispatch({type: 'open'})} />
-      {state.isOpen ? <ToneSelector /> : null}
+      {state.isOpen ? <ToneSelector tones={tones}/> : null}
       <Score />
     </Wrapper>
   )
