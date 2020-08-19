@@ -24,7 +24,6 @@ class Cursors {
         tick,
         duration,
       } = message;
-
       this.update('remote', pitch, measure, tick, duration, tone1);
     });
 
@@ -41,9 +40,10 @@ class Cursors {
     score.add(note);
   }
 
-  update(author, pitch, measure, start, duration, tone1) {
+  update(author, pitch, measure, start, duration, tone) {
     const note = this.cursors[author];
     const currDuration = duration === undefined ? note.duration : duration;
+    const tone1 = tone === undefined ? note.tone1 : 'Keys_Piano';
     const startQuantized = Math.floor(start / currDuration) * currDuration;
 
     if (startQuantized >= 4096) {
@@ -69,7 +69,7 @@ class Cursors {
     this.rerenderMeasure(measure);
 
     if (author === 'local') {
-      messenger.cursorMove(pitch, measure, startQuantized, note.duration, tone1);
+      messenger.cursorMove(pitch, measure, startQuantized, note.duration, note.tone1);
     }
   }
 
@@ -101,6 +101,11 @@ class Cursors {
 
   setDuration(duration) {
     this.cursors.local.duration = duration;
+  }
+
+  setTone1(tone) {
+    this.cursors.local.tone1 = tone;
+    console.log(this.cursors.local.tone1);
   }
 
   rerenderMeasure(measure) {

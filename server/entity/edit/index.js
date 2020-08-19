@@ -1,7 +1,7 @@
 const db = require('../../../database');
 
 class Edit {
-  static async register(uuid, compositionId, action, pitch, measure, start, duration) {
+  static async register(uuid, compositionId, action, pitch, measure, start, duration, tone1) {
     const versionQ = `
       SELECT ROW_NUMBER() OVER(PARTITION BY composition_id)
       FROM edits WHERE composition_id = $1 ORDER BY id DESC LIMIT 1;
@@ -13,8 +13,8 @@ class Edit {
       : 1;
 
     const insertQ = `
-      INSERT INTO edits(uuid, composition_id, version, action, pitch, measure, start, duration)
-      VALUES($1, $2, $3, $4, $5, $6, $7, $8);
+      INSERT INTO edits(uuid, composition_id, version, action, pitch, measure, start, duration, tone1)
+      VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9);
     `;
 
     return db.query(
@@ -28,6 +28,7 @@ class Edit {
         measure,
         start,
         duration,
+        tone1,
       ],
     );
   }

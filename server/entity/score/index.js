@@ -3,11 +3,11 @@ const snapshot = require('../snapshot');
 const composition = require('../composition');
 
 class Score {
-  static async createNote(uuid, compositionHash, pitch, measure, tick, duration) {
+  static async createNote(uuid, compositionHash, pitch, measure, tick, duration, tone1) {
     const action = 'create';
     const compositionId = await composition.getId(compositionHash);
 
-    await edit.register(uuid, compositionId, action, pitch, measure, tick, duration);
+    await edit.register(uuid, compositionId, action, pitch, measure, tick, duration, tone1);
     await snapshot.update(compositionId);
   }
 

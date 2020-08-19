@@ -11,7 +11,7 @@ const Editor = ({tones}) => {
   return (
     <Wrapper>
       <Toolbar toneOnClick = {() => dispatch({type: 'open'})} />
-      {state.isOpen ? <ToneSelector tones={tones}/> : null}
+      {state.isOpen ? <ToneSelector tones={tones} toneSelectClick={() => dispatch({type: 'close'})}/> : null}
       <Score />
     </Wrapper>
   )

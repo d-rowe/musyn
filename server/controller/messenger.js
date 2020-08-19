@@ -9,10 +9,10 @@ const noteHandler = async (msg) => {
     tick,
     duration,
     composition,
+    tone1,
   } = msg;
-
   if (msg.action === 'create') {
-    await score.createNote(uuid, composition, pitch, measure, tick, duration);
+    await score.createNote(uuid, composition, pitch, measure, tick, duration, tone1);
   } else if (msg.action === 'delete') {
     await score.deleteNote(uuid, pitch, measure, tick);
   }
