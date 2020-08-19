@@ -47,6 +47,7 @@ module.exports = {
     modules: ['node_modules'],
     alias: {
       config: path.resolve(__dirname, '..', 'config'),
+      lib: path.resolve(__dirname, '..', 'lib'),
     },
   },
   plugins: [

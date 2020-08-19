@@ -47,6 +47,7 @@ const compileEdits = (currentScore, edits) => {
       start,
       duration,
       uuid,
+      tone1,
     } = edit;
 
     if (action === 'create') {

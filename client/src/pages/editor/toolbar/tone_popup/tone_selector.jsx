@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect} from 'react';
 import styled, { keyframes } from 'styled-components';
 import paths from 'config/paths';
+import cursors from '../../score/model/cursors';
 
 const imgLocation = '/assets/img/';
 const imgExtension = 'svg';
@@ -14,11 +15,19 @@ const toneReducer = (state, action) => {
     default:
       throw new Error();
   }
-  }
+};
 
-const ToneSelector = ({tones}) => {
+const toneChangeClick = (e,toneSelectClick) => {
+  e.preventDefault();
+  const newTone = e.target.id;
+  cursors.setTone1(newTone);
+  toneSelectClick();
+}
+
+const ToneSelector = ({tones, toneSelectClick}) => {
   let l = tones.length;
   const EXTENSION = '.svg';
+
   return (
     <>
       <PopUp className='popUp' >
@@ -34,7 +43,7 @@ const ToneSelector = ({tones}) => {
                background: background
              };
              return (
-               <Icon className='icon' id={tone} key={tone+i} style={divStyle} >
+               <Icon className='icon' id={tone} key={tone+i} style={divStyle} onClick={(e) => toneChangeClick(e,toneSelectClick)}>
                 <ToolTip>{tone}</ToolTip>
                </Icon>
 
