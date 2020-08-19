@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import paths from 'config/paths';
 
 const imgLocation = '/assets/img/';
@@ -50,8 +50,8 @@ const PopUp = styled.nav`
   position: fixed;
   border-radius: 50%;
   background-color: white;
-  width: 50%;
-  height: 50%;
+  width: calc(60vh);
+  height: calc(60vh);
   top: 50%;
   left: 50%;
   bottom: auto;
@@ -67,7 +67,19 @@ const Circle = styled.div`
   height: 250px;
   opacity: 1;
 `;
+const rotate = keyframes`
+  from {
+    transform: scale(1);
+  }
 
+  50% {
+    transform: scale(1.1);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+`;
 const Icon = styled.div`
     text-decoration: none;
     color: white;
@@ -81,7 +93,8 @@ const Icon = styled.div`
     text-align: center;
 
   &:hover {
-    color: blue;
+    animation: ${rotate} 1s linear;
+    animation-iteration-count: 1;
   }`;
 
   const ToolTip = styled.span`

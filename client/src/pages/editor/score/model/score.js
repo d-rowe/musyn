@@ -56,6 +56,7 @@ class Score {
       measure,
       start,
       duration,
+      tone1,
     } = note;
 
     if (this.score[measure] === undefined) {
@@ -67,7 +68,7 @@ class Score {
     this.score[measure][start] = { ...note };
 
     instrument.play(pitch);
-    messenger.noteCreate(pitch, measure, start, duration);
+    messenger.noteCreate(pitch, measure, start, duration, tone1);
     this.measureViews[measure].rerender();
   }
 
