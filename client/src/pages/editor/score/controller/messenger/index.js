@@ -75,9 +75,9 @@ class Messenger {
     this.addListener('rename', callback);
   }
 
-  cursorMove(pitch, measure, tick, duration) {
+  cursorMove(pitch, measure, tick, duration, tone1) {
     this.send('cursor', {
-      action: 'move', pitch, measure, tick, duration,
+      action: 'move', pitch, measure, tick, duration, tone1
     });
   }
 
@@ -85,13 +85,14 @@ class Messenger {
     this.send('cursor', { action: 'hide' });
   }
 
-  noteCreate(pitch, measure, tick, duration) {
+  noteCreate(pitch, measure, tick, duration, tone1) {
     this.send('note', {
       action: 'create',
       pitch,
       measure,
       tick,
       duration,
+      tone1
     });
   }
 

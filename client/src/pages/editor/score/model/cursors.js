@@ -18,13 +18,14 @@ class Cursors {
 
     messenger.onCursorMove((message) => {
       const {
+        tone1,
         pitch,
         measure,
         tick,
         duration,
       } = message;
 
-      this.update('remote', pitch, measure, tick, duration);
+      this.update('remote', pitch, measure, tick, duration, tone1);
     });
 
     messenger.onCursorHide(() => {
@@ -40,7 +41,7 @@ class Cursors {
     score.add(note);
   }
 
-  update(author, pitch, measure, start, duration) {
+  update(author, pitch, measure, start, duration, tone1) {
     const note = this.cursors[author];
     const currDuration = duration === undefined ? note.duration : duration;
     const startQuantized = Math.floor(start / currDuration) * currDuration;
@@ -59,6 +60,7 @@ class Cursors {
     note.setPitch(pitch);
     note.setAuthor(author);
     note.setVisible(true);
+    note.setTone1(tone1);
 
     if (duration !== undefined) {
       note.setDuration(duration);
@@ -67,7 +69,7 @@ class Cursors {
     this.rerenderMeasure(measure);
 
     if (author === 'local') {
-      messenger.cursorMove(pitch, measure, startQuantized, note.duration);
+      messenger.cursorMove(pitch, measure, startQuantized, note.duration, tone1);
     }
   }
 

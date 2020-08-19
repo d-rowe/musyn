@@ -1,0 +1,2 @@
+ALTER TABLE edits
+ADD tone1 VARCHAR(255) DEFAULT 'Keys_Piano'
