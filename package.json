@@ -39,7 +39,7 @@
     "socket.io-client": "^2.3.0",
     "styled-components": "^5.0.1",
     "tone": "^13.8.25",
-    "vexflow": "^1.2.90",
+    "vexflow": "^3.0.9",
     "webpack": "^4.41.6",
     "webpack-cli": "^3.3.11",
     "webpack-merge": "^4.2.2"
