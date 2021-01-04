@@ -16,7 +16,7 @@
     "@babel/core": "^7.8.6",
     "@babel/preset-env": "^7.8.6",
     "@babel/preset-react": "^7.8.3",
-    "axios": "^0.20.0",
+    "axios": "^0.21.1",
     "babel-loader": "^8.0.6",
     "body-parser": "^1.19.0",
     "brotli-webpack-plugin": "^1.1.0",
